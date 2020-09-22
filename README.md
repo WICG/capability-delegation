@@ -1,6 +1,6 @@
-# capability-delegation
-An API to allow developers transfer the ability to use restricted APIs to any
-target `window` in the frame tree.
+# Capability Delegation
+Transferring the ability to use restricted APIs to another `window` in the frame
+tree.
 
 ## Introduction
 
@@ -22,9 +22,9 @@ are particularly interested in a dynamic delegation mechanism which (unlike
 a time-unconstrained manner.
 
 
-### Why we need this?
+### Motivation
 
-Here are some practical use-cases we can support through a capability delegation
+Here are some practical scenarios that would utilize a capability delegation
 mechanism.
 
 - Many merchant websites host their online store on their own domain but
@@ -55,6 +55,8 @@ mechanism.
 
 ### Challenges
 
+TODO: Work in progress.
+
 We need to delegate a capability in such a way that other related capabilities
 are unaffected.
 
@@ -62,21 +64,13 @@ Static capability delegation (through `<iframe allow=...>` attribute) is not
 limited by time.  The use cases we want to support requires time-constrained
 dynamic delegation.
 
-TODO: Work in progress.
-
-
-## Proposed model: Transient Capability Delegation (TCD)
-
-TODO: Work in progress.
-
-
-## Proposed JS interace
-
-TODO: Work in progress.
-
 
 ## Related links
 
+- Design discussion: https://docs.google.com/document/d/1IYN0mVy7yi4Afnm2Y0uda0JH8L2KwLgaBqsMVLMYXtk
+- Chromium bug: https://crbug.com/1130558
+
+<!--
 ### Past proposals on delegation
 
 The API presented here is based on ideas/challenges discussed in several past
@@ -97,3 +91,4 @@ attempts:
   for tracking user activation.
 - [Chrome APIs gated by user
   activation](https://docs.google.com/document/d/1mcxB5J_u370juJhSsmK0XQONG2CIE3mvu827O-Knw_Y)
+-->
