@@ -67,8 +67,8 @@ dynamic delegation.
 
 ## Related links
 
-- Design discussion: https://docs.google.com/document/d/1IYN0mVy7yi4Afnm2Y0uda0JH8L2KwLgaBqsMVLMYXtk
-- Chromium bug: https://crbug.com/1130558
+- [Design discussion](https://docs.google.com/document/d/1IYN0mVy7yi4Afnm2Y0uda0JH8L2KwLgaBqsMVLMYXtk).
+- [Chromium bug](https://crbug.com/1130558).
 
 <!--
 ### Past proposals on delegation
