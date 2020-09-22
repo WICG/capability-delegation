@@ -65,6 +65,13 @@ limited by time.  The use cases we want to support requires time-constrained
 dynamic delegation.
 
 
+## Tentative API
+
+```javascript
+targetWindow.postMessage('a_message', {createToken: X});
+```
+
+
 ## Related links
 
 - [Design discussion](https://docs.google.com/document/d/1IYN0mVy7yi4Afnm2Y0uda0JH8L2KwLgaBqsMVLMYXtk).
