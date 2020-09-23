@@ -53,18 +53,6 @@ mechanism.
   authentication flow before returning a token to the host site.
 
 
-### Challenges
-
-TODO: Work in progress.
-
-We need to delegate a capability in such a way that other related capabilities
-are unaffected.
-
-Static capability delegation (through `<iframe allow=...>` attribute) is not
-limited by time.  The use cases we want to support requires time-constrained
-dynamic delegation.
-
-
 ## Proposal: Transient Capability Delegation
 
 ### Model of delegation
