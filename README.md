@@ -65,7 +65,7 @@ limited by time.  The use cases we want to support requires time-constrained
 dynamic delegation.
 
 
-## Proposed solution: Transient Capability Delegation (TCD)
+## Proposal: Transient Capability Delegation
 
 ### Model of delegation
 
