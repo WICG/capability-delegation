@@ -65,7 +65,37 @@ limited by time.  The use cases we want to support requires time-constrained
 dynamic delegation.
 
 
-## Tentative API
+## Proposed solution: Transient Capability Delegation (TCD)
+
+### Model of delegation
+
+Our proposed model focuses on delegation of a specific capability only (instead
+of delegating user activation) in a time-constrained manner.  We will call it
+Transient Capability Delegation (TCD).
+
+When a sender `Window` delegates a capability `X` to a receiver `Window`, the
+sender’s user activation would be
+[consumed](https://html.spec.whatwg.org/multipage/interaction.html#consume-user-activation)
+to create a time-limited token `T_X` on the receiving end.  In more details:
+
+- The sender’s ability to use TCD would be gated by transient user activation.
+  More precisely, a TCD request will consume the user activation in the sender’s
+  `Window` to prevent repeated requests (making TCD a transient activation
+  consuming API) but the receiving `Window` won’t get any user activation at all.
+
+- A successful delegation would create a time-constrained token `T_X` in the
+  recipient `Window`.  The lifespan and behavior of `T_X` would be
+  capability-specific, defined by the spec owners of capability X.  Token `T_X`
+  won’t be exposed to JS.
+
+- On the receiving end, `T_X` would be “tied” to the recipient `Window` object
+  so it would be non-transferrable by design.
+
+
+### Tentative API
+
+We are proposing a new option to `Window.postMessage()` that facilitates TCD
+through the existing messaging mechanism:
 
 ```javascript
 targetWindow.postMessage('a_message', {createToken: X});
