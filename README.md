@@ -30,7 +30,7 @@ mechanism.
 - Many merchant websites host their online store on their own domain but
   outsource the payment collection and processing infrastructure to a Payment
   Service Provider (PSP) to comply with security and regulatory complexities
-  around card payments.  This is workflow is implemented as a "pay" button
+  around card payments.  This workflow is implemented as a "pay" button
   inside the top (merchant) frame where it can blend better with the rest of the
   merchant’s website, and payment request code inside a cross-origin `iframe`
   from the PSP.  The [Payment Request
@@ -41,16 +41,17 @@ mechanism.
   delegation in response to a click in the top frame to be able to initiate a
   payment processing.
 
-- A website may want a third-party chat app in an `iframe` to be able to vibrate
-  the phone on message receipt, even when the user is not active in the
-  `iframe`.
-
 - A web service that does not care about user location except for a "branch
   locator" functionality provided by a third-party map-provider app can delegate
-  its own location access capability to the map `iframe` in a temporary manner.
+  its own location access capability to the map `iframe` in a temporary manner
+  right after the "branch locator" button is clicked.
 
 - An authentication provider may wish to show a popup to complete the
   authentication flow before returning a token to the host site.
+
+- A website may want a third-party chat app in an `iframe` to be able to vibrate
+  the phone on message receipt, even when the user is not active in the
+  `iframe`.
 
 
 ## Proposal: Transient Capability Delegation
