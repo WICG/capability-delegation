@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Payment request example</title>
+    <script>
+      window.addEventListener('DOMContentLoaded', e => {
+          const iframe = document.getElementById('iframe');
+          const button = document.getElementById('button');
+          button.addEventListener('click', e => {
+              iframe.contentWindow.postMessage('test', '*');
+          });
+      });
+    </script>
+  </head>
+  <body>
+    <button id="button">Press Me</button>
+    <iframe
+      id="iframe"
+      src="https://http://egirard.github.io/capability-delegation-example/payment-request/"
+      allowpaymentrequest>
+    </iframe>
+  </body>
+</html>
