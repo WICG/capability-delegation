@@ -6,11 +6,9 @@
     <title>Payment request example</title>
     <script>
       function init() {
-          window.addEventListener('DOMContentLoaded', e => {
-              document.getElementById('button').addEventListener('click', e => {
-                  console.log("click");
-                  frames[0].postMessage('test', '*');
-              });
+          document.getElementById('button').addEventListener('click', e => {
+              console.log("click");
+              frames[0].postMessage('test', '*');
           });
       }
     </script>
