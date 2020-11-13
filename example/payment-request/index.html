@@ -6,14 +6,13 @@
     <title>Payment request example</title>
     <script>
       function init() {
-          document.getElementById('button').addEventListener('click', e => {
-              console.log("click");
-              frames[0].postMessage('test', '*');
+          document.getElementById("button").addEventListener("click", e => {
+              frames[0].postMessage("test", "*");
           });
       }
     </script>
   </head>
-  <body onload=init>
+  <body onload="init()">
     <button id="button">Press Me</button>
     <iframe
       id="iframe"
