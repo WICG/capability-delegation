@@ -7,7 +7,7 @@
     <script>
       function init() {
           document.getElementById("button").addEventListener("click", e => {
-              frames[0].postMessage("checkout", {targetOrigin: "*", createToken: paymentrequest});
+              frames[0].postMessage("checkout", {targetOrigin: "*", createToken: "paymentrequest"});
           });
       }
     </script>
