@@ -7,13 +7,26 @@
     <script>
       function init() {
           document.getElementById("button").addEventListener("click", e => {
-              frames[0].postMessage("test", "*");
+              frames[0].postMessage("checkout", {targetOrigin: "*", createToken: paymentrequest});
           });
       }
     </script>
+    <style>
+      #iframe {
+          width: 300px;
+          height: 100px;
+      }
+      #cart {
+          margin: 10px;
+      }
+    </style>
   </head>
   <body onload="init()">
-    <button id="button">Press Me</button>
+    <h1>Test shopping cart</h1>
+    <div id="cart">
+      <span>3 items, $10.00</span>
+      <button id="button">Checkout</button>
+    </div>
     <iframe
       id="iframe"
       src="https://egirard.github.io/capability-delegation-example/payment-request/"
