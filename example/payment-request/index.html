@@ -6,7 +6,10 @@
     <title>Payment request example</title>
     <script>
       function init() {
-          document.getElementById("button").addEventListener("click", e => {
+          document.getElementById("button0").addEventListener("click", e => {
+              frames[0].postMessage("checkout", {targetOrigin: "*"});
+          });
+          document.getElementById("button1").addEventListener("click", e => {
               frames[0].postMessage("checkout", {targetOrigin: "*", createToken: "paymentrequest"});
           });
       }
@@ -25,7 +28,8 @@
     <h1>Test shopping cart</h1>
     <div id="cart">
       <span>3 items, $10.00</span>
-      <button id="button">Checkout</button>
+      <button id="button0">Checkout (without a payment token)</button>
+      <button id="button1">Checkout (with a payment token)</button>
     </div>
     <iframe
       id="iframe"
