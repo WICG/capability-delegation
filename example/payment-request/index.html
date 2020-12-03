@@ -15,6 +15,9 @@
       }
     </script>
     <style>
+      button {
+          margin: 5px;
+      }
       #iframe {
           width: 300px;
           height: 100px;
@@ -28,8 +31,8 @@
     <h1>Test shopping cart</h1>
     <div id="cart">
       <span>3 items, $10.00</span><br>
-      <button id="button0">Checkout (no payment token)</button><br>
-      <button id="button1">Checkout (with payment token)</button>
+      <button id="button0">Checkout (w/o delegation)</button><br>
+      <button id="button1">Checkout (with delegation)</button>
     </div>
     <iframe
       id="iframe"
