@@ -90,6 +90,20 @@ through the existing messaging mechanism:
 targetWindow.postMessage('a_message', {createToken: X});
 ```
 
+For the Payment Request API, we are proposing the token specifier
+`"paymentrequest"`, so the call above would look like:
+
+```javascript
+targetWindow.postMessage('a_message', {createToken: "paymentrequest"});
+```
+
+### Demo
+
+So see how this API works with Payment Request, run Chrome 90.0.4414.0 or newer
+with the command-line flag
+`--enable-blink-features=CapabilityDelegationPaymentRequest` and open [this
+demo](https://mustaqahmed.github.io/capability-delegation/example/payment-request/).
+
 
 ## Related links
 
