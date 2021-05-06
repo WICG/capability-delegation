@@ -46,6 +46,14 @@ mechanism.
   its own location access capability to the map `iframe` in a temporary manner
   right after the "branch locator" button is clicked.
 
+- In Chrome we received
+  [this](https://bugs.chromium.org/p/chromium/issues/detail?id=931966#c5)
+  feature request from a developer where a presentation/slide website has a
+  "control panel" to selectively make other spawned windows fullscreen.  With
+  Capability Delegation API, a click on the control panel can delegate
+  fullscreen capability to the selected window and bring that window to
+  fullscreen without needing any more clicks.
+
 - An authentication provider may wish to show a popup to complete the
   authentication flow before returning a token to the host site.
 
