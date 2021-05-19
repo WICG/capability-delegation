@@ -1,0 +1,28 @@
+<pre class='metadata'>
+Title: Capability Delegation
+Shortname: capability-delegation
+Level: none
+Status: CG-DRAFT
+Group: WICG
+Repository: WICG/capability-delegation
+URL: https://wicg.github.io/capability-delegation/index.html
+Editor: Mustaq Ahmed, Google Canada https://google.com/, mustaq@chromium.org, w3cid 75206
+Abstract: Transferring the ability to use restricted APIs to another window.
+</pre>
+
+# Introduction # {#intro}
+
+Many capabilities in the Web are usable from JS in restricted manners.  For
+example:
+- Most browsers allow popups (through `window.open()`) only if the user has
+    either interacted with the page recently or allowed the browser to open
+    popups from the page's origin.
+- A sandboxed `iframe` cannot make itself full-screen (though
+    `element.requestFullscreen()`) without a specific sandbox attribute or a
+    user interaction within the frame.
+
+Capability delegation means allowing a frame to relinquish its ability to call a
+restricted API and transfer the ability to another (sub)frame it can trust.  We
+are particularly interested in a dynamic delegation mechanism which (unlike
+`&lt;iframe allow=...&gt;` attribute) does not expose the capability to the
+frame in a time-unconstrained manner.
