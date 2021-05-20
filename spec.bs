@@ -1,0 +1,63 @@
+<pre class='metadata'>
+Title: Capability Delegation
+Shortname: capability-delegation
+Level: none
+Status: CG-DRAFT
+Group: WICG
+Repository: WICG/capability-delegation
+URL: https://wicg.github.io/capability-delegation/spec.html
+Editor: Mustaq Ahmed, Google Canada https://google.com/, mustaq@chromium.org, w3cid 75206
+Abstract: Transferring the ability to use restricted APIs to another window.
+
+Complain About: accidental-2119 yes, broken-links no, missing-example-ids yes
+Markup Shorthands: markdown yes, css no
+Assume Explicit For: yes
+</pre>
+
+<section class="non-normative">
+
+# Introduction # {#intro}
+
+*This section is non-normative.*
+
+This specification defines a mechanism through which a script can delegate its
+ability to call a restricted API to another <span>browsing context</span> it can
+trust.  The focus here is a dynamic delegation mechanism that exposes the
+delegated capability to the target <span>browsing context</span> in a
+time-constrained manner.
+
+
+## What is capability delegation? ## {#what-is-capability-delegation}
+
+Many capabilities in the Web are usable from JS in restricted manners.  For
+example:
+- Most browsers allow popups (through `window.open()`) only if the user has
+    either interacted with the page recently or allowed the browser to open popups
+    from the page's origin.
+- A sandboxed `iframe` cannot make itself full-screen (though
+    `element.requestFullscreen()`) without a specific sandbox attribute or a user
+    interaction within the frame.
+
+Capability delegation means allowing a frame to dynamically relinquish its
+ability to call a restricted API and transfer the ability to another (sub)frame
+it can trust.  The word "dynamic" here means the effect of the delegation lasts
+for a limited time as defined by the capability being delegated.  This is
+different from static (load-time) exposure of a capability to a <span>browsing
+context</span> through `<iframe allow=...>` attribute where the capability
+becomes exposed to a subframe in a time-unconstrained manner.
+
+
+## Overview of the specification ## {#spec-overview}
+
+This specification consists of two distinct parts.  The main part is defining a
+generic mechanism to facilitate capability delegation.  The second part is
+defining delegated behavior for individual "user" APIs that implement capability
+delegation.  This specification elaborates on specification changes needed for
+one specific "user" API (`PaymentRequest`), which would guide similar changes in
+future in other APIs that could utilize capability delegation.
+
+# Initiating Capability Delegation # {#initiating-delegation}
+
+# Defining Delegated Behavior # {#defining-delegated-behavior}
+
+</section>
