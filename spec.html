@@ -6,7 +6,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/cg-draft" rel="stylesheet">
   <meta content="Bikeshed version 5c7bc9381, updated Wed May 12 18:18:08 2021 -0700" name="generator">
   <link href="https://wicg.github.io/capability-delegation/spec.html" rel="canonical">
-  <meta content="3d470f2b3ce5794378311efbe188bfee58ae4127" name="document-revision">
+  <meta content="aabc77b2fac9940aa1a4060da7c6d6da557fabaf" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -207,6 +207,47 @@ figcaption {
 figcaption:not(.no-marker)::before {
     content: "Figure " counter(figure) " ";
 }</style>
+<style>/* style-dfn-panel */
+
+:root {
+    --dfnpanel-bg: #ddd;
+    --dfnpanel-text: var(--text);
+}
+.dfn-panel {
+    position: absolute;
+    z-index: 35;
+    height: auto;
+    width: -webkit-fit-content;
+    width: fit-content;
+    max-width: 300px;
+    max-height: 500px;
+    overflow: auto;
+    padding: 0.5em 0.75em;
+    font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
+    background: var(--dfnpanel-bg);
+    color: var(--dfnpanel-text);
+    border: outset 0.2em;
+}
+.dfn-panel:not(.on) { display: none; }
+.dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
+.dfn-panel > b { display: block; }
+.dfn-panel a { color: var(--dfnpanel-text); }
+.dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
+.dfn-panel > b + b { margin-top: 0.25em; }
+.dfn-panel ul { padding: 0; }
+.dfn-panel li { list-style: inside; }
+.dfn-panel.activated {
+    display: inline-block;
+    position: fixed;
+    left: .5em;
+    bottom: 2em;
+    margin: 0 auto;
+    max-width: calc(100vw - 1.5em - .4em - .5em);
+    max-height: 30vh;
+}
+
+.dfn-paneled { cursor: pointer; }
+</style>
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -268,6 +309,65 @@ dfn > a.self-link:hover {
 a.self-link::before            { content: "¶"; }
 .heading > a.self-link::before { content: "§"; }
 dfn > a.self-link::before      { content: "#"; }
+</style>
+<style>/* style-syntax-highlighting */
+
+code.highlight { padding: .1em; border-radius: .3em; }
+pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em 0; overflow: auto; border-radius: 0; }
+
+.highlight:not(.idl) { background: rgba(0, 0, 0, .03); }
+c-[a] { color: #990055 } /* Keyword.Declaration */
+c-[b] { color: #990055 } /* Keyword.Type */
+c-[c] { color: #708090 } /* Comment */
+c-[d] { color: #708090 } /* Comment.Multiline */
+c-[e] { color: #0077aa } /* Name.Attribute */
+c-[f] { color: #669900 } /* Name.Tag */
+c-[g] { color: #222222 } /* Name.Variable */
+c-[k] { color: #990055 } /* Keyword */
+c-[l] { color: #000000 } /* Literal */
+c-[m] { color: #000000 } /* Literal.Number */
+c-[n] { color: #0077aa } /* Name */
+c-[o] { color: #999999 } /* Operator */
+c-[p] { color: #999999 } /* Punctuation */
+c-[s] { color: #a67f59 } /* Literal.String */
+c-[t] { color: #a67f59 } /* Literal.String.Single */
+c-[u] { color: #a67f59 } /* Literal.String.Double */
+c-[cp] { color: #708090 } /* Comment.Preproc */
+c-[c1] { color: #708090 } /* Comment.Single */
+c-[cs] { color: #708090 } /* Comment.Special */
+c-[kc] { color: #990055 } /* Keyword.Constant */
+c-[kn] { color: #990055 } /* Keyword.Namespace */
+c-[kp] { color: #990055 } /* Keyword.Pseudo */
+c-[kr] { color: #990055 } /* Keyword.Reserved */
+c-[ld] { color: #000000 } /* Literal.Date */
+c-[nc] { color: #0077aa } /* Name.Class */
+c-[no] { color: #0077aa } /* Name.Constant */
+c-[nd] { color: #0077aa } /* Name.Decorator */
+c-[ni] { color: #0077aa } /* Name.Entity */
+c-[ne] { color: #0077aa } /* Name.Exception */
+c-[nf] { color: #0077aa } /* Name.Function */
+c-[nl] { color: #0077aa } /* Name.Label */
+c-[nn] { color: #0077aa } /* Name.Namespace */
+c-[py] { color: #0077aa } /* Name.Property */
+c-[ow] { color: #999999 } /* Operator.Word */
+c-[mb] { color: #000000 } /* Literal.Number.Bin */
+c-[mf] { color: #000000 } /* Literal.Number.Float */
+c-[mh] { color: #000000 } /* Literal.Number.Hex */
+c-[mi] { color: #000000 } /* Literal.Number.Integer */
+c-[mo] { color: #000000 } /* Literal.Number.Oct */
+c-[sb] { color: #a67f59 } /* Literal.String.Backtick */
+c-[sc] { color: #a67f59 } /* Literal.String.Char */
+c-[sd] { color: #a67f59 } /* Literal.String.Doc */
+c-[se] { color: #a67f59 } /* Literal.String.Escape */
+c-[sh] { color: #a67f59 } /* Literal.String.Heredoc */
+c-[si] { color: #a67f59 } /* Literal.String.Interpol */
+c-[sx] { color: #a67f59 } /* Literal.String.Other */
+c-[sr] { color: #a67f59 } /* Literal.String.Regex */
+c-[ss] { color: #a67f59 } /* Literal.String.Symbol */
+c-[vc] { color: #0077aa } /* Name.Variable.Class */
+c-[vg] { color: #0077aa } /* Name.Variable.Global */
+c-[vi] { color: #0077aa } /* Name.Variable.Instance */
+c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 </style>
 <style>/* style-darkmode */
 
@@ -389,12 +489,81 @@ dfn > a.self-link::before      { content: "#"; }
         --selflink-hover-text: white;
     }
 }
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    .highlight:not(.idl) { background: rgba(255, 255, 255, .05); }
+
+    c-[a] { color: #d33682 } /* Keyword.Declaration */
+    c-[b] { color: #d33682 } /* Keyword.Type */
+    c-[c] { color: #2aa198 } /* Comment */
+    c-[d] { color: #2aa198 } /* Comment.Multiline */
+    c-[e] { color: #268bd2 } /* Name.Attribute */
+    c-[f] { color: #b58900 } /* Name.Tag */
+    c-[g] { color: #cb4b16 } /* Name.Variable */
+    c-[k] { color: #d33682 } /* Keyword */
+    c-[l] { color: #657b83 } /* Literal */
+    c-[m] { color: #657b83 } /* Literal.Number */
+    c-[n] { color: #268bd2 } /* Name */
+    c-[o] { color: #657b83 } /* Operator */
+    c-[p] { color: #657b83 } /* Punctuation */
+    c-[s] { color: #6c71c4 } /* Literal.String */
+    c-[t] { color: #6c71c4 } /* Literal.String.Single */
+    c-[u] { color: #6c71c4 } /* Literal.String.Double */
+    c-[ch] { color: #2aa198 } /* Comment.Hashbang */
+    c-[cp] { color: #2aa198 } /* Comment.Preproc */
+    c-[cpf] { color: #2aa198 } /* Comment.PreprocFile */
+    c-[c1] { color: #2aa198 } /* Comment.Single */
+    c-[cs] { color: #2aa198 } /* Comment.Special */
+    c-[kc] { color: #d33682 } /* Keyword.Constant */
+    c-[kn] { color: #d33682 } /* Keyword.Namespace */
+    c-[kp] { color: #d33682 } /* Keyword.Pseudo */
+    c-[kr] { color: #d33682 } /* Keyword.Reserved */
+    c-[ld] { color: #657b83 } /* Literal.Date */
+    c-[nc] { color: #268bd2 } /* Name.Class */
+    c-[no] { color: #268bd2 } /* Name.Constant */
+    c-[nd] { color: #268bd2 } /* Name.Decorator */
+    c-[ni] { color: #268bd2 } /* Name.Entity */
+    c-[ne] { color: #268bd2 } /* Name.Exception */
+    c-[nf] { color: #268bd2 } /* Name.Function */
+    c-[nl] { color: #268bd2 } /* Name.Label */
+    c-[nn] { color: #268bd2 } /* Name.Namespace */
+    c-[py] { color: #268bd2 } /* Name.Property */
+    c-[ow] { color: #657b83 } /* Operator.Word */
+    c-[mb] { color: #657b83 } /* Literal.Number.Bin */
+    c-[mf] { color: #657b83 } /* Literal.Number.Float */
+    c-[mh] { color: #657b83 } /* Literal.Number.Hex */
+    c-[mi] { color: #657b83 } /* Literal.Number.Integer */
+    c-[mo] { color: #657b83 } /* Literal.Number.Oct */
+    c-[sa] { color: #6c71c4 } /* Literal.String.Affix */
+    c-[sb] { color: #6c71c4 } /* Literal.String.Backtick */
+    c-[sc] { color: #6c71c4 } /* Literal.String.Char */
+    c-[dl] { color: #6c71c4 } /* Literal.String.Delimiter */
+    c-[sd] { color: #6c71c4 } /* Literal.String.Doc */
+    c-[se] { color: #6c71c4 } /* Literal.String.Escape */
+    c-[sh] { color: #6c71c4 } /* Literal.String.Heredoc */
+    c-[si] { color: #6c71c4 } /* Literal.String.Interpol */
+    c-[sx] { color: #6c71c4 } /* Literal.String.Other */
+    c-[sr] { color: #6c71c4 } /* Literal.String.Regex */
+    c-[ss] { color: #6c71c4 } /* Literal.String.Symbol */
+    c-[fm] { color: #268bd2 } /* Name.Function.Magic */
+    c-[vc] { color: #cb4b16 } /* Name.Variable.Class */
+    c-[vg] { color: #cb4b16 } /* Name.Variable.Global */
+    c-[vi] { color: #cb4b16 } /* Name.Variable.Instance */
+    c-[vm] { color: #cb4b16 } /* Name.Variable.Magic */
+    c-[il] { color: #657b83 } /* Literal.Number.Integer.Long */
+}
 </style>
  <body class="h-entry">
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Capability Delegation</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2021-05-20">20 May 2021</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2021-06-02">2 June 2021</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -433,10 +602,17 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <a href="#intro"><span class="secno">1</span> <span class="content">Introduction</span></a>
      <ol class="toc">
       <li><a href="#what-is-capability-delegation"><span class="secno">1.1</span> <span class="content">What is capability delegation?</span></a>
-      <li><a href="#spec-overview"><span class="secno">1.2</span> <span class="content">Overview of the specification</span></a>
+      <li><a href="#initiate-vs-use"><span class="secno">1.2</span> <span class="content">Initiating a delegation vs using a capability</span></a>
      </ol>
-    <li><a href="#initiating-delegation"><span class="secno">2</span> <span class="content">Initiating Capability Delegation</span></a>
-    <li><a href="#defining-delegated-behavior"><span class="secno">3</span> <span class="content">Defining Delegated Behavior</span></a>
+    <li><a href="#examples"><span class="secno">2</span> <span class="content">Examples</span></a>
+    <li>
+     <a href="#tcd"><span class="secno">3</span> <span class="content">Transient Capability Delegation</span></a>
+     <ol class="toc">
+      <li><a href="#identifying-the-capability-to-delegate"><span class="secno">3.1</span> <span class="content">Identifying the capability to delegate</span></a>
+      <li><a href="#tracking-delegated-capability"><span class="secno">3.2</span> <span class="content">Tracking delegated capability</span></a>
+     </ol>
+    <li><a href="#initiating-delegation"><span class="secno">4</span> <span class="content">Initiating Capability Delegation</span></a>
+    <li><a href="#defining-delegated-behavior"><span class="secno">5</span> <span class="content">Defining Delegated Behavior</span></a>
     <li>
      <a href="#w3c-conformance"><span class="secno"></span> <span class="content">Conformance</span></a>
      <ol class="toc">
@@ -444,9 +620,15 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
       <li><a href="#w3c-conformant-algorithms"><span class="secno"></span> <span class="content">Conformant Algorithms</span></a>
      </ol>
     <li>
+     <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
+     <ol class="toc">
+      <li><a href="#index-defined-elsewhere"><span class="secno"></span> <span class="content">Terms defined by reference</span></a>
+     </ol>
+    <li>
      <a href="#references"><span class="secno"></span> <span class="content">References</span></a>
      <ol class="toc">
       <li><a href="#normative"><span class="secno"></span> <span class="content">Normative References</span></a>
+      <li><a href="#informative"><span class="secno"></span> <span class="content">Informative References</span></a>
      </ol>
    </ol>
   </nav>
@@ -455,39 +637,69 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <h2 class="heading settled" data-level="1" id="intro"><span class="secno">1. </span><span class="content">Introduction</span><a class="self-link" href="#intro"></a></h2>
     <p><em>This section is non-normative.</em></p>
     <p>This specification defines a mechanism through which a script can delegate its
-ability to call a restricted API to another <span>browsing context</span> it can
-trust.  The focus here is a dynamic delegation mechanism that exposes the
-delegated capability to the target <span>browsing context</span> in a
-time-constrained manner.</p>
+ability to call a restricted API to another <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context">browsing context</a> it can trust.
+The focus here is a dynamic delegation mechanism that exposes the delegated
+capability to the target <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context①">browsing context</a> in a time-constrained manner.</p>
     <h3 class="heading settled" data-level="1.1" id="what-is-capability-delegation"><span class="secno">1.1. </span><span class="content">What is capability delegation?</span><a class="self-link" href="#what-is-capability-delegation"></a></h3>
     <p>Many capabilities in the Web are usable from JS in restricted manners.  For
 example:</p>
     <ul>
      <li data-md>
-      <p>Most browsers allow popups (through <code>window.open()</code>) only if the user has
-either interacted with the page recently or allowed the browser to open popups
-from the page’s origin.</p>
+      <p>Most browsers allow popups (through <a href="https://html.spec.whatwg.org/multipage/window-object.html#dom-open">window.open()</a>)
+only if the user has either interacted with the page recently or allowed the
+browser to open popups from the page’s origin.</p>
      <li data-md>
-      <p>A sandboxed <code>iframe</code> cannot make itself full-screen (though <code>element.requestFullscreen()</code>) without a specific sandbox attribute or a user
-interaction within the frame.</p>
+      <p>A sandboxed <a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element">iframe</a> cannot make itself full-screen (though <a href="https://fullscreen.spec.whatwg.org/#api">element.requestFullscreen()</a> without a specific sandbox
+attribute or a user interaction within the frame.</p>
     </ul>
     <p>Capability delegation means allowing a frame to dynamically relinquish its
 ability to call a restricted API and transfer the ability to another (sub)frame
 it can trust.  The word "dynamic" here means the effect of the delegation lasts
 for a limited time as defined by the capability being delegated.  This is
-different from static (load-time) exposure of a capability to a <span>browsing
-context</span> through <code>&lt;iframe allow=...></code> attribute where the capability
-becomes exposed to a subframe in a time-unconstrained manner.</p>
-    <h3 class="heading settled" data-level="1.2" id="spec-overview"><span class="secno">1.2. </span><span class="content">Overview of the specification</span><a class="self-link" href="#spec-overview"></a></h3>
-    <p>This specification consists of two distinct parts.  The main part is defining a
-generic mechanism to facilitate capability delegation.  The second part is
-defining delegated behavior for individual "user" APIs that implement capability
-delegation.  This specification elaborates on specification changes needed for
-one specific "user" API (<code>PaymentRequest</code>), which would guide similar changes in
-future in other APIs that could utilize capability delegation.</p>
-    <h2 class="heading settled" data-level="2" id="initiating-delegation"><span class="secno">2. </span><span class="content">Initiating Capability Delegation</span><a class="self-link" href="#initiating-delegation"></a></h2>
-    <h2 class="heading settled" data-level="3" id="defining-delegated-behavior"><span class="secno">3. </span><span class="content">Defining Delegated Behavior</span><a class="self-link" href="#defining-delegated-behavior"></a></h2>
+different from static (load-time) exposure of a capability to a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context②">browsing
+context</a> through <a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element">iframe</a> <a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-allow">allow</a> attribute where the capability becomes exposed to a subframe in a
+time-unconstrained manner.</p>
+    <h3 class="heading settled" data-level="1.2" id="initiate-vs-use"><span class="secno">1.2. </span><span class="content">Initiating a delegation vs using a capability</span><a class="self-link" href="#initiate-vs-use"></a></h3>
+    <p>Capability delegation needs two distinct steps to be effective.  The first step
+is "initiation" where one <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context③">browsing context</a> notifies another <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context④">browsing
+context</a> about a specific capability being delegted.  After initiation, the
+second (i.e. the receiver) <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context⑤">browsing context</a> would "use" the delegated
+capability, which typically means calling a capability-defined method.  While
+the capability delegation specification here does not define the API interface
+used in the second step, it redefines the API’s internal behavior.</p>
+    <p>Because of this, this specification consists of two distinct parts: defining an
+API for the initiation step, and then defining delegated behavior for one
+specific "user" API.  For the second part, this specification focuses on precise
+behavior changes needed in <a data-link-type="biblio" href="#biblio-payment-request">Payment Request API</a>, which would
+serve as a guide for similar changes in any other APIs that would utilize
+capability delegation in future.</p>
+    <h2 class="heading settled" data-level="2" id="examples"><span class="secno">2. </span><span class="content">Examples</span><a class="self-link" href="#examples"></a></h2>
+    <div class="example" id="example-52b5213c">
+     <a class="self-link" href="#example-52b5213c"></a> When a site wants to delegate the capability to call <a data-link-type="biblio" href="#biblio-payment-request">PaymentRequest.show()</a> from a subframe after a mouse click,
+  it will <a href="https://html.spec.whatwg.org/multipage/web-messaging.html#posting-messages">post a message</a> to the subframe with an
+  additional option to specify the delegated capability: 
+<pre class="language-javascript highlight">  window<c- p>.</c->onclick <c- o>=</c-> <c- p>()</c-> <c- p>=></c-> <c- p>{</c->
+    targetWindow<c- p>.</c->postMessage<c- p>(</c-><c- t>'a_message'</c-><c- p>,</c-> <c- p>{</c->delegate<c- o>:</c-> <c- u>"paymentrequest"</c-><c- p>});</c->
+  <c- p>};</c->
+</pre>
+     <p>Upon receiving the message, the subframe would be able to utilize the <a data-link-type="biblio" href="#biblio-payment-request">Payment Request API</a> even though the frame hasn’t received
+  a user activation:</p>
+<pre class="language-javascript highlight">  window<c- p>.</c->onmessage <c- o>=</c-> <c- p>()</c-> <c- p>=></c-> <c- p>{</c->
+    <c- a>const</c-> payRequest <c- o>=</c-> <c- k>new</c-> PaymentRequest<c- p>(...);</c->
+    <c- a>const</c-> payResponse <c- o>=</c-> <c- k>await</c-> payRequest<c- p>.</c->show<c- p>();</c->
+    <c- p>...</c->
+  <c- p>}</c->
+</pre>
+    </div>
    </section>
+   <h2 class="heading settled" data-level="3" id="tcd"><span class="secno">3. </span><span class="content">Transient Capability Delegation</span><a class="self-link" href="#tcd"></a></h2>
+   <p>Transient from both sender’s and receiver’s perspective.  Blah blah blah blah
+blah blah blah blah.</p>
+   <h3 class="heading settled" data-level="3.1" id="identifying-the-capability-to-delegate"><span class="secno">3.1. </span><span class="content">Identifying the capability to delegate</span><a class="self-link" href="#identifying-the-capability-to-delegate"></a></h3>
+   <p>Permissions...</p>
+   <h3 class="heading settled" data-level="3.2" id="tracking-delegated-capability"><span class="secno">3.2. </span><span class="content">Tracking delegated capability</span><a class="self-link" href="#tracking-delegated-capability"></a></h3>
+   <h2 class="heading settled" data-level="4" id="initiating-delegation"><span class="secno">4. </span><span class="content">Initiating Capability Delegation</span><a class="self-link" href="#initiating-delegation"></a></h2>
+   <h2 class="heading settled" data-level="5" id="defining-delegated-behavior"><span class="secno">5. </span><span class="content">Defining Delegated Behavior</span><a class="self-link" href="#defining-delegated-behavior"></a></h2>
   </main>
   <div data-fill-with="conformance">
    <h2 class="no-ref no-num heading settled" id="w3c-conformance"><span class="content">Conformance</span><a class="self-link" href="#w3c-conformance"></a></h2>
@@ -531,9 +743,89 @@ future in other APIs that could utilize capability delegation.</p>
     Implementers are encouraged to optimize. </p>
   </div>
 <script src="https://www.w3.org/scripts/TR/2016/fixup.js"></script>
+  <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
+  <aside class="dfn-panel" data-for="term-for-browsing-context">
+   <a href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context">https://html.spec.whatwg.org/multipage/browsers.html#browsing-context</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-browsing-context">1. Introduction</a> <a href="#ref-for-browsing-context①">(2)</a>
+    <li><a href="#ref-for-browsing-context②">1.1. What is capability delegation?</a>
+    <li><a href="#ref-for-browsing-context③">1.2. Initiating a delegation vs using a capability</a> <a href="#ref-for-browsing-context④">(2)</a> <a href="#ref-for-browsing-context⑤">(3)</a>
+   </ul>
+  </aside>
+  <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
+  <ul class="index">
+   <li>
+    <a data-link-type="biblio">[HTML]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-browsing-context">browsing context</span>
+    </ul>
+  </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
   </dl>
+  <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
+  <dl>
+   <dt id="biblio-html">[HTML]
+   <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
+   <dt id="biblio-payment-request">[PAYMENT-REQUEST]
+   <dd>Marcos Caceres; et al. <a href="https://www.w3.org/TR/payment-request/">Payment Request API</a>. 3 December 2020. CR. URL: <a href="https://www.w3.org/TR/payment-request/">https://www.w3.org/TR/payment-request/</a>
+  </dl>
+<script>/* script-dfn-panel */
+
+document.body.addEventListener("click", function(e) {
+    var queryAll = function(sel) { return [].slice.call(document.querySelectorAll(sel)); }
+    // Find the dfn element or panel, if any, that was clicked on.
+    var el = e.target;
+    var target;
+    var hitALink = false;
+    while(el.parentElement) {
+        if(el.tagName == "A") {
+            // Clicking on a link in a <dfn> shouldn't summon the panel
+            hitALink = true;
+        }
+        if(el.classList.contains("dfn-paneled")) {
+            target = "dfn";
+            break;
+        }
+        if(el.classList.contains("dfn-panel")) {
+            target = "dfn-panel";
+            break;
+        }
+        el = el.parentElement;
+    }
+    if(target != "dfn-panel") {
+        // Turn off any currently "on" or "activated" panels.
+        queryAll(".dfn-panel.on, .dfn-panel.activated").forEach(function(el){
+            el.classList.remove("on");
+            el.classList.remove("activated");
+        });
+    }
+    if(target == "dfn" && !hitALink) {
+        // open the panel
+        var dfnPanel = document.querySelector(".dfn-panel[data-for='" + el.id + "']");
+        if(dfnPanel) {
+            dfnPanel.classList.add("on");
+            var rect = el.getBoundingClientRect();
+            dfnPanel.style.left = window.scrollX + rect.right + 5 + "px";
+            dfnPanel.style.top = window.scrollY + rect.top + "px";
+            var panelRect = dfnPanel.getBoundingClientRect();
+            var panelWidth = panelRect.right - panelRect.left;
+            if(panelRect.right > document.body.scrollWidth && (rect.left - (panelWidth + 5)) > 0) {
+                // Reposition, because the panel is overflowing
+                dfnPanel.style.left = window.scrollX + rect.left - (panelWidth + 5) + "px";
+            }
+        } else {
+            console.log("Couldn't find .dfn-panel[data-for='" + el.id + "']");
+        }
+    } else if(target == "dfn-panel") {
+        // Switch it to "activated" state, which pins it.
+        el.classList.add("activated");
+        el.style.left = null;
+        el.style.top = null;
+    }
+
+});
+</script>

@@ -21,43 +21,98 @@ Assume Explicit For: yes
 *This section is non-normative.*
 
 This specification defines a mechanism through which a script can delegate its
-ability to call a restricted API to another <span>browsing context</span> it can
-trust.  The focus here is a dynamic delegation mechanism that exposes the
-delegated capability to the target <span>browsing context</span> in a
-time-constrained manner.
+ability to call a restricted API to another [=browsing context=] it can trust.
+The focus here is a dynamic delegation mechanism that exposes the delegated
+capability to the target [=browsing context=] in a time-constrained manner.
 
 
 ## What is capability delegation? ## {#what-is-capability-delegation}
 
 Many capabilities in the Web are usable from JS in restricted manners.  For
 example:
-- Most browsers allow popups (through `window.open()`) only if the user has
-    either interacted with the page recently or allowed the browser to open popups
-    from the page's origin.
-- A sandboxed `iframe` cannot make itself full-screen (though
-    `element.requestFullscreen()`) without a specific sandbox attribute or a user
-    interaction within the frame.
+- Most browsers allow popups (through
+    [window.open()](https://html.spec.whatwg.org/multipage/window-object.html#dom-open))
+    only if the user has either interacted with the page recently or allowed the
+    browser to open popups from the page's origin.
+- A sandboxed [[html#the-iframe-element|iframe]] cannot make itself full-screen (though
+    [[fullscreen#api|element.requestFullscreen()]] without a specific sandbox
+    attribute or a user interaction within the frame.
 
 Capability delegation means allowing a frame to dynamically relinquish its
 ability to call a restricted API and transfer the ability to another (sub)frame
 it can trust.  The word "dynamic" here means the effect of the delegation lasts
 for a limited time as defined by the capability being delegated.  This is
-different from static (load-time) exposure of a capability to a <span>browsing
-context</span> through `<iframe allow=...>` attribute where the capability
-becomes exposed to a subframe in a time-unconstrained manner.
+different from static (load-time) exposure of a capability to a [=browsing
+context=] through [[html#the-iframe-element|iframe]]
+[allow](https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-allow)
+attribute where the capability becomes exposed to a subframe in a
+time-unconstrained manner.
 
 
-## Overview of the specification ## {#spec-overview}
+## Initiating a delegation vs using a capability ## {#initiate-vs-use}
 
-This specification consists of two distinct parts.  The main part is defining a
-generic mechanism to facilitate capability delegation.  The second part is
-defining delegated behavior for individual "user" APIs that implement capability
-delegation.  This specification elaborates on specification changes needed for
-one specific "user" API (`PaymentRequest`), which would guide similar changes in
-future in other APIs that could utilize capability delegation.
+Capability delegation needs two distinct steps to be effective.  The first step
+is "initiation" where one [=browsing context=] notifies another [=browsing
+context=] about a specific capability being delegted.  After initiation, the
+second (i.e. the receiver) [=browsing context=] would "use" the delegated
+capability, which typically means calling a capability-defined method.  While
+the capability delegation specification here does not define the API interface
+used in the second step, it redefines the API's internal behavior.
+
+Because of this, this specification consists of two distinct parts: defining an
+API for the initiation step, and then defining delegated behavior for one
+specific "user" API.  For the second part, this specification focuses on precise
+behavior changes needed in [[payment-request|Payment Request API]], which would
+serve as a guide for similar changes in any other APIs that would utilize
+capability delegation in future.
+
+
+# Examples # {#examples}
+
+<div class="example">
+  When a site wants to delegate the capability to call
+  [[payment-request|PaymentRequest.show()]] from a subframe after a mouse click,
+  it will [[html#posting-messages|post a message]] to the subframe with an
+  additional option to specify the delegated capability:
+
+  ```javascript
+  window.onclick = () => {
+    targetWindow.postMessage('a_message', {delegate: "paymentrequest"});
+  };
+  ```
+
+  Upon receiving the message, the subframe would be able to utilize the
+  [[payment-request|Payment Request API]] even though the frame hasn't received
+  a user activation:
+
+  ```javascript
+  window.onmessage = () => {
+    const payRequest = new PaymentRequest(...);
+    const payResponse = await payRequest.show();
+    ...
+  }
+  ```
+</div>
+
+</section>
+
+# Transient Capability Delegation # {#tcd}
+
+Transient from both sender's and receiver's perspective.  Blah blah blah blah
+blah blah blah blah.
+
+
+## Identifying the capability to delegate
+
+Permissions...
+
+
+## Tracking delegated capability
+
+
 
 # Initiating Capability Delegation # {#initiating-delegation}
 
+
 # Defining Delegated Behavior # {#defining-delegated-behavior}
 
-</section>
