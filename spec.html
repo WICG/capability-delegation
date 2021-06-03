@@ -6,7 +6,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/cg-draft" rel="stylesheet">
   <meta content="Bikeshed version 5c7bc9381, updated Wed May 12 18:18:08 2021 -0700" name="generator">
   <link href="https://wicg.github.io/capability-delegation/spec.html" rel="canonical">
-  <meta content="1c8873b2458c5ebd091c19351e44064458047f07" name="document-revision">
+  <meta content="47929e93731bcd01f19d2881c5d11d4fedbfd369" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -603,7 +603,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <ol class="toc">
       <li><a href="#what-is-capability-delegation"><span class="secno">1.1</span> <span class="content">What is capability delegation?</span></a>
       <li><a href="#initiate-vs-use"><span class="secno">1.2</span> <span class="content">Initiating a delegation vs using a capability</span></a>
-      <li><a href="#trasient-availability"><span class="secno">1.3</span> <span class="content">Transient availability of delegation # {#trasient-availability}</span></a>
+      <li><a href="#trasient-availability"><span class="secno">1.3</span> <span class="content">Transient availability</span></a>
      </ol>
     <li><a href="#examples"><span class="secno">2</span> <span class="content">Examples</span></a>
     <li>
@@ -678,13 +678,13 @@ specific "user" API.  For the second part, this specification focuses on precise
 behavior changes needed in <a data-link-type="biblio" href="#biblio-payment-request">Payment Request API</a>, which would
 serve as a guide for similar changes in any other APIs that would utilize
 capability delegation in future.</p>
-    <h3 class="heading settled" data-level="1.3" id="trasient-availability"><span class="secno">1.3. </span><span class="content">Transient availability of delegation # {#trasient-availability}</span><a class="self-link" href="#trasient-availability"></a></h3>
+    <h3 class="heading settled" data-level="1.3" id="trasient-availability"><span class="secno">1.3. </span><span class="content">Transient availability</span><a class="self-link" href="#trasient-availability"></a></h3>
     <p>Both the steps mentioned above are time-constrained in nature.  The initiation
 step is <a data-link-type="dfn">activation consuming</a>, so the step is
 allowed only after a recent <a href="https://html.spec.whatwg.org/multipage/interaction.html#tracking-user-activation">user activation</a>.
 After successful completion of this step, the delegated API becomes available
-for use for a few seconds (to be precise, the same limit as <a data-link-type="dfn">html#activation-expiry</a>) unless defined otherwise by the specification of the
-delegated API.</p>
+for use for a few seconds (to be precise, the same limit as <a data-link-type="dfn">html#activation-expiry</a>) unless the limit is defined otherwise by the
+specification of the delegated API.</p>
     <h2 class="heading settled" data-level="2" id="examples"><span class="secno">2. </span><span class="content">Examples</span><a class="self-link" href="#examples"></a></h2>
     <div class="example" id="example-payment-request">
      <a class="self-link" href="#example-payment-request"></a> When a site wants to delegate the capability to call <a data-link-type="biblio" href="#biblio-payment-request">PaymentRequest.show()</a> from a subframe after a mouse click,

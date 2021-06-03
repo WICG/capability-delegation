@@ -67,15 +67,15 @@ serve as a guide for similar changes in any other APIs that would utilize
 capability delegation in future.
 
 
-## Transient availability of delegation # {#trasient-availability}
+## Transient availability ## {#trasient-availability}
 
 Both the steps mentioned above are time-constrained in nature.  The initiation
 step is [=html#activation-consuming-api|activation consuming=], so the step is
 allowed only after a recent [[html#tracking-user-activation|user activation]].
 After successful completion of this step, the delegated API becomes available
 for use for a few seconds (to be precise, the same limit as
-[=html#activation-expiry=]) unless defined otherwise by the specification of the
-delegated API.
+[=html#activation-expiry=]) unless the limit is defined otherwise by the
+specification of the delegated API.
 
 
 # Examples # {#examples}
