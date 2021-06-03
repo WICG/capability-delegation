@@ -2,6 +2,9 @@
 Transferring the ability to use restricted APIs to another `window` in the frame
 tree.
 
+See the spec proposal
+[here](https://wicg.github.io/capability-delegation/spec.html).
+
 ## Introduction
 
 ### What is capability delegation?
@@ -117,26 +120,3 @@ demo](https://wicg.github.io/capability-delegation/example/payment-request/).
 
 - [Design discussion](https://docs.google.com/document/d/1IYN0mVy7yi4Afnm2Y0uda0JH8L2KwLgaBqsMVLMYXtk).
 - [Chromium bug](https://crbug.com/1130558).
-
-<!--
-### Past proposals on delegation
-
-The API presented here is based on ideas/challenges discussed in several past
-attempts:
-- [Gesture delegation
-  explained](https://docs.google.com/document/d/1HkTSdeQKrYrEFuLGzgBXRvxclo2BzWXwuGrYsL2vD9k)
-- [Delegating user activation to child
-  frames](https://docs.google.com/document/d/1yZQjK7Q_BsyJ74Vj7Xpm3QzhDyDXB8kGdk3aESEYtSg)
-- [Combining gesture delegation with feature
-  policy](https://docs.google.com/document/d/11gqqQhHcVNhYRclVGL6h7prt_n9rjbYstvCWgZu-E7M)
-- [Activation delegation through
-  transfer](https://docs.google.com/document/d/1NKLJ2MBa9lA_FKRgD2ZIO7vIftOJ_YiXXMYfRMdlV-s).
-
-
-### User activation
-- [HTML
-  specification](https://html.spec.whatwg.org/multipage/interaction.html#tracking-user-activation)
-  for tracking user activation.
-- [Chrome APIs gated by user
-  activation](https://docs.google.com/document/d/1mcxB5J_u370juJhSsmK0XQONG2CIE3mvu827O-Knw_Y)
--->
