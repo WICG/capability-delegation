@@ -6,7 +6,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/cg-draft" rel="stylesheet">
   <meta content="Bikeshed version 5c7bc9381, updated Wed May 12 18:18:08 2021 -0700" name="generator">
   <link href="https://wicg.github.io/capability-delegation/spec.html" rel="canonical">
-  <meta content="47929e93731bcd01f19d2881c5d11d4fedbfd369" name="document-revision">
+  <meta content="563583b5de9a96992180cb14d839a28a83c661ab" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -709,7 +709,7 @@ specification of the delegated API.</p>
 context</a>, it posts a message to the second <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context⑧">browsing context</a> with an extra <a data-link-type="dfn">postMessage option</a> <code>delegate</code> mentioning
 the capability.  The value of this option must be a <a href="https://www.w3.org/TR/permissions-policy/#ascii-serialization">serialized permissions policy</a>.</p>
    <h3 class="heading settled" data-level="3.1" id="monkey-patch-to-html"><span class="secno">3.1. </span><span class="content">Monkey-patch to HTML spec</span><a class="self-link" href="#monkey-patch-to-html"></a></h3>
-   <p>In the algorithm for [=html#dom-window-postmessage-options|HTML post message],
+   <p>In the algorithm for <a data-link-type="dfn">HTML post message</a>,
 right after the following step:</p>
    <blockquote>
     <ol start="6">
@@ -732,7 +732,7 @@ right after the following step:</p>
    </ol>
    <h2 class="heading settled" data-level="4" id="tracking-delegation"><span class="secno">4. </span><span class="content">Tracking delegated capability</span><a class="self-link" href="#tracking-delegation"></a></h2>
    <p>For the purpose of tracking capabilities delegated to a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context⑨">browsing context</a>,
-each [=html#window=|Window] <var>W</var> has a map called <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="delegated_capability_timestamps">DELEGATED_CAPABILITY_TIMESTAMPS</dfn> which is initially an empty map.</p>
+each <a data-link-type="dfn">Window</a> <var>W</var> has a map called <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="delegated_capability_timestamps">DELEGATED_CAPABILITY_TIMESTAMPS</dfn> which is initially an empty map.</p>
    <p>Each time a capability is delegated to <var>W</var>, an entry is added in <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps">DELEGATED_CAPABILITY_TIMESTAMPS</a> with a key equal to the <a href="https://www.w3.org/TR/permissions-policy/#ascii-serialization">serialized permissions policy</a> representing the capbility, and a value equal to current <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/hr-time-2/#dom-domhighrestimestamp" id="ref-for-dom-domhighrestimestamp">DOMHighResTimeStamp</a></code>.  If the map already has an entry for the same key, the
 existing timestamp value is updated to current <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/hr-time-2/#dom-domhighrestimestamp" id="ref-for-dom-domhighrestimestamp①">DOMHighResTimeStamp</a></code>.</p>
    <h2 class="heading settled" data-level="5" id="defining-delegated-behavior"><span class="secno">5. </span><span class="content">Defining delegated capability behavior</span><a class="self-link" href="#defining-delegated-behavior"></a></h2>

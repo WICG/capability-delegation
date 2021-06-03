@@ -119,10 +119,10 @@ the capability.  The value of this option must be a
 
 ## Monkey-patch to HTML spec ## {#monkey-patch-to-html}
 
-In the algorithm for [=html#dom-window-postmessage-options|HTML post message],
+In the algorithm for [=html#dom-window-postmessage-options|HTML post message=],
 right after the following step:
 
-> 6. Let <var>transfer</var> be <var>options</var>["transfer"].
+> 6. Let <var ignore>transfer</var> be <var>options</var>["transfer"].
 
 insert two additional steps as follows:
 
@@ -136,7 +136,7 @@ insert two additional steps as follows:
 # Tracking delegated capability # {#tracking-delegation}
 
 For the purpose of tracking capabilities delegated to a [=browsing context=],
-each [=html#window=|Window] <var>W</var> has a map called
+each [=html#window|Window=] <var>W</var> has a map called
 <dfn>DELEGATED_CAPABILITY_TIMESTAMPS</dfn> which is initially an empty map.
 
 Each time a capability is delegated to <var>W</var>, an entry is added in
