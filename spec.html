@@ -6,7 +6,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/cg-draft" rel="stylesheet">
   <meta content="Bikeshed version 5c7bc9381, updated Wed May 12 18:18:08 2021 -0700" name="generator">
   <link href="https://wicg.github.io/capability-delegation/spec.html" rel="canonical">
-  <meta content="44293aecbefa6fec82984162103fb0c3e17e62df" name="document-revision">
+  <meta content="acad152a6f08bfa56432f214d6d2d9e605ab3550" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -797,8 +797,8 @@ time</a>.</p>
    <p>Any capability that defines a delegated behavior uses the corresponding entry in <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/window-object.html#window" id="ref-for-window①">Window</a></code>.<a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps②">DELEGATED_CAPABILITY_TIMESTAMPS</a> in a manner appropriate for the
 capability.  Below is the spec change needed for one particular capability.</p>
    <h3 class="heading settled" data-level="5.1" id="monkey-patch-to-payment-req"><span class="secno">5.1. </span><span class="content">Monkey-patch to Payment Request spec</span><a class="self-link" href="#monkey-patch-to-payment-req"></a></h3>
-   <p>In the algorithm for <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/payment-request/#dom-paymentrequest-show" id="ref-for-dom-paymentrequest-show②">show()</a></code>, the following steps are replaced
-to implement the delegated behavior:</p>
+   <p>In the algorithm for <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/payment-request/#dom-paymentrequest-show" id="ref-for-dom-paymentrequest-show②">show()</a></code>, the following steps will be
+replaced to implement the delegated behavior:</p>
    <p>The step:</p>
    <blockquote>
     <ol start="2">
@@ -808,7 +808,7 @@ activation, return a promise rejected with with a "NotAllowedError"
 DOMException.</p>
     </ol>
    </blockquote>
-   <p>is replaced by:</p>
+   <p>will be replaced by:</p>
    <ol start="2">
     <li data-md>
      <p>If the relevant global object of request does not have transient activation,
@@ -823,7 +823,7 @@ then return a promise rejected with with a "NotAllowedError" DOMException.</p>
       <p>Consume user activation of the relevant global object.</p>
     </ol>
    </blockquote>
-   <p>is replaced by the follwing two steps:</p>
+   <p>will be replaced by the follwing two steps:</p>
    <ol start="3">
     <li data-md>
      <p>If the relevant global object of request does not have transient activation,

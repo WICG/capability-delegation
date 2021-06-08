@@ -208,8 +208,8 @@ capability.  Below is the spec change needed for one particular capability.
 
 ## Monkey-patch to Payment Request spec ## {#monkey-patch-to-payment-req}
 
-In the algorithm for {{PaymentRequest/show()}}, the following steps are replaced
-to implement the delegated behavior:
+In the algorithm for {{PaymentRequest/show()}}, the following steps will be
+replaced to implement the delegated behavior:
 
 The step:
 
@@ -217,7 +217,7 @@ The step:
 >     activation, return a promise rejected with with a "NotAllowedError"
 >     DOMException.
 
-is replaced by:
+will be replaced by:
 
 2. If the relevant global object of request does not have transient activation,
     AND the timestamp [=DELEGATED_CAPABILITY_TIMESTAMPS=]["payment"] in the
@@ -229,7 +229,7 @@ The step:
 
 > 3. Consume user activation of the relevant global object.
 
-is replaced by the follwing two steps:
+will be replaced by the follwing two steps:
 
 3. If the relevant global object of request does not have transient activation,
     then clear the map entry [=DELEGATED_CAPABILITY_TIMESTAMPS=]["payment"].
