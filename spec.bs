@@ -30,21 +30,20 @@ capability to the target [=browsing context=] in a time-constrained manner.
 
 Many capabilities in the Web are usable from JS in restricted manners.  For
 example:
-- Most browsers allow popups (through
-    [window.open()](https://html.spec.whatwg.org/multipage/window-object.html#dom-open))
-    only if the user has either interacted with the page recently or allowed the
-    browser to open popups from the page's origin.
-- A sandboxed [[html#the-iframe-element|iframe]] cannot make itself full-screen (though
-    [[fullscreen#api|element.requestFullscreen()]] without a specific sandbox
-    attribute or a user interaction within the frame.
+- Most browsers allow popups (through {{Window/open(url, target,
+    features)|Window.open()}} only if the user has either interacted with the
+    page recently or allowed the browser to open popups from the page's origin.
+
+- A sandboxed [[html#the-iframe-element|iframe]] cannot make itself full-screen
+    (though {{Element/requestFullscreen()}} without a specific sandbox attribute
+    or a user interaction within the frame.
 
 Capability delegation means allowing a frame to dynamically relinquish its
 ability to call a restricted API and transfer the ability to another (sub)frame
 it can trust.  The word "dynamic" here means the effect of the delegation lasts
 for a limited time as defined by the capability being delegated.  This is
 different from static (load-time) exposure of a capability to a [=browsing
-context=] through [[html#the-iframe-element|iframe]]
-[allow](https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-allow)
+context=] through [[html#the-iframe-element|iframe]] {{HTMLIFrameElement/allow}}
 attribute where the capability becomes exposed to a subframe in a
 time-unconstrained manner.
 
@@ -61,7 +60,7 @@ used in the second step, it redefines the API's internal behavior.
 
 Because of this, this specification consists of two distinct parts: defining an
 API for the initiation step, and then defining delegated behavior for one
-specific "user" API.  For the second part, this specification focuses on precise
+specific "user" API.  For the second part, this specification focuses on
 behavior changes needed in [[payment-request|Payment Request API]], which would
 serve as a guide for similar changes in any other APIs that would utilize
 capability delegation in future.
@@ -70,31 +69,31 @@ capability delegation in future.
 ## Transient availability ## {#trasient-availability}
 
 Both the steps mentioned above are time-constrained in nature.  The initiation
-step is [=html#activation-consuming-api|activation consuming=], so the step is
-allowed only after a recent [[html#tracking-user-activation|user activation]].
-After successful completion of this step, the delegated API becomes available
-for use for a few seconds (to be precise, the same limit as
-[=html#activation-expiry=]) unless the limit is defined otherwise by the
-specification of the delegated API.
+step is [[html#user-activation-gated-apis|activation consuming]], so the step is
+allowed only after a recent [[user activation]].  After successful completion of
+this step, the delegated API becomes available for use for a few seconds (to be
+precise, the same limit as
+[activation-expiry](https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry)
+unless the limit is defined otherwise by the specification of the delegated API.
 
 
 # Examples # {#examples}
 
 <div class="example" id="example-payment-request">
-  When a site wants to delegate the capability to call
-  [[payment-request|PaymentRequest.show()]] from a subframe after a mouse click,
-  it will [[html#posting-messages|post a message]] to the subframe with an
-  additional option to specify the delegated capability:
+  When a site wants to delegate the capability to call [[payment-request]]
+  {{PaymentRequest/show()}} from a subframe after a mouse click, it will
+  [[html#posting-messages|post a message]] to the subframe with an additional
+  option to specify the delegated capability:
 
   ```javascript
   window.onclick = () => {
-    targetWindow.postMessage('a_message', {delegate: "paymentrequest"});
+    targetWindow.postMessage('a_message', {delegate: "payment"});
   };
   ```
 
-  Upon receiving the message, the subframe would be able to use the
-  [[payment-request|Payment Request API]] even though the frame hasn't received
-  a user activation:
+  Upon receiving the message, the subframe would be able to use
+  {{PaymentRequest/show()}} even though the frame hasn't received a user
+  activation:
 
   ```javascript
   window.onmessage = () => {
@@ -112,14 +111,15 @@ specification of the delegated API.
 
 When a [=browsing context=] wants to delegate a capability to another [=browsing
 context=], it posts a message to the second [=browsing context=] with an extra
-[=html#dom-window-postmessage-options|postMessage option=] `delegate` mentioning
-the capability.  The value of this option must be a
-[[permissions-policy#ascii-serialization|serialized permissions policy]].
+{{PostMessageOptions}} called `delegate` specifying the capability.  The value
+of this option must be a [[permissions-policy#ascii-serialization|serialized
+permissions policy]].
 
 
 ## Monkey-patch to HTML spec ## {#monkey-patch-to-html-initiating-delegation}
 
-In the algorithm for [=html#dom-window-postmessage-options|HTML post message=],
+In the algorithm for [window post message
+steps](https://html.spec.whatwg.org/multipage/web-messaging.html#window-post-message-steps)
 right after the following step:
 
 > 6. Let <var ignore>transfer</var> be <var>options</var>["transfer"].
@@ -193,7 +193,7 @@ The step:
 is replaced by:
 
 2. If the relevant global object of request does not have transient activation,
-    AND the timestamp [=DELEGATED_CAPABILITY_TIMESTAMPS=]["paymentrequest"] in
+    AND the timestamp [=DELEGATED_CAPABILITY_TIMESTAMPS=]["payment"] in
     the relevant global object is either undefined or
     [=html#activation-expiry|expired=], then return a promise rejected with with
     a "NotAllowedError" DOMException.
@@ -205,5 +205,5 @@ The step:
 is replaced by the follwing two steps:
 
 3. If the relevant global object of request does not have transient activation,
-    then clear the map entry [=DELEGATED_CAPABILITY_TIMESTAMPS=]["paymentrequest"].
+    then clear the map entry [=DELEGATED_CAPABILITY_TIMESTAMPS=]["payment"].
 4. Otherwise, consume user activation of the relevant global object.
