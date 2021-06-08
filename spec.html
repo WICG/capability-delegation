@@ -6,7 +6,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/cg-draft" rel="stylesheet">
   <meta content="Bikeshed version 5c7bc9381, updated Wed May 12 18:18:08 2021 -0700" name="generator">
   <link href="https://wicg.github.io/capability-delegation/spec.html" rel="canonical">
-  <meta content="8c7f16dd354620bbcad1620b8fa8df2649ff0e0a" name="document-revision">
+  <meta content="74d5fdb873173e90fe05be92f9f0fbcbe7e0da93" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -685,9 +685,10 @@ capability delegation in future.</p>
     <h3 class="heading settled" data-level="1.3" id="trasient-availability"><span class="secno">1.3. </span><span class="content">Transient availability</span><a class="self-link" href="#trasient-availability"></a></h3>
     <p>Both the steps mentioned above are time-constrained in nature.  The initiation
 step is <a href="https://html.spec.whatwg.org/multipage/interaction.html#user-activation-gated-apis">activation consuming</a>, so the step is
-allowed only after a recent [[user activation]].  After successful completion of
+allowed only after a recent user activation.  After successful completion of
 this step, the delegated API becomes available for use for a few seconds (to be
-precise, the same limit as <a href="https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry">activation-expiry</a> unless the limit is defined otherwise by the specification of the delegated API.</p>
+precise, the same limit as <a href="https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry">activation
+expiry</a> unless the limit is defined otherwise by the specification of the delegated API.</p>
     <h2 class="heading settled" data-level="2" id="examples"><span class="secno">2. </span><span class="content">Examples</span><a class="self-link" href="#examples"></a></h2>
     <div class="example" id="example-payment-request">
      <a class="self-link" href="#example-payment-request"></a> When a site wants to delegate the capability to call <a data-link-type="biblio" href="#biblio-payment-request">[payment-request]</a> <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/payment-request/#dom-paymentrequest-show" id="ref-for-dom-paymentrequest-show">show()</a></code> from a subframe after a mouse click, it will <a href="https://html.spec.whatwg.org/multipage/web-messaging.html#posting-messages">post a message</a> to the subframe with an additional
@@ -708,19 +709,26 @@ precise, the same limit as <a href="https://html.spec.whatwg.org/multipage/inter
    </section>
    <h2 class="heading settled" data-level="3" id="initiating-delegation"><span class="secno">3. </span><span class="content">Initiating capability delegation</span><a class="self-link" href="#initiating-delegation"></a></h2>
    <p>When a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context⑥">browsing context</a> wants to delegate a capability to another <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context⑦">browsing
-context</a>, it posts a message to the second <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context⑧">browsing context</a> with an extra <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/web-messaging.html#postmessageoptions" id="ref-for-postmessageoptions">PostMessageOptions</a></code> called <code>delegate</code> specifying the capability.  The value
-of this option must be a <a href="https://www.w3.org/TR/permissions-policy/#ascii-serialization">serialized
-permissions policy</a>.</p>
+context</a>, it posts a message to the second <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context⑧">browsing context</a> with an extra <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/window-object.html#windowpostmessageoptions" id="ref-for-windowpostmessageoptions">WindowPostMessageOptions</a></code> called <code>delegate</code> specifying the capability.  The
+value of this option must be a <a href="https://www.w3.org/TR/permissions-policy/#ascii-serialization">feature-identifier</a>.  The option must
+be ignored if the value does not corrrespond to any <a href="https://w3c.github.io/webappsec-permissions-policy/#supported-features">features supported by the
+user
+agent</a>.</p>
+   <div class="note" role="note">A list of possible values can be found <a href="https://github.com/w3c/webappsec-permissions-policy/blob/main/features.md">here</a>.</div>
    <h3 class="heading settled" data-level="3.1" id="monkey-patch-to-html-initiating-delegation"><span class="secno">3.1. </span><span class="content">Monkey-patch to HTML spec</span><a class="self-link" href="#monkey-patch-to-html-initiating-delegation"></a></h3>
-   <p>In the algorithm for <a href="https://html.spec.whatwg.org/multipage/web-messaging.html#window-post-message-steps">window post message
-steps</a> right after the following step:</p>
+   <p>The <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/window-object.html#windowpostmessageoptions" id="ref-for-windowpostmessageoptions①">WindowPostMessageOptions</a></code> IDL definition will include an additional field as follows:</p>
+<pre class="language-IDL highlight">  USVString delegate <c- o>=</c-> <c- u>""</c->;
+</pre>
+   <p>In the algorithm for <a href="https://html.spec.whatwg.org/multipage/web-messaging.html#window-post-message-steps">window post
+message</a>,
+the following step:</p>
    <blockquote>
     <ol start="6">
      <li data-md>
       <p>Let <var>transfer</var> be <var>options</var>["transfer"].</p>
     </ol>
    </blockquote>
-   <p>insert two additional steps as follows:</p>
+   <p>will be followed by two additional steps as follows:</p>
    <ol start="7">
     <li data-md>
      <p>Let <var>delegate</var> be <var>options</var>["delegate"].</p>
@@ -728,20 +736,26 @@ steps</a> right after the following step:</p>
      <p>If <var>delegate</var> is not null, then:</p>
      <ol>
       <li data-md>
-       <p>If <var>targetWindow</var> has <a data-link-type="dfn">html#transient-activation</a> then <a data-link-type="dfn">consume user activation</a> in <var>targetWindow</var>.</p>
+       <p>If <var>targetWindow</var> has <a href="https://html.spec.whatwg.org/multipage/interaction.html#transient-activation">transient
+activation</a> then <a href="https://html.spec.whatwg.org/multipage/interaction.html#consume-user-activation">consume user
+activation</a> in <var>targetWindow</var>.</p>
       <li data-md>
        <p>Otherwise, let <var>delegate</var> be null.</p>
      </ol>
    </ol>
    <h2 class="heading settled" data-level="4" id="tracking-delegation"><span class="secno">4. </span><span class="content">Tracking delegated capability</span><a class="self-link" href="#tracking-delegation"></a></h2>
    <p>For the purpose of tracking capabilities delegated to a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context⑨">browsing context</a>,
-each <a data-link-type="dfn">Window</a> <var>W</var> has a map called <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="delegated_capability_timestamps">DELEGATED_CAPABILITY_TIMESTAMPS</dfn> which is initially an empty map.</p>
-   <p>Each time a capability is delegated to <var>W</var>, an entry is added in <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps">DELEGATED_CAPABILITY_TIMESTAMPS</a> with a key equal to the <a href="https://www.w3.org/TR/permissions-policy/#ascii-serialization">serialized permissions policy</a> representing the capbility, and a value equal to current <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/hr-time-2/#dom-domhighrestimestamp" id="ref-for-dom-domhighrestimestamp">DOMHighResTimeStamp</a></code>.  If the map already has an entry for the same key, the
-existing timestamp value is updated to current <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/hr-time-2/#dom-domhighrestimestamp" id="ref-for-dom-domhighrestimestamp①">DOMHighResTimeStamp</a></code>.</p>
+each <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/window-object.html#window" id="ref-for-window">Window</a></code> <var>W</var> will have a map called <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="delegated_capability_timestamps">DELEGATED_CAPABILITY_TIMESTAMPS</dfn> which will be initialized with an
+empty map.</p>
+   <p>Each time a capability is delegated to <var>W</var>, an entry will be added in <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps">DELEGATED_CAPABILITY_TIMESTAMPS</a> with a key equal to the <a href="https://www.w3.org/TR/permissions-policy/#ascii-serialization">feature-identifier</a> representing the
+capbility, and a value equal to current <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/hr-time-2/#dom-domhighrestimestamp" id="ref-for-dom-domhighrestimestamp">DOMHighResTimeStamp</a></code>.  If the map
+already has an entry for the same key, the existing value will be updated to
+current <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/hr-time-2/#dom-domhighrestimestamp" id="ref-for-dom-domhighrestimestamp①">DOMHighResTimeStamp</a></code>.</p>
    <h3 class="heading settled" data-level="4.1" id="monkey-patch-to-html-tracking-delegation"><span class="secno">4.1. </span><span class="content">Monkey-patch to HTML spec</span><a class="self-link" href="#monkey-patch-to-html-tracking-delegation"></a></h3>
-   <p>In the algorithm for <a data-link-type="dfn">HTML post message</a>,
-two additional sub-steps are added to current Step 8.  The first addtional
-sub-step is inserted right after the following sub-step:</p>
+   <p>In the algorithm for <a href="https://html.spec.whatwg.org/multipage/web-messaging.html#window-post-message-steps">window post
+message</a>,
+two additional sub-steps will be added to current Step 8.  The first addtional
+sub-step will be inserted after the following sub-step:</p>
    <blockquote>
     <ol start="8">
      <li data-md>
@@ -761,7 +775,7 @@ sub-step is inserted right after the following sub-step:</p>
        <p>Let <var>delegate</var> be the serialization of <var>options</var>["delegate"].</p>
      </ol>
    </ol>
-   <p>The second addtional sub-step is inserted right after the following sub-step:</p>
+   <p>The second addtional sub-step will be inserted after the following sub-step:</p>
    <blockquote>
     <ol start="6">
      <li data-md>
@@ -774,15 +788,16 @@ sub-step is inserted right after the following sub-step:</p>
      <p>Queue a global task on the posted message task source ...</p>
      <ol start="7">
       <li data-md>
-       <p>If <var>delegate</var> is not null, set <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps①">DELEGATED_CAPABILITY_TIMESTAMPS</a> to <a data-link-type="dfn">hr-time#current-high-resolution-time</a>.</p>
+       <p>If <var>delegate</var> is not null, set <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps①">DELEGATED_CAPABILITY_TIMESTAMPS</a> to <a href="https://w3c.github.io/hr-time/#dfn-current-high-resolution-time">current high resolution
+time</a>.</p>
      </ol>
    </ol>
    <h2 class="heading settled" data-level="5" id="defining-delegated-behavior"><span class="secno">5. </span><span class="content">Defining delegated capability behavior</span><a class="self-link" href="#defining-delegated-behavior"></a></h2>
-   <p>Any capability that defines a delegated behavior uses the corresponding entry in <a data-link-type="dfn">Window</a>.<a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps②">DELEGATED_CAPABILITY_TIMESTAMPS</a> in a manner
-appropriate for the capability.  Below is the spec change needed for one
-particular capability.</p>
+   <p>Any capability that defines a delegated behavior uses the corresponding entry in <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/window-object.html#window" id="ref-for-window①">Window</a></code>.<a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps②">DELEGATED_CAPABILITY_TIMESTAMPS</a> in a manner appropriate for the
+capability.  Below is the spec change needed for one particular capability.</p>
    <h3 class="heading settled" data-level="5.1" id="monkey-patch-to-payment-req"><span class="secno">5.1. </span><span class="content">Monkey-patch to Payment Request spec</span><a class="self-link" href="#monkey-patch-to-payment-req"></a></h3>
-   <p>In the algorithm for <a data-link-type="dfn">payment-request#show()</a>, the following steps are replaced to implement the delegated behavior:</p>
+   <p>In the algorithm for <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/payment-request/#dom-paymentrequest-show" id="ref-for-dom-paymentrequest-show②">show()</a></code>, the following steps are replaced
+to implement the delegated behavior:</p>
    <p>The step:</p>
    <blockquote>
     <ol start="2">
@@ -796,9 +811,9 @@ DOMException.</p>
    <ol start="2">
     <li data-md>
      <p>If the relevant global object of request does not have transient activation,
-AND the timestamp <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps③">DELEGATED_CAPABILITY_TIMESTAMPS</a>["payment"] in
-the relevant global object is either undefined or <a data-link-type="dfn">expired</a>, then return a promise rejected with with
-a "NotAllowedError" DOMException.</p>
+AND the timestamp <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps③">DELEGATED_CAPABILITY_TIMESTAMPS</a>["payment"] in the
+relevant global object is either undefined or <a href="https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry">expired</a>,
+then return a promise rejected with with a "NotAllowedError" DOMException.</p>
    </ol>
    <p>The step:</p>
    <blockquote>
@@ -875,10 +890,18 @@ then clear the map entry <a data-link-type="dfn" href="#delegated_capability_tim
     <li><a href="#ref-for-dom-domhighrestimestamp">4. Tracking delegated capability</a> <a href="#ref-for-dom-domhighrestimestamp①">(2)</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-postmessageoptions">
-   <a href="https://html.spec.whatwg.org/multipage/web-messaging.html#postmessageoptions">https://html.spec.whatwg.org/multipage/web-messaging.html#postmessageoptions</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-window">
+   <a href="https://html.spec.whatwg.org/multipage/window-object.html#window">https://html.spec.whatwg.org/multipage/window-object.html#window</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-postmessageoptions">3. Initiating capability delegation</a>
+    <li><a href="#ref-for-window">4. Tracking delegated capability</a>
+    <li><a href="#ref-for-window①">5. Defining delegated capability behavior</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-windowpostmessageoptions">
+   <a href="https://html.spec.whatwg.org/multipage/window-object.html#windowpostmessageoptions">https://html.spec.whatwg.org/multipage/window-object.html#windowpostmessageoptions</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-windowpostmessageoptions">3. Initiating capability delegation</a>
+    <li><a href="#ref-for-windowpostmessageoptions①">3.1. Monkey-patch to HTML spec</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-iframe-allow">
@@ -907,6 +930,7 @@ then clear the map entry <a data-link-type="dfn" href="#delegated_capability_tim
    <a href="https://www.w3.org/TR/payment-request/#dom-paymentrequest-show">https://www.w3.org/TR/payment-request/#dom-paymentrequest-show</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-paymentrequest-show">2. Examples</a> <a href="#ref-for-dom-paymentrequest-show①">(2)</a>
+    <li><a href="#ref-for-dom-paymentrequest-show②">5.1. Monkey-patch to Payment Request spec</a>
    </ul>
   </aside>
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
@@ -924,7 +948,8 @@ then clear the map entry <a data-link-type="dfn" href="#delegated_capability_tim
    <li>
     <a data-link-type="biblio">[HTML]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-postmessageoptions">PostMessageOptions</span>
+     <li><span class="dfn-paneled" id="term-for-window">Window</span>
+     <li><span class="dfn-paneled" id="term-for-windowpostmessageoptions">WindowPostMessageOptions</span>
      <li><span class="dfn-paneled" id="term-for-dom-iframe-allow">allow</span>
      <li><span class="dfn-paneled" id="term-for-browsing-context">browsing context</span>
      <li><span class="dfn-paneled" id="term-for-dom-open">open(url, target, features)</span>
@@ -942,6 +967,8 @@ then clear the map entry <a data-link-type="dfn" href="#delegated_capability_tim
    <dd>Ilya Grigorik. <a href="https://www.w3.org/TR/hr-time-2/">High Resolution Time Level 2</a>. 21 November 2019. REC. URL: <a href="https://www.w3.org/TR/hr-time-2/">https://www.w3.org/TR/hr-time-2/</a>
    <dt id="biblio-html">[HTML]
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
+   <dt id="biblio-payment-request">[PAYMENT-REQUEST]
+   <dd>Marcos Caceres; et al. <a href="https://www.w3.org/TR/payment-request/">Payment Request API</a>. 3 December 2020. CR. URL: <a href="https://www.w3.org/TR/payment-request/">https://www.w3.org/TR/payment-request/</a>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
   </dl>
@@ -949,8 +976,6 @@ then clear the map entry <a data-link-type="dfn" href="#delegated_capability_tim
   <dl>
    <dt id="biblio-fullscreen">[FULLSCREEN]
    <dd>Philip Jägenstedt. <a href="https://fullscreen.spec.whatwg.org/">Fullscreen API Standard</a>. Living Standard. URL: <a href="https://fullscreen.spec.whatwg.org/">https://fullscreen.spec.whatwg.org/</a>
-   <dt id="biblio-payment-request">[PAYMENT-REQUEST]
-   <dd>Marcos Caceres; et al. <a href="https://www.w3.org/TR/payment-request/">Payment Request API</a>. 3 December 2020. CR. URL: <a href="https://www.w3.org/TR/payment-request/">https://www.w3.org/TR/payment-request/</a>
   </dl>
   <aside class="dfn-panel" data-for="delegated_capability_timestamps">
    <b><a href="#delegated_capability_timestamps">#delegated_capability_timestamps</a></b><b>Referenced in:</b>

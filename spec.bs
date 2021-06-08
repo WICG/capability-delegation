@@ -70,10 +70,10 @@ capability delegation in future.
 
 Both the steps mentioned above are time-constrained in nature.  The initiation
 step is [[html#user-activation-gated-apis|activation consuming]], so the step is
-allowed only after a recent [[user activation]].  After successful completion of
+allowed only after a recent user activation.  After successful completion of
 this step, the delegated API becomes available for use for a few seconds (to be
-precise, the same limit as
-[activation-expiry](https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry)
+precise, the same limit as [activation
+expiry](https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry)
 unless the limit is defined otherwise by the specification of the delegated API.
 
 
@@ -111,47 +111,64 @@ unless the limit is defined otherwise by the specification of the delegated API.
 
 When a [=browsing context=] wants to delegate a capability to another [=browsing
 context=], it posts a message to the second [=browsing context=] with an extra
-{{PostMessageOptions}} called `delegate` specifying the capability.  The value
-of this option must be a [[permissions-policy#ascii-serialization|serialized
-permissions policy]].
+{{WindowPostMessageOptions}} called `delegate` specifying the capability.  The
+value of this option must be a
+[[permissions-policy#ascii-serialization|feature-identifier]].  The option must
+be ignored if the value does not corrrespond to any [features supported by the
+user
+agent](https://w3c.github.io/webappsec-permissions-policy/#supported-features).
+
+<div class="note">A list of possible values can be found
+[here](https://github.com/w3c/webappsec-permissions-policy/blob/main/features.md).</div>
 
 
 ## Monkey-patch to HTML spec ## {#monkey-patch-to-html-initiating-delegation}
 
-In the algorithm for [window post message
-steps](https://html.spec.whatwg.org/multipage/web-messaging.html#window-post-message-steps)
-right after the following step:
+The {{WindowPostMessageOptions}} IDL definition will include an additional field as follows:
+
+```IDL
+  USVString delegate = "";
+```
+
+In the algorithm for [window post
+message](https://html.spec.whatwg.org/multipage/web-messaging.html#window-post-message-steps),
+the following step:
 
 > 6. Let <var ignore>transfer</var> be <var>options</var>["transfer"].
 
-insert two additional steps as follows:
+will be followed by two additional steps as follows:
 
 7. Let <var>delegate</var> be <var>options</var>["delegate"].
 8. If <var>delegate</var> is not null, then:
-    1. If <var>targetWindow</var> has [=html#transient-activation=] then
-        [=html#consume-user-activation|consume user activation=] in <var>targetWindow</var>.
+    1. If <var>targetWindow</var> has [transient
+        activation](https://html.spec.whatwg.org/multipage/interaction.html#transient-activation)
+        then [consume user
+        activation](https://html.spec.whatwg.org/multipage/interaction.html#consume-user-activation)
+        in <var>targetWindow</var>.
     2. Otherwise, let <var>delegate</var> be null.
 
 
 # Tracking delegated capability # {#tracking-delegation}
 
 For the purpose of tracking capabilities delegated to a [=browsing context=],
-each [=html#window|Window=] <var>W</var> has a map called
-<dfn>DELEGATED_CAPABILITY_TIMESTAMPS</dfn> which is initially an empty map.
+each {{Window}} <var>W</var> will have a map called
+<dfn>DELEGATED_CAPABILITY_TIMESTAMPS</dfn> which will be initialized with an
+empty map.
 
-Each time a capability is delegated to <var>W</var>, an entry is added in
+Each time a capability is delegated to <var>W</var>, an entry will be added in
 [=DELEGATED_CAPABILITY_TIMESTAMPS=] with a key equal to the
-[[permissions-policy#ascii-serialization|serialized permissions policy]]
-representing the capbility, and a value equal to current
-{{DOMHighResTimeStamp}}.  If the map already has an entry for the same key, the
-existing timestamp value is updated to current {{DOMHighResTimeStamp}}.
+[[permissions-policy#ascii-serialization|feature-identifier]] representing the
+capbility, and a value equal to current {{DOMHighResTimeStamp}}.  If the map
+already has an entry for the same key, the existing value will be updated to
+current {{DOMHighResTimeStamp}}.
 
 
 ## Monkey-patch to HTML spec ## {#monkey-patch-to-html-tracking-delegation}
 
-In the algorithm for [=html#dom-window-postmessage-options|HTML post message=],
-two additional sub-steps are added to current Step 8.  The first addtional
-sub-step is inserted right after the following sub-step:
+In the algorithm for [window post
+message](https://html.spec.whatwg.org/multipage/web-messaging.html#window-post-message-steps),
+two additional sub-steps will be added to current Step 8.  The first addtional
+sub-step will be inserted after the following sub-step:
 
 > 8. Queue a global task on the posted message task source ...
 >     2. Let origin be the serialization of incumbentSettings's origin.
@@ -161,28 +178,30 @@ as follows:
 8. Queue a global task on the posted message task source ...
     3. Let <var>delegate</var> be the serialization of <var>options</var>["delegate"].
 
-The second addtional sub-step is inserted right after the following sub-step:
+The second addtional sub-step will be inserted after the following sub-step:
 
 >     6. Let newPorts be a new frozen array consisting of all MessagePort objects...
 
 as follows:
 
 8. Queue a global task on the posted message task source ...
-    7. If <var>delegate</var> is not null, set [=DELEGATED_CAPABILITY_TIMESTAMPS=] to
-        [=hr-time#current-high-resolution-time=].
+    7. If <var>delegate</var> is not null, set
+        [=DELEGATED_CAPABILITY_TIMESTAMPS=] to
+        [current high resolution
+        time](https://w3c.github.io/hr-time/#dfn-current-high-resolution-time).
 
 
 # Defining delegated capability behavior # {#defining-delegated-behavior}
 
 Any capability that defines a delegated behavior uses the corresponding entry in
-[=html#window|Window=].[=DELEGATED_CAPABILITY_TIMESTAMPS=] in a manner
-appropriate for the capability.  Below is the spec change needed for one
-particular capability.
+{{Window}}.[=DELEGATED_CAPABILITY_TIMESTAMPS=] in a manner appropriate for the
+capability.  Below is the spec change needed for one particular capability.
 
 
 ## Monkey-patch to Payment Request spec ## {#monkey-patch-to-payment-req}
 
-In the algorithm for [=payment-request#show()=], the following steps are replaced to implement the delegated behavior:
+In the algorithm for {{PaymentRequest/show()}}, the following steps are replaced
+to implement the delegated behavior:
 
 The step:
 
@@ -193,10 +212,10 @@ The step:
 is replaced by:
 
 2. If the relevant global object of request does not have transient activation,
-    AND the timestamp [=DELEGATED_CAPABILITY_TIMESTAMPS=]["payment"] in
-    the relevant global object is either undefined or
-    [=html#activation-expiry|expired=], then return a promise rejected with with
-    a "NotAllowedError" DOMException.
+    AND the timestamp [=DELEGATED_CAPABILITY_TIMESTAMPS=]["payment"] in the
+    relevant global object is either undefined or
+    [expired](https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry),
+    then return a promise rejected with with a "NotAllowedError" DOMException.
 
 The step:
 
