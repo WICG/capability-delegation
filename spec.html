@@ -6,7 +6,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/cg-draft" rel="stylesheet">
   <meta content="Bikeshed version 5c7bc9381, updated Wed May 12 18:18:08 2021 -0700" name="generator">
   <link href="https://wicg.github.io/capability-delegation/spec.html" rel="canonical">
-  <meta content="563583b5de9a96992180cb14d839a28a83c661ab" name="document-revision">
+  <meta content="bca941a69598bf8f936cad397693052bfcb5350b" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -563,7 +563,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Capability Delegation</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2021-06-03">3 June 2021</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2021-06-08">8 June 2021</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -609,9 +609,13 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <li>
      <a href="#initiating-delegation"><span class="secno">3</span> <span class="content">Initiating capability delegation</span></a>
      <ol class="toc">
-      <li><a href="#monkey-patch-to-html"><span class="secno">3.1</span> <span class="content">Monkey-patch to HTML spec</span></a>
+      <li><a href="#monkey-patch-to-html-initiating-delegation"><span class="secno">3.1</span> <span class="content">Monkey-patch to HTML spec</span></a>
      </ol>
-    <li><a href="#tracking-delegation"><span class="secno">4</span> <span class="content">Tracking delegated capability</span></a>
+    <li>
+     <a href="#tracking-delegation"><span class="secno">4</span> <span class="content">Tracking delegated capability</span></a>
+     <ol class="toc">
+      <li><a href="#monkey-patch-to-html-tracking-delegation"><span class="secno">4.1</span> <span class="content">Monkey-patch to HTML spec</span></a>
+     </ol>
     <li>
      <a href="#defining-delegated-behavior"><span class="secno">5</span> <span class="content">Defining delegated capability behavior</span></a>
      <ol class="toc">
@@ -708,7 +712,7 @@ specification of the delegated API.</p>
    <p>When a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context⑥">browsing context</a> wants to delegate a capability to another <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context⑦">browsing
 context</a>, it posts a message to the second <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context⑧">browsing context</a> with an extra <a data-link-type="dfn">postMessage option</a> <code>delegate</code> mentioning
 the capability.  The value of this option must be a <a href="https://www.w3.org/TR/permissions-policy/#ascii-serialization">serialized permissions policy</a>.</p>
-   <h3 class="heading settled" data-level="3.1" id="monkey-patch-to-html"><span class="secno">3.1. </span><span class="content">Monkey-patch to HTML spec</span><a class="self-link" href="#monkey-patch-to-html"></a></h3>
+   <h3 class="heading settled" data-level="3.1" id="monkey-patch-to-html-initiating-delegation"><span class="secno">3.1. </span><span class="content">Monkey-patch to HTML spec</span><a class="self-link" href="#monkey-patch-to-html-initiating-delegation"></a></h3>
    <p>In the algorithm for <a data-link-type="dfn">HTML post message</a>,
 right after the following step:</p>
    <blockquote>
@@ -735,8 +739,47 @@ right after the following step:</p>
 each <a data-link-type="dfn">Window</a> <var>W</var> has a map called <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="delegated_capability_timestamps">DELEGATED_CAPABILITY_TIMESTAMPS</dfn> which is initially an empty map.</p>
    <p>Each time a capability is delegated to <var>W</var>, an entry is added in <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps">DELEGATED_CAPABILITY_TIMESTAMPS</a> with a key equal to the <a href="https://www.w3.org/TR/permissions-policy/#ascii-serialization">serialized permissions policy</a> representing the capbility, and a value equal to current <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/hr-time-2/#dom-domhighrestimestamp" id="ref-for-dom-domhighrestimestamp">DOMHighResTimeStamp</a></code>.  If the map already has an entry for the same key, the
 existing timestamp value is updated to current <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/hr-time-2/#dom-domhighrestimestamp" id="ref-for-dom-domhighrestimestamp①">DOMHighResTimeStamp</a></code>.</p>
+   <h3 class="heading settled" data-level="4.1" id="monkey-patch-to-html-tracking-delegation"><span class="secno">4.1. </span><span class="content">Monkey-patch to HTML spec</span><a class="self-link" href="#monkey-patch-to-html-tracking-delegation"></a></h3>
+   <p>In the algorithm for <a data-link-type="dfn">HTML post message</a>,
+two additional sub-steps are added to current Step 8.  The first addtional
+sub-step is inserted right after the following sub-step:</p>
+   <blockquote>
+    <ol start="8">
+     <li data-md>
+      <p>Queue a global task on the posted message task source ...</p>
+      <ol start="2">
+       <li data-md>
+        <p>Let origin be the serialization of incumbentSettings’s origin.</p>
+      </ol>
+    </ol>
+   </blockquote>
+   <p>as follows:</p>
+   <ol start="8">
+    <li data-md>
+     <p>Queue a global task on the posted message task source ...</p>
+     <ol start="3">
+      <li data-md>
+       <p>Let <var>delegate</var> be the serialization of <var>options</var>["delegate"].</p>
+     </ol>
+   </ol>
+   <p>The second addtional sub-step is inserted right after the following sub-step:</p>
+   <blockquote>
+    <ol start="6">
+     <li data-md>
+      <p>Let newPorts be a new frozen array consisting of all MessagePort objects...</p>
+    </ol>
+   </blockquote>
+   <p>as follows:</p>
+   <ol start="8">
+    <li data-md>
+     <p>Queue a global task on the posted message task source ...</p>
+     <ol start="7">
+      <li data-md>
+       <p>If <var>delegate</var> is not null, set <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps①">DELEGATED_CAPABILITY_TIMESTAMPS</a> to <a data-link-type="dfn">hr-time#current-high-resolution-time</a>.</p>
+     </ol>
+   </ol>
    <h2 class="heading settled" data-level="5" id="defining-delegated-behavior"><span class="secno">5. </span><span class="content">Defining delegated capability behavior</span><a class="self-link" href="#defining-delegated-behavior"></a></h2>
-   <p>Any capability that defines a delegated behavior uses the corresponding entry in <a data-link-type="dfn">Window</a>.<a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps①">DELEGATED_CAPABILITY_TIMESTAMPS</a> in a manner
+   <p>Any capability that defines a delegated behavior uses the corresponding entry in <a data-link-type="dfn">Window</a>.<a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps②">DELEGATED_CAPABILITY_TIMESTAMPS</a> in a manner
 appropriate for the capability.  Below is the spec change needed for one
 particular capability.</p>
    <h3 class="heading settled" data-level="5.1" id="monkey-patch-to-payment-req"><span class="secno">5.1. </span><span class="content">Monkey-patch to Payment Request spec</span><a class="self-link" href="#monkey-patch-to-payment-req"></a></h3>
@@ -754,7 +797,7 @@ DOMException.</p>
    <ol start="2">
     <li data-md>
      <p>If the relevant global object of request does not have transient activation,
-AND the timestamp <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps②">DELEGATED_CAPABILITY_TIMESTAMPS</a>["paymentrequest"] in
+AND the timestamp <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps③">DELEGATED_CAPABILITY_TIMESTAMPS</a>["paymentrequest"] in
 the relevant global object is either undefined or <a data-link-type="dfn">expired</a>, then return a promise rejected with with
 a "NotAllowedError" DOMException.</p>
    </ol>
@@ -769,7 +812,7 @@ a "NotAllowedError" DOMException.</p>
    <ol start="3">
     <li data-md>
      <p>If the relevant global object of request does not have transient activation,
-then clear the map entry <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps③">DELEGATED_CAPABILITY_TIMESTAMPS</a>["paymentrequest"].</p>
+then clear the map entry <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps④">DELEGATED_CAPABILITY_TIMESTAMPS</a>["paymentrequest"].</p>
     <li data-md>
      <p>Otherwise, consume user activation of the relevant global object.</p>
    </ol>
@@ -869,8 +912,9 @@ then clear the map entry <a data-link-type="dfn" href="#delegated_capability_tim
    <b><a href="#delegated_capability_timestamps">#delegated_capability_timestamps</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-delegated_capability_timestamps">4. Tracking delegated capability</a>
-    <li><a href="#ref-for-delegated_capability_timestamps①">5. Defining delegated capability behavior</a>
-    <li><a href="#ref-for-delegated_capability_timestamps②">5.1. Monkey-patch to Payment Request spec</a> <a href="#ref-for-delegated_capability_timestamps③">(2)</a>
+    <li><a href="#ref-for-delegated_capability_timestamps①">4.1. Monkey-patch to HTML spec</a>
+    <li><a href="#ref-for-delegated_capability_timestamps②">5. Defining delegated capability behavior</a>
+    <li><a href="#ref-for-delegated_capability_timestamps③">5.1. Monkey-patch to Payment Request spec</a> <a href="#ref-for-delegated_capability_timestamps④">(2)</a>
    </ul>
   </aside>
 <script>/* script-dfn-panel */

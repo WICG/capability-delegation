@@ -117,7 +117,7 @@ the capability.  The value of this option must be a
 [[permissions-policy#ascii-serialization|serialized permissions policy]].
 
 
-## Monkey-patch to HTML spec ## {#monkey-patch-to-html}
+## Monkey-patch to HTML spec ## {#monkey-patch-to-html-initiating-delegation}
 
 In the algorithm for [=html#dom-window-postmessage-options|HTML post message=],
 right after the following step:
@@ -145,6 +145,31 @@ Each time a capability is delegated to <var>W</var>, an entry is added in
 representing the capbility, and a value equal to current
 {{DOMHighResTimeStamp}}.  If the map already has an entry for the same key, the
 existing timestamp value is updated to current {{DOMHighResTimeStamp}}.
+
+
+## Monkey-patch to HTML spec ## {#monkey-patch-to-html-tracking-delegation}
+
+In the algorithm for [=html#dom-window-postmessage-options|HTML post message=],
+two additional sub-steps are added to current Step 8.  The first addtional
+sub-step is inserted right after the following sub-step:
+
+> 8. Queue a global task on the posted message task source ...
+>     2. Let origin be the serialization of incumbentSettings's origin.
+
+as follows:
+
+8. Queue a global task on the posted message task source ...
+    3. Let <var>delegate</var> be the serialization of <var>options</var>["delegate"].
+
+The second addtional sub-step is inserted right after the following sub-step:
+
+>     6. Let newPorts be a new frozen array consisting of all MessagePort objects...
+
+as follows:
+
+8. Queue a global task on the posted message task source ...
+    7. If <var>delegate</var> is not null, set [=DELEGATED_CAPABILITY_TIMESTAMPS=] to
+        [=hr-time#current-high-resolution-time=].
 
 
 # Defining delegated capability behavior # {#defining-delegated-behavior}
