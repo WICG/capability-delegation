@@ -6,7 +6,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/cg-draft" rel="stylesheet">
   <meta content="Bikeshed version 5c7bc9381, updated Wed May 12 18:18:08 2021 -0700" name="generator">
   <link href="https://wicg.github.io/capability-delegation/spec.html" rel="canonical">
-  <meta content="acad152a6f08bfa56432f214d6d2d9e605ab3550" name="document-revision">
+  <meta content="ac1341bb641835cb0cd863c9ab67b062c921e07f" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -603,7 +603,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <ol class="toc">
       <li><a href="#what-is-capability-delegation"><span class="secno">1.1</span> <span class="content">What is capability delegation?</span></a>
       <li><a href="#initiate-vs-use"><span class="secno">1.2</span> <span class="content">Initiating a delegation vs using a capability</span></a>
-      <li><a href="#trasient-availability"><span class="secno">1.3</span> <span class="content">Transient availability</span></a>
+      <li><a href="#transient-availability"><span class="secno">1.3</span> <span class="content">Transient availability</span></a>
      </ol>
     <li><a href="#examples"><span class="secno">2</span> <span class="content">Examples</span></a>
     <li>
@@ -671,7 +671,7 @@ time-unconstrained manner.</p>
     <h3 class="heading settled" data-level="1.2" id="initiate-vs-use"><span class="secno">1.2. </span><span class="content">Initiating a delegation vs using a capability</span><a class="self-link" href="#initiate-vs-use"></a></h3>
     <p>Capability delegation needs two distinct steps to be effective.  The first step
 is "initiation" where one <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context③">browsing context</a> notifies another <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context④">browsing
-context</a> about a specific capability being delegted.  After initiation, the
+context</a> about a specific capability being delegated.  After initiation, the
 second (i.e. the receiver) <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context⑤">browsing context</a> would "use" the delegated
 capability, which typically means calling a capability-defined method.  While
 the capability delegation specification here does not define the API interface
@@ -682,7 +682,7 @@ specific "user" API.  For the second part, this specification focuses on
 behavior changes needed in <a data-link-type="biblio" href="#biblio-payment-request">Payment Request API</a>, which would
 serve as a guide for similar changes in any other APIs that would utilize
 capability delegation in future.</p>
-    <h3 class="heading settled" data-level="1.3" id="trasient-availability"><span class="secno">1.3. </span><span class="content">Transient availability</span><a class="self-link" href="#trasient-availability"></a></h3>
+    <h3 class="heading settled" data-level="1.3" id="transient-availability"><span class="secno">1.3. </span><span class="content">Transient availability</span><a class="self-link" href="#transient-availability"></a></h3>
     <p>Both the steps mentioned above are time-constrained in nature.  The initiation
 step is <a href="https://html.spec.whatwg.org/multipage/interaction.html#user-activation-gated-apis">activation consuming</a>, so the step is
 allowed only after a recent user activation.  After successful completion of
@@ -711,7 +711,7 @@ expiry</a> unless the limit is defined otherwise by the specification of the del
    <p>When a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context⑥">browsing context</a> wants to delegate a capability to another <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context⑦">browsing
 context</a>, it posts a message to the second <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context⑧">browsing context</a> with an extra <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/window-object.html#windowpostmessageoptions" id="ref-for-windowpostmessageoptions">WindowPostMessageOptions</a></code> called <code>delegate</code> specifying the capability.  The
 value of this option MUST be a <a href="https://www.w3.org/TR/permissions-policy/#ascii-serialization">feature-identifier</a>.  The option MUST
-be ignored if the value does not corrrespond to any <a href="https://w3c.github.io/webappsec-permissions-policy/#supported-features">features supported by the
+be ignored if the value does not correspond to any <a href="https://w3c.github.io/webappsec-permissions-policy/#supported-features">features supported by the
 user
 agent</a>.</p>
    <div class="note" role="note"> A list of possible <a href="https://www.w3.org/TR/permissions-policy/#ascii-serialization">feature-identifier</a> values appears <a href="https://github.com/w3c/webappsec-permissions-policy/blob/main/features.md">here</a>. </div>
@@ -749,13 +749,13 @@ activation</a> in <var>targetWindow</var>.</p>
 each <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/window-object.html#window" id="ref-for-window">Window</a></code> <var>W</var> will have a map called <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="delegated_capability_timestamps">DELEGATED_CAPABILITY_TIMESTAMPS</dfn> which will be initialized with an
 empty map.</p>
    <p>Each time a capability is delegated to <var>W</var>, an entry will be added in <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps">DELEGATED_CAPABILITY_TIMESTAMPS</a> with a key equal to the <a href="https://www.w3.org/TR/permissions-policy/#ascii-serialization">feature-identifier</a> representing the
-capbility, and a value equal to current <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/hr-time-2/#dom-domhighrestimestamp" id="ref-for-dom-domhighrestimestamp">DOMHighResTimeStamp</a></code>.  If the map
+capability, and a value equal to current <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/hr-time-2/#dom-domhighrestimestamp" id="ref-for-dom-domhighrestimestamp">DOMHighResTimeStamp</a></code>.  If the map
 already has an entry for the same key, the existing value will be updated to
 current <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/hr-time-2/#dom-domhighrestimestamp" id="ref-for-dom-domhighrestimestamp①">DOMHighResTimeStamp</a></code>.</p>
    <h3 class="heading settled" data-level="4.1" id="monkey-patch-to-html-tracking-delegation"><span class="secno">4.1. </span><span class="content">Monkey-patch to HTML spec</span><a class="self-link" href="#monkey-patch-to-html-tracking-delegation"></a></h3>
    <p>In the algorithm for <a href="https://html.spec.whatwg.org/multipage/web-messaging.html#window-post-message-steps">window post
 message</a>,
-two additional sub-steps will be added to current Step 8.  The first addtional
+two additional sub-steps will be added to current Step 8.  The first additional
 sub-step will be inserted after the following sub-step:</p>
    <blockquote>
     <ol start="8">
@@ -776,7 +776,7 @@ sub-step will be inserted after the following sub-step:</p>
        <p>Let <var>delegate</var> be the serialization of <var>options</var>["delegate"].</p>
      </ol>
    </ol>
-   <p>The second addtional sub-step will be inserted after the following sub-step:</p>
+   <p>The second additional sub-step will be inserted after the following sub-step:</p>
    <blockquote>
     <ol start="6">
      <li data-md>
@@ -823,7 +823,7 @@ then return a promise rejected with with a "NotAllowedError" DOMException.</p>
       <p>Consume user activation of the relevant global object.</p>
     </ol>
    </blockquote>
-   <p>will be replaced by the follwing two steps:</p>
+   <p>will be replaced by the following two steps:</p>
    <ol start="3">
     <li data-md>
      <p>If the relevant global object of request does not have transient activation,

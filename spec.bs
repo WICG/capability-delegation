@@ -52,7 +52,7 @@ time-unconstrained manner.
 
 Capability delegation needs two distinct steps to be effective.  The first step
 is "initiation" where one [=browsing context=] notifies another [=browsing
-context=] about a specific capability being delegted.  After initiation, the
+context=] about a specific capability being delegated.  After initiation, the
 second (i.e. the receiver) [=browsing context=] would "use" the delegated
 capability, which typically means calling a capability-defined method.  While
 the capability delegation specification here does not define the API interface
@@ -66,7 +66,7 @@ serve as a guide for similar changes in any other APIs that would utilize
 capability delegation in future.
 
 
-## Transient availability ## {#trasient-availability}
+## Transient availability ## {#transient-availability}
 
 Both the steps mentioned above are time-constrained in nature.  The initiation
 step is [[html#user-activation-gated-apis|activation consuming]], so the step is
@@ -114,7 +114,7 @@ context=], it posts a message to the second [=browsing context=] with an extra
 {{WindowPostMessageOptions}} called `delegate` specifying the capability.  The
 value of this option MUST be a
 [[permissions-policy#ascii-serialization|feature-identifier]].  The option MUST
-be ignored if the value does not corrrespond to any [features supported by the
+be ignored if the value does not correspond to any [features supported by the
 user
 agent](https://w3c.github.io/webappsec-permissions-policy/#supported-features).
 
@@ -164,7 +164,7 @@ empty map.
 Each time a capability is delegated to <var>W</var>, an entry will be added in
 [=DELEGATED_CAPABILITY_TIMESTAMPS=] with a key equal to the
 [[permissions-policy#ascii-serialization|feature-identifier]] representing the
-capbility, and a value equal to current {{DOMHighResTimeStamp}}.  If the map
+capability, and a value equal to current {{DOMHighResTimeStamp}}.  If the map
 already has an entry for the same key, the existing value will be updated to
 current {{DOMHighResTimeStamp}}.
 
@@ -173,7 +173,7 @@ current {{DOMHighResTimeStamp}}.
 
 In the algorithm for [window post
 message](https://html.spec.whatwg.org/multipage/web-messaging.html#window-post-message-steps),
-two additional sub-steps will be added to current Step 8.  The first addtional
+two additional sub-steps will be added to current Step 8.  The first additional
 sub-step will be inserted after the following sub-step:
 
 > 8. Queue a global task on the posted message task source ...
@@ -185,7 +185,7 @@ as follows:
 
     3. Let <var>delegate</var> be the serialization of <var>options</var>["delegate"].
 
-The second addtional sub-step will be inserted after the following sub-step:
+The second additional sub-step will be inserted after the following sub-step:
 
 >     6. Let newPorts be a new frozen array consisting of all MessagePort objects...
 
@@ -229,7 +229,7 @@ The step:
 
 > 3. Consume user activation of the relevant global object.
 
-will be replaced by the follwing two steps:
+will be replaced by the following two steps:
 
 3. If the relevant global object of request does not have transient activation,
     then clear the map entry [=DELEGATED_CAPABILITY_TIMESTAMPS=]["payment"].
