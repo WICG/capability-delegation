@@ -156,12 +156,9 @@ will be followed by two additional steps as follows:
 
 # Tracking delegated capability # {#tracking-delegation}
 
-For the purpose of tracking capabilities delegated to a [=browsing context=],
-each {{Window}} <var>W</var> will have a map called
-<dfn>DELEGATED_CAPABILITY_TIMESTAMPS</dfn> which will be initialized with an
-empty map.
-
-Each time a capability is delegated to <var>W</var>, an entry will be added in
+Capabilities delegated to a [=browsing context=] will be tracked using a map
+named {{Window}}.[=DELEGATED_CAPABILITY_TIMESTAMPS=]. Each time a capability is
+delegated to a {{Window}}, an entry will be added in
 [=DELEGATED_CAPABILITY_TIMESTAMPS=] with a key equal to the
 [[permissions-policy#ascii-serialization|feature-identifier]] representing the
 capability, and a value equal to current {{DOMHighResTimeStamp}}.  If the map
@@ -170,6 +167,16 @@ current {{DOMHighResTimeStamp}}.
 
 
 ## Monkey-patch to HTML spec ## {#monkey-patch-to-html-tracking-delegation}
+
+Right before the algorithm for [window post
+message](https://html.spec.whatwg.org/multipage/web-messaging.html#window-post-message-steps),
+a new paragraph will be inserted, as follow:
+
+> For the purpose of tracking capabilities delegated to a [=browsing context=],
+> each {{Window}} has a [=map=] called
+> <dfn>DELEGATED_CAPABILITY_TIMESTAMPS</dfn> from
+> [[permissions-policy#ascii-serialization|feature-identifier]] to
+> {{DOMHighResTimeStamp}}.  The map is initialized with an empty map.
 
 In the algorithm for [window post
 message](https://html.spec.whatwg.org/multipage/web-messaging.html#window-post-message-steps),
@@ -193,9 +200,10 @@ as follows:
 
 8. Queue a global task on the posted message task source ...
 
-    7. If <var>delegate</var> is not null, set
-        [=DELEGATED_CAPABILITY_TIMESTAMPS=] to
-        [current high resolution
+    7. If <var>delegate</var> is not null, and the user agent supports
+        delegating <var>delegate</var>, then set
+        [=DELEGATED_CAPABILITY_TIMESTAMPS=][<var>delegate</var>] to [current
+        high resolution
         time](https://w3c.github.io/hr-time/#dfn-current-high-resolution-time).
 
 
