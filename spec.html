@@ -6,7 +6,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/cg-draft" rel="stylesheet">
   <meta content="Bikeshed version 5c7bc9381, updated Wed May 12 18:18:08 2021 -0700" name="generator">
   <link href="https://wicg.github.io/capability-delegation/spec.html" rel="canonical">
-  <meta content="0cdd91671dc9e6cbacf661648e52aa16f03a4f9e" name="document-revision">
+  <meta content="dec17e9eec3cb84a15d24704ce60afede85f5eb1" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -766,7 +766,7 @@ sub-step will be inserted after the following sub-step:</p>
    <blockquote>
     <ol start="8">
      <li data-md>
-      <p>Queue a global task on the posted message task source ...</p>
+      <p>Queue a global task ...</p>
       <ol start="2">
        <li data-md>
         <p>Let origin be the serialization of incumbentSettings’s origin.</p>
@@ -776,7 +776,7 @@ sub-step will be inserted after the following sub-step:</p>
    <p>as follows:</p>
    <ol start="8">
     <li data-md>
-     <p>Queue a global task on the posted message task source ...</p>
+     <p>Queue a global task ... <em>(unchanged)</em></p>
      <ol start="3">
       <li data-md>
        <p>Let <var>delegate</var> be the serialization of <var>options</var>["delegate"].</p>
@@ -784,18 +784,25 @@ sub-step will be inserted after the following sub-step:</p>
    </ol>
    <p>The second additional sub-step will be inserted after the following sub-step:</p>
    <blockquote>
-    <ol start="6">
+    <ol start="8">
      <li data-md>
-      <p>Let newPorts be a new frozen array consisting of all MessagePort objects...</p>
+      <p>Queue a global task ...</p>
+      <ol start="6">
+       <li data-md>
+        <p>Let newPorts be a new frozen array consisting of ...</p>
+      </ol>
     </ol>
    </blockquote>
    <p>as follows:</p>
    <ol start="8">
     <li data-md>
-     <p>Queue a global task on the posted message task source ...</p>
+     <p>Queue a global task ... <em>(unchanged)</em></p>
      <ol start="7">
       <li data-md>
-       <p>If <var>delegate</var> is not null, and the user agent supports
+       <p>Let newPorts be a new frozen array consisting of ... <em>(unchanged except
+for numbering)</em></p>
+      <li data-md>
+       <p>If <var>delegate</var> is not null, AND the user agent supports
 delegating <var>delegate</var>, then set <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps②">DELEGATED_CAPABILITY_TIMESTAMPS</a>[<var>delegate</var>] to <a href="https://w3c.github.io/hr-time/#dfn-current-high-resolution-time">current
 high resolution
 time</a>.</p>

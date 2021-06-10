@@ -183,24 +183,28 @@ message](https://html.spec.whatwg.org/multipage/web-messaging.html#window-post-m
 two additional sub-steps will be added to current Step 8.  The first additional
 sub-step will be inserted after the following sub-step:
 
-> 8. Queue a global task on the posted message task source ...
+> 8. Queue a global task ...
 >     2. Let origin be the serialization of incumbentSettings's origin.
 
 as follows:
 
-8. Queue a global task on the posted message task source ...
+8. Queue a global task ... *(unchanged)*
 
     3. Let <var>delegate</var> be the serialization of <var>options</var>["delegate"].
 
 The second additional sub-step will be inserted after the following sub-step:
 
->     6. Let newPorts be a new frozen array consisting of all MessagePort objects...
+> 8. Queue a global task ...
+>     6. Let newPorts be a new frozen array consisting of ...
 
 as follows:
 
-8. Queue a global task on the posted message task source ...
+8. Queue a global task ... *(unchanged)*
 
-    7. If <var>delegate</var> is not null, and the user agent supports
+    7. Let newPorts be a new frozen array consisting of ... *(unchanged except
+        for numbering)*
+
+    8. If <var>delegate</var> is not null, AND the user agent supports
         delegating <var>delegate</var>, then set
         [=DELEGATED_CAPABILITY_TIMESTAMPS=][<var>delegate</var>] to [current
         high resolution
