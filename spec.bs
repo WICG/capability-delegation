@@ -219,25 +219,22 @@ capability.  Below is the spec change needed for one particular capability.
 In the algorithm for {{PaymentRequest/show()}}, the following steps will be
 replaced to implement the delegated behavior:
 
-The step:
+The two steps:
 
 > 2. If the relevant global object of request does not have transient
 >     activation, return a promise rejected with with a "NotAllowedError"
 >     DOMException.
+>
+> 3. Consume user activation of the relevant global object.
 
-will be replaced by:
+will be replaced by the following three steps:
 
-2. If the relevant global object of request does not have transient activation,
+2. If the relevant global object of request does not have [transient
+    activation](https://html.spec.whatwg.org/multipage/interaction.html#transient-activation),
     AND the timestamp [=DELEGATED_CAPABILITY_TIMESTAMPS=]["payment"] in the
     relevant global object is either undefined or
     [expired](https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry),
     then return a promise rejected with with a "NotAllowedError" DOMException.
-
-The step:
-
-> 3. Consume user activation of the relevant global object.
-
-will be replaced by the following two steps:
 
 3. If the relevant global object of request does not have transient activation,
     then clear the map entry [=DELEGATED_CAPABILITY_TIMESTAMPS=]["payment"].

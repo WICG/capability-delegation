@@ -6,7 +6,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/cg-draft" rel="stylesheet">
   <meta content="Bikeshed version 5c7bc9381, updated Wed May 12 18:18:08 2021 -0700" name="generator">
   <link href="https://wicg.github.io/capability-delegation/spec.html" rel="canonical">
-  <meta content="ef507d5b0661789ee70d32af13cb0b85eaa0f6dc" name="document-revision">
+  <meta content="0cdd91671dc9e6cbacf661648e52aa16f03a4f9e" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -807,32 +807,25 @@ capability.  Below is the spec change needed for one particular capability.</p>
    <h3 class="heading settled" data-level="5.1" id="monkey-patch-to-payment-req"><span class="secno">5.1. </span><span class="content">Monkey-patch to Payment Request spec</span><a class="self-link" href="#monkey-patch-to-payment-req"></a></h3>
    <p>In the algorithm for <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/payment-request/#dom-paymentrequest-show" id="ref-for-dom-paymentrequest-show②">show()</a></code>, the following steps will be
 replaced to implement the delegated behavior:</p>
-   <p>The step:</p>
+   <p>The two steps:</p>
    <blockquote>
     <ol start="2">
      <li data-md>
       <p>If the relevant global object of request does not have transient
 activation, return a promise rejected with with a "NotAllowedError"
 DOMException.</p>
-    </ol>
-   </blockquote>
-   <p>will be replaced by:</p>
-   <ol start="2">
-    <li data-md>
-     <p>If the relevant global object of request does not have transient activation,
-AND the timestamp <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps④">DELEGATED_CAPABILITY_TIMESTAMPS</a>["payment"] in the
-relevant global object is either undefined or <a href="https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry">expired</a>,
-then return a promise rejected with with a "NotAllowedError" DOMException.</p>
-   </ol>
-   <p>The step:</p>
-   <blockquote>
-    <ol start="3">
      <li data-md>
       <p>Consume user activation of the relevant global object.</p>
     </ol>
    </blockquote>
-   <p>will be replaced by the following two steps:</p>
-   <ol start="3">
+   <p>will be replaced by the following three steps:</p>
+   <ol start="2">
+    <li data-md>
+     <p>If the relevant global object of request does not have <a href="https://html.spec.whatwg.org/multipage/interaction.html#transient-activation">transient
+activation</a>,
+AND the timestamp <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps④">DELEGATED_CAPABILITY_TIMESTAMPS</a>["payment"] in the
+relevant global object is either undefined or <a href="https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry">expired</a>,
+then return a promise rejected with with a "NotAllowedError" DOMException.</p>
     <li data-md>
      <p>If the relevant global object of request does not have transient activation,
 then clear the map entry <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps⑤">DELEGATED_CAPABILITY_TIMESTAMPS</a>["payment"].</p>
