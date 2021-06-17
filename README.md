@@ -5,13 +5,15 @@ Transferring the ability to use restricted APIs to another `window`.
 
 ## Author
 
-Mustaq Ahmed ([github.com/mustaqahmed](https://github.com/mustaqahmed), mustaq@chromium.org)
+Mustaq Ahmed (@mustaqahmed, mustaq@chromium.org)
 
 
 ## Participate
 
-* Github repository: [WICG/capability-delegation](https://github.com/WICG/capability-delegation)
-* Issue tracker: [WICG/capability-delegation/issues](https://github.com/WICG/capability-delegation/issues/)
+* Github repository:
+  [WICG/capability-delegation](https://github.com/WICG/capability-delegation)
+* Issue tracker:
+  [WICG/capability-delegation/issues](https://github.com/WICG/capability-delegation/issues/)
 
 
 ## Introduction
@@ -52,7 +54,7 @@ unattended or repeated payment requests.  Since the user probably clicked on the
 main site, and not the PSP `iframe`, this would prevent the PSP from using the
 Payment Request API at all.  Browsers today support such payment processing by
 ignoring the user activation requirement altogether (see
-https://crbug.com/1114218)!
+[crbug.com/1114218](https://crbug.com/1114218))!
 
 Capability Delegation API provides a way to support this use-case while letting
 the browser enforce the user activation requirement, as follows:
