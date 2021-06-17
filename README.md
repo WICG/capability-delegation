@@ -5,7 +5,8 @@ Transferring the ability to use restricted APIs to another `window`.
 
 ## Author
 
-Mustaq Ahmed (@mustaqahmed, mustaq@chromium.org)
+Mustaq Ahmed ([github.com/mustaqahmed](https://github.com/mustaqahmed),
+mustaq@chromium.org)
 
 
 ## Participate
@@ -191,7 +192,7 @@ wrapper, which HTML's editor [strongly
 disliked](https://github.com/whatwg/html/pull/4369#issuecomment-470580082).
 
 
-## Stakeholder Feedback/Opposition
+## Stakeholder feedback/opposition
 
 We will track the overall status through this [Chrome Status
 entry](https://www.chromestatus.com/feature/5708770829139968).
