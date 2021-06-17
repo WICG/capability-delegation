@@ -1,112 +1,152 @@
 # Capability Delegation
-Transferring the ability to use restricted APIs to another `window` in the frame
-tree.
 
-See the spec proposal
-[here](https://wicg.github.io/capability-delegation/spec.html).
+Transferring the ability to use restricted APIs to another `window`.
+
+
+## Author
+
+Mustaq Ahmed ([github.com/mustaqahmed](https://github.com/mustaqahmed), mustaq@chromium.org)
+
+
+## Participate
+
+* Github repository: [WICG/capability-delegation](https://github.com/WICG/capability-delegation)
+* Issue tracker: [WICG/capability-delegation/issues](https://github.com/WICG/capability-delegation/issues/)
+
 
 ## Introduction
 
-### What is capability delegation?
+"Capability delegation" means allowing a frame to relinquish its ability to call
+a restricted API and transfer the ability to another (sub)frame it trusts. The
+focus here is a dynamic delegation mechanism which exposes the capability to the
+target frame in a time-constrained manner (unlike `<iframe allow=...>` attribute
+which is not time-constrained).
 
-Many capabilities in the Web are usable from JS in restricted manners.  For
-example:
-- Most browsers allow popups (through `window.open()`) only if the user has
-  either interacted with the page recently or allowed the browser to open popups
-  from the page's origin.
-- A sandboxed `iframe` cannot make itself full-screen (though
-  `element.requestFullscreen()`) without a specific sandbox attribute or a user
-  interaction within the frame.
-
-Capability delegation means allowing a frame to relinquish its ability to call a
-restricted API and transfer the ability to another (sub)frame it can trust.  We
-are particularly interested in a dynamic delegation mechanism which (unlike
-`<iframe allow=...>` attribute) does not expose the capability to the frame in
-a time-unconstrained manner.
+The API proposed here is based on `postMessage()`, where the sender frame uses a
+new
+[PostMessageOptions](https://html.spec.whatwg.org/multipage/window-object.html#windowpostmessageoptions)
+member to specify the capability it wants to delegate.
 
 
-### Motivation
+## Motivating use-cases
 
-Here are some practical scenarios that would utilize a capability delegation
-mechanism.
+Here are some practical scenarios that are enabled by the Capability Delegation
+API.
 
-- Many merchant websites host their online store on their own domain but
-  outsource the payment collection and processing infrastructure to a Payment
-  Service Provider (PSP) to comply with security and regulatory complexities
-  around card payments.  This workflow is implemented as a "pay" button
-  inside the top (merchant) frame where it can blend better with the rest of the
-  merchant’s website, and payment request code inside a cross-origin `iframe`
-  from the PSP.  The [Payment Request
-  API](https://w3c.github.io/payment-request) used by the PSP code is gated by
-  transient user activation (to prevent malicious attempts like unattended or
-  repeated payment requests).  Because the top (merchant) frame’s user
-  interaction is not visible to the `iframe`, the PSP code needs some kind of a
-  delegation in response to a click in the top frame to be able to initiate a
-  payment processing.
 
-- A web service that does not care about user location except for a "branch
+### Secure PaymentRequest processing in a subframe
+
+Many merchant websites perform payment processing through a Payment Service
+Provider (PSP) site (e.g. Stripe or Paypal) to comply with security and
+regulatory complexities around card payments.  When the end-user clicks on the
+"Pay" button on the merchant website, the merchant website sends a message to a
+cross-origin `iframe` from the PSP website to initiate payment processing, and
+then the `iframe` uses the [Payment Request
+API](https://w3c.github.io/payment-request) to complete the task.
+
+But sites are only allowed to call the [Payment Request
+API](https://w3c.github.io/payment-request) after [transient user
+activation](https://html.spec.whatwg.org/multipage/interaction.html#transient-activation)
+(a recent click or other interaction) to prevent malicious attempts like
+unattended or repeated payment requests.  Since the user probably clicked on the
+main site, and not the PSP `iframe`, this would prevent the PSP from using the
+Payment Request API at all.  Browsers today support such payment processing by
+ignoring the user activation requirement altogether (see
+https://crbug.com/1114218)!
+
+Capability Delegation API provides a way to support this use-case while letting
+the browser enforce the user activation requirement, as follows:
+
+```javascript
+// Top-frame (merchant website) code
+window.onclick = () => {
+    targetWindow.postMessage('process_payment', {delegate: "payment"});
+};
+
+// Sub-frame (PSP website) code
+window.onmessage = () => {
+    const payRequest = new PaymentRequest(...);
+    const payResponse = await payRequest.show();
+    ...
+}
+```
+
+
+### Allowing fullscreen from opener Window click
+
+Consider a presentation/slide website where the main "control panel" window has
+spawned a few presentation windows, and the user wants to selectively make one
+presentation window fullscreen by clicking on the appropriate button on the main
+window (a [feature request
+](https://bugs.chromium.org/p/chromium/issues/detail?id=931966#c5)from a
+developer).  Clicking on the "control panel" button does not make the user
+activation available to the presentation window, so this does not work today.
+
+The Web does not support this use-case today but Capability Delegation API
+provides a solution:
+
+```javascript
+// Main window ("control panel") code
+let window1 = open("presentation1.html");
+let window2 = open("presentation2.html");
+
+button1.onclick = () => {
+    window1.postMessage('go_fullscreen', {delegate: "fullscreen"});
+};
+...
+
+// Sub-frame ("presentation window") code
+window.onmessage = () => document.body.requestFullscreen();
+```
+
+
+### Other similar scenarios
+
+* A web service that does not care about user location except for a "branch
   locator" functionality provided by a third-party map-provider app can delegate
   its own location access capability to the map `iframe` in a temporary manner
   right after the "branch locator" button is clicked.
 
-- In Chrome we received
-  [this](https://bugs.chromium.org/p/chromium/issues/detail?id=931966#c5)
-  feature request from a developer where a presentation/slide website has a
-  "control panel" to selectively make other spawned windows fullscreen.  With
-  Capability Delegation API, a click on the control panel can delegate
-  fullscreen capability to the selected window and bring that window to
-  fullscreen without needing any more clicks.
-
-- An authentication provider may wish to show a popup to complete the
+* An authentication provider may wish to show a popup to complete the
   authentication flow before returning a token to the host site.
 
-- A website may want a third-party chat app in an `iframe` to be able to vibrate
+* A website may want a third-party chat app in an `iframe` to be able to vibrate
   the phone on message receipt, even when the user is not active in the
   `iframe`.
 
 
-## Proposal: Transient Capability Delegation
+## Non-goals
 
-### Model of delegation
+* This explainer is not about delegation of [user
+  activation](https://html.spec.whatwg.org/multipage/interaction.html#tracking-user-activation)
+  (i.e., allowing the `iframe` to choose from all of the things the top frame
+  could do after a user click or other interaction).  See Considered Alternates
+  section for more details.
 
-Our proposed model focuses on delegation of a specific capability only (instead
-of delegating user activation) in a time-constrained manner.  We will call it
-Transient Capability Delegation (TCD).
-
-When a sender `Window` delegates a capability `X` to a receiver `Window`, the
-sender’s user activation would be
-[consumed](https://html.spec.whatwg.org/multipage/interaction.html#consume-user-activation)
-to create a time-limited token `T_X` on the receiving end.  In more details:
-
-- The sender’s ability to use TCD would be gated by transient user activation.
-  More precisely, a TCD request will consume the user activation in the sender’s
-  `Window` to prevent repeated requests (making TCD a transient activation
-  consuming API) but the receiving `Window` won’t get any user activation at all.
-
-- A successful delegation would create a time-constrained token `T_X` in the
-  recipient `Window`.  The lifespan and behavior of `T_X` would be
-  capability-specific, defined by the spec owners of capability X.  Token `T_X`
-  won’t be exposed to JS.
-
-- On the receiving end, `T_X` would be “tied” to the recipient `Window` object
-  so it would be non-transferrable by design.
+* This explainer does not determine which APIs could possibly support capability
+  delegation.  If any API needs the support, the designers of the API would
+  decide details of delegated behavior.  The PaymentRequest API case presented
+  here (in collaboration with the owners of that API) serves as a guide for
+  similar changes in other API specifications.
 
 
-### Tentative API
+## Using capability delegation
 
-We are proposing a new option to `Window.postMessage()` that facilitates TCD
-through the existing messaging mechanism:
+Developers would use Capability Delegation by just initiating the delegation
+appropriately, as shown in the example code snippets above.  In short, when a
+[browsing
+context](https://html.spec.whatwg.org/multipage/browsers.html#browsing-context)
+wants to delegate a capability to another browsing context, it sends a
+`postMessage()` to the second browsing context with an extra
+[`WindowPostMessageOptions`](https://html.spec.whatwg.org/multipage/window-object.html#windowpostmessageoptions)
+member called `delegate` specifying the capability.
 
-```javascript
-targetWindow.postMessage('a_message', {createToken: X});
-```
+After a successful delegation, the "user API" (the restricted API being
+delegated) just works when called at the right moment.  The general idea is
+calling the restricted API in a `MessageEvent` handler or soon afterwards.  In
+the two examples above, the restricted APIs are `payment_request.show()` and
+`element.requestFullscreen()` respectively.
 
-For the Payment Request API, we are proposing the token specifier
-`"paymentrequest"`, so the call above would look like:
-
-```javascript
-targetWindow.postMessage('a_message', {createToken: "paymentrequest"});
-```
 
 ### Demo
 
@@ -118,5 +158,49 @@ demo](https://wicg.github.io/capability-delegation/example/payment-request/).
 
 ## Related links
 
-- [Design discussion](https://docs.google.com/document/d/1IYN0mVy7yi4Afnm2Y0uda0JH8L2KwLgaBqsMVLMYXtk).
-- [Chromium bug](https://crbug.com/1130558).
+* [Design
+  discussion](https://docs.google.com/document/d/1IYN0mVy7yi4Afnm2Y0uda0JH8L2KwLgaBqsMVLMYXtk).
+* [Draft specification](https://wicg.github.io/capability-delegation/spec.html).
+
+
+## Considered alternatives
+
+### Delegating user activation instead of a specific capability
+
+It may appear that we can delegate user activation to solve the same use-cases
+and thus avoid specifying a feature in the `postMessage()` call.  We attempted
+this direction in the past from a few different perspectives, and decided not to
+pursue this.  In particular, user activation controls many Web APIs, so
+delegating user activation for any of the mentioned use-cases is impossible
+without causing problems with unrelated APIs.  See the [TAG
+discussion](https://github.com/w3ctag/design-reviews/issues/347) with one past
+attempt.
+
+
+### Using a delegation-specific method instead of postMessage()
+
+Instead of piggy-backing the delegation request as a `PostMessageOptions` entry,
+we considered adding a new delegation-specific interface on the `Window` object.
+While the latter may look cleaner from a developer’s perspective, to support
+cross-origin communication this solution would require adding the new method on
+the
+[`WindowProxy`](https://developer.mozilla.org/en-US/docs/Glossary/WindowProxy)
+wrapper, which HTML's editor [strongly
+disliked](https://github.com/whatwg/html/pull/4369#issuecomment-470580082).
+
+
+## Stakeholder Feedback/Opposition
+
+We will track the overall status through this [Chrome Status
+entry](https://www.chromestatus.com/feature/5708770829139968).
+
+
+## Acknowledgements
+
+Many thanks for valuable feedback and advice from:
+
+* Anne van Kesteren ([github.com/annevk](https://github.com/annevk))
+* Eugene Girard ([github.com/egirard](https://github.com/egirard))
+* Ian Clelland ([github.com/clelland](https://github.com/clelland))
+* Jeffrey Yasskin ([github.com/jyasskin](https://github.com/jyasskin))
+* Robert Flack ([github.com/flackr](https://github.com/flackr))
