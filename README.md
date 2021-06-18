@@ -5,8 +5,8 @@ Transferring the ability to use restricted APIs to another `window`.
 
 ## Author
 
-Mustaq Ahmed ([github.com/mustaqahmed](https://github.com/mustaqahmed),
-mustaq@chromium.org)
+Mustaq Ahmed (mustaq@chromium.org,
+[github.com/mustaqahmed](https://github.com/mustaqahmed))
 
 
 ## Participate
@@ -62,14 +62,14 @@ the browser enforce the user activation requirement, as follows:
 
 ```javascript
 // Top-frame (merchant website) code
-button.onclick = () => {
+checkout_button.onclick = () => {
     targetWindow.postMessage("process_payment", {delegate: "payment"});
 };
 
 // Sub-frame (PSP website) code
 window.onmessage = () => {
-    const payRequest = new PaymentRequest(...);
-    const payResponse = await payRequest.show();
+    const payment_request = new PaymentRequest(...);
+    const payment_response = await payment_request.show();
     ...
 }
 ```
@@ -121,8 +121,8 @@ window.onmessage = () => document.body.requestFullscreen();
 * This explainer is not about delegation of [user
   activation](https://html.spec.whatwg.org/multipage/interaction.html#tracking-user-activation)
   (i.e., allowing the `iframe` to choose from all of the things the top frame
-  could do after a user click or other interaction).  See Considered Alternates
-  section for more details.
+  could do after a user click or other interaction).  See [Considered
+  Alternatives](#considered-alternatives) below for more details.
 
 * This explainer does not determine which APIs could possibly support capability
   delegation.  If any API needs the support, the designers of the API would
