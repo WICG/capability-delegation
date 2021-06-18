@@ -40,12 +40,12 @@ API.
 ### Secure PaymentRequest processing in a subframe
 
 Many merchant websites perform payment processing through a Payment Service
-Provider (PSP) site (e.g. Stripe) to comply with security and regulatory
-complexities around card payments.  When the end-user clicks on the "Pay" button
-on the merchant website, the merchant website sends a message to a cross-origin
-`iframe` from the PSP website to initiate payment processing, and then the
-`iframe` uses the [Payment Request API](https://w3c.github.io/payment-request)
-to complete the task.
+Provider (PSP) site (e.g. [Stripe](https://stripe.com)) to comply with security
+and regulatory complexities around card payments.  When the end-user clicks on
+the "Pay" button on the merchant website, the merchant website sends a message
+to a cross-origin `iframe` from the PSP website to initiate payment processing,
+and then the `iframe` uses the [Payment Request
+API](https://w3c.github.io/payment-request) to complete the task.
 
 But sites are only allowed to call the [Payment Request
 API](https://w3c.github.io/payment-request) after [transient user
