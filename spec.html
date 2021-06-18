@@ -6,7 +6,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/cg-draft" rel="stylesheet">
   <meta content="Bikeshed version 5c7bc9381, updated Wed May 12 18:18:08 2021 -0700" name="generator">
   <link href="https://wicg.github.io/capability-delegation/spec.html" rel="canonical">
-  <meta content="dec17e9eec3cb84a15d24704ce60afede85f5eb1" name="document-revision">
+  <meta content="79a84dd8e5a68c16eca9a7833c37db7b423d0b58" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -563,7 +563,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Capability Delegation</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2021-06-10">10 June 2021</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2021-06-18">18 June 2021</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -646,8 +646,8 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <h2 class="heading settled" data-level="1" id="intro"><span class="secno">1. </span><span class="content">Introduction</span><a class="self-link" href="#intro"></a></h2>
     <p><em>This section is non-normative.</em></p>
     <p>This specification defines a mechanism through which a script can delegate its
-ability to call a restricted API to another <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context">browsing context</a> it can trust.
-The focus here is a dynamic delegation mechanism that exposes the delegated
+ability to call a restricted API to another <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context">browsing context</a> it trusts.  The
+focus here is a dynamic delegation mechanism that exposes the delegated
 capability to the target <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context①">browsing context</a> in a time-constrained manner.</p>
     <h3 class="heading settled" data-level="1.1" id="what-is-capability-delegation"><span class="secno">1.1. </span><span class="content">What is capability delegation?</span><a class="self-link" href="#what-is-capability-delegation"></a></h3>
     <p>Many capabilities in the Web are usable from JS in restricted manners.  For
