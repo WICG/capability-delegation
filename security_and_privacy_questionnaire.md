@@ -1,6 +1,12 @@
-# [Self-Review Questionnaire: Security and Privacy](https://w3ctag.github.io/security-questionnaire/)
+# Self-Review Questionnaire: Security and Privacy
 
-## 01. What information might this feature expose to Web sites or other parties, and for what purposes is that exposure necessary?
+This document answers the questions listed in [W3C Security and Privacy
+Self-Review Questionnaire](https://w3ctag.github.io/security-questionnaire/).
+
+## Questions and answers
+
+https://github.com/WICG/capability-delegation/blob/main/security_and_privacy_questionnaire.md
+### 01. What information might this feature expose to Web sites or other parties, and for what purposes is that exposure necessary?
 
 This feature does not expose any information.  It only exposes one new state to
 the target of a `postMessage()` call: the availability of the delegated
@@ -9,80 +15,80 @@ certain capabilities in target sites, and this feature achieves that goal by
 exposing a minimal availability state.
 
 
-## 02.  Do features in your specification expose the minimum amount of information necessary to enable their intended uses?
+### 02.  Do features in your specification expose the minimum amount of information necessary to enable their intended uses?
 
 Yes, see the answer to Question 01.
 
 
-## 03.  How do the features in your specification deal with personal information, personally-identifiable information (PII), or information derived from them?
+### 03.  How do the features in your specification deal with personal information, personally-identifiable information (PII), or information derived from them?
 
 No.
 
 
-## 04.  How do the features in your specification deal with sensitive information?
+### 04.  How do the features in your specification deal with sensitive information?
 
 No.
 
 
-## 05.  Do the features in your specification introduce new state for an origin that persists across browsing sessions?
+### 05.  Do the features in your specification introduce new state for an origin that persists across browsing sessions?
 
 No.
 
-## 06.  Do the features in your specification expose information about the underlying platform to origins?
-
-No.
-
-
-## 07.  Does this specification allow an origin to send data to the underlying platform?
+### 06.  Do the features in your specification expose information about the underlying platform to origins?
 
 No.
 
 
-## 08.  Do features in this specification enable access to device sensors?
+### 07.  Does this specification allow an origin to send data to the underlying platform?
 
 No.
 
 
-## 09.  What data do the features in this specification expose to an origin? Please also document what data is identical to data exposed by other features, in the same or different contexts.
+### 08.  Do features in this specification enable access to device sensors?
+
+No.
+
+
+### 09.  What data do the features in this specification expose to an origin? Please also document what data is identical to data exposed by other features, in the same or different contexts.
 
 This feature does not expose any new data (other than what can be passed using
 `postMessage()` calls already).  It only exposes a new state, see the answer to
 Question 01.
 
 
-## 10.  Do features in this specification enable new script execution/loading mechanisms?
+### 10.  Do features in this specification enable new script execution/loading mechanisms?
 
 No.
 
 
-## 11.  Do features in this specification allow an origin to access other devices?
+### 11.  Do features in this specification allow an origin to access other devices?
 
 No.
 
 
-## 12.  Do features in this specification allow an origin some measure of control over a user agent's native UI?
+### 12.  Do features in this specification allow an origin some measure of control over a user agent's native UI?
 
 No.
 
 
-## 13.  What temporary identifiers do the features in this specification create or expose to the web?
+### 13.  What temporary identifiers do the features in this specification create or expose to the web?
 
 None.
 
 
-## 14.  How does this specification distinguish between behavior in first-party and third-party contexts?
+### 14.  How does this specification distinguish between behavior in first-party and third-party contexts?
 
 This does not distinguish between first-party vs third-party behavior.  The
 recipient of the delegation gets the transient ability to call the delegated
 capability regardless of its origin.
 
 
-## 15.  How do the features in this specification work in the context of a browser’s Private Browsing or Incognito mode?
+### 15.  How do the features in this specification work in the context of a browser’s Private Browsing or Incognito mode?
 
 This would work in the "incognito" mode in the same way as in the "regular" mode.
 
 
-## 16.  Does this specification have both "Security Considerations" and "Privacy Considerations" sections?
+### 16.  Does this specification have both "Security Considerations" and "Privacy Considerations" sections?
 
 There is no privacy concern here because user data is not involved in any way.
 
@@ -94,12 +100,12 @@ future, and each corresponding specification change is likely to require a
 separate security review from the perspective of that specific capability.
 
 
-## 17.  Do features in your specification enable origins to downgrade default security protections?
+### 17.  Do features in your specification enable origins to downgrade default security protections?
 
 No.
 
 
-## 18.  What should this questionnaire have asked?
+### 18.  What should this questionnaire have asked?
 
 One relevant security sensitive question is: does delegating capability A affect
 capability B in any way?  The answer is "no" here because every capability is
