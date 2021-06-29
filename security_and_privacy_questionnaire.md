@@ -5,7 +5,6 @@ Self-Review Questionnaire](https://w3ctag.github.io/security-questionnaire/).
 
 ## Questions and answers
 
-https://github.com/WICG/capability-delegation/blob/main/security_and_privacy_questionnaire.md
 ### 01. What information might this feature expose to Web sites or other parties, and for what purposes is that exposure necessary?
 
 This feature does not expose any information.  It only exposes one new state to
