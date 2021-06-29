@@ -9,8 +9,13 @@
           document.getElementById("button0").addEventListener("click", e => {
               frames[0].postMessage("checkout", {targetOrigin: "*"});
           });
+          // The option "createToken" is there to make the experimental API in
+          // older Chrome work.
           document.getElementById("button1").addEventListener("click", e => {
-              frames[0].postMessage("checkout", {targetOrigin: "*", createToken: "paymentrequest"});
+              frames[0].postMessage("checkout", {targetOrigin: "*",
+                                                 delegate: "paymentrequest",
+                                                 createToken: "paymentrequest"
+                                                });
           });
       }
     </script>
