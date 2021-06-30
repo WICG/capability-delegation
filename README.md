@@ -2,6 +2,8 @@
 
 Transferring the ability to use restricted APIs to another `window`.
 
+([Draft specification](https://wicg.github.io/capability-delegation/spec.html))
+
 
 ## Author
 
@@ -161,7 +163,6 @@ demo](https://wicg.github.io/capability-delegation/example/payment-request/).
 
 * [Design
   discussion](https://docs.google.com/document/d/1IYN0mVy7yi4Afnm2Y0uda0JH8L2KwLgaBqsMVLMYXtk).
-* [Draft specification](https://wicg.github.io/capability-delegation/spec.html).
 
 
 ## Considered alternatives
