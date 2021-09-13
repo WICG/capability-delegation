@@ -190,7 +190,7 @@ as follows:
 
 8. Queue a global task ... *(unchanged)*
 
-    3. Let <var>delegate</var> be the serialization of <var>options</var>["delegate"].
+    3. Let <var>delegate</var> be <var>options</var>["delegate"].
 
 The second additional sub-step will be inserted after the following sub-step:
 
