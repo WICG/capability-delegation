@@ -6,7 +6,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/cg-draft" rel="stylesheet">
   <meta content="Bikeshed version 5c7bc9381, updated Wed May 12 18:18:08 2021 -0700" name="generator">
   <link href="https://wicg.github.io/capability-delegation/spec.html" rel="canonical">
-  <meta content="88e8a2d77121deb145a5c225ab0fd028719992df" name="document-revision">
+  <meta content="6ce3d22c050ca20ad1c5f87b00cf349620668a9d" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -563,7 +563,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Capability Delegation</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2022-01-06">6 January 2022</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2022-01-07">7 January 2022</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -737,7 +737,7 @@ the following step:</p>
      <ol>
       <li data-md>
        <p>If <var>targetOrigin</var> is a single U+002A ASTERISK character (*), then throw a
-a "NotAllowedError" <a data-link-type="dfn">DOMException</a> and return.</p>
+a "NotAllowedError" DOMException.</p>
       <li data-md>
        <p>If <var>targetWindow</var> has <a href="https://html.spec.whatwg.org/multipage/interaction.html#transient-activation">transient
 activation</a>,
@@ -822,7 +822,8 @@ replaced to implement the delegated behavior:</p>
     <ol start="2">
      <li data-md>
       <p>If the relevant global object of request does not have transient
-activation, return a promise rejected with with a "NotAllowedError" <a data-link-type="dfn">DOMException</a>.</p>
+activation, return a promise rejected with with a "NotAllowedError"
+DOMException.</p>
      <li data-md>
       <p>Consume user activation of the relevant global object.</p>
     </ol>
@@ -834,7 +835,7 @@ activation, return a promise rejected with with a "NotAllowedError" <a data-link
 activation</a>,
 AND the timestamp <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps④">DELEGATED_CAPABILITY_TIMESTAMPS</a>["payment"] in the
 relevant global object is either undefined or <a href="https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry">expired</a>,
-then return a promise rejected with with a "NotAllowedError" <a data-link-type="dfn">DOMException</a>.</p>
+then return a promise rejected with with a "NotAllowedError" DOMException.</p>
     <li data-md>
      <p>If the relevant global object of request does not have transient activation,
 then clear the map entry <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps⑤">DELEGATED_CAPABILITY_TIMESTAMPS</a>["payment"].</p>

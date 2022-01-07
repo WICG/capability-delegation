@@ -146,7 +146,7 @@ will be followed by two additional steps as follows:
 8. If <var>delegate</var> is not null, then:
 
     1. If <var>targetOrigin</var> is a single U+002A ASTERISK character (*), then throw a
-        a "NotAllowedError" DOMException and return.
+        a "NotAllowedError" DOMException.
 
     2. If <var>targetWindow</var> has [transient
         activation](https://html.spec.whatwg.org/multipage/interaction.html#transient-activation),
