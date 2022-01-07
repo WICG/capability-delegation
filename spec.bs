@@ -154,7 +154,7 @@ will be followed by two additional steps as follows:
         activation](https://html.spec.whatwg.org/multipage/interaction.html#consume-user-activation)
         in <var>targetWindow</var>.
 
-    3. Otherwise, let <var>delegate</var> be null.
+    3. Otherwise, set <var>delegate</var> to null.
 
 
 # Tracking delegated capability # {#tracking-delegation}
