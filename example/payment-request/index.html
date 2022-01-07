@@ -6,16 +6,15 @@
     <title>Payment request example</title>
     <script>
       function init() {
+          let target_origin = "https://egirard.github.io";
+
           document.getElementById("button0").addEventListener("click", e => {
-              frames[0].postMessage("checkout", {targetOrigin: "*"});
+              frames[0].postMessage("checkout", {targetOrigin: target_origin});
           });
-          // The option "createToken" is there to make the experimental API in
-          // older Chrome work.
+
           document.getElementById("button1").addEventListener("click", e => {
-              frames[0].postMessage("checkout", {targetOrigin: "*",
-                                                 delegate: "paymentrequest",
-                                                 createToken: "paymentrequest"
-                                                });
+              frames[0].postMessage("checkout", {targetOrigin: target_origin,
+                                                 delegate: "paymentrequest"});
           });
       }
     </script>

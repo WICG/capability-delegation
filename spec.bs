@@ -145,13 +145,16 @@ will be followed by two additional steps as follows:
 
 8. If <var>delegate</var> is not null, then:
 
-    1. If <var>targetWindow</var> has [transient
+    1. If <var>targetOrigin</var> is a single U+002A ASTERISK character (*), then throw a
+        a "NotAllowedError" DOMException.
+
+    2. If <var>targetWindow</var> has [transient
         activation](https://html.spec.whatwg.org/multipage/interaction.html#transient-activation),
         then [consume user
         activation](https://html.spec.whatwg.org/multipage/interaction.html#consume-user-activation)
         in <var>targetWindow</var>.
 
-    2. Otherwise, let <var>delegate</var> be null.
+    3. Otherwise, set <var>delegate</var> to null.
 
 
 # Tracking delegated capability # {#tracking-delegation}

@@ -65,7 +65,9 @@ the browser enforce the user activation requirement, as follows:
 ```javascript
 // Top-frame (merchant website) code
 checkout_button.onclick = () => {
-    targetWindow.postMessage("process_payment", {delegate: "payment"});
+    targetWindow.postMessage("process_payment", {targetOrigin: "https://example.com",
+                                                 delegate: "payment"
+                                                });
 };
 
 // Sub-frame (PSP website) code
@@ -95,8 +97,10 @@ provides a solution:
 let win1 = open("presentation1.html");
 let win2 = open("presentation2.html");
 
-button1.onclick = () => win1.postMessage("msg", {delegate: "fullscreen"});
-button2.onclick = () => win2.postMessage("msg", {delegate: "fullscreen"});
+button1.onclick = () => win1.postMessage("msg", {targetOrigin: "https://example.com",
+                                                 delegate: "fullscreen"});
+button2.onclick = () => win2.postMessage("msg", {targetOrigin: "https://example.com",
+                                                 delegate: "fullscreen"});
 
 // Sub-frame ("presentation window") code
 window.onmessage = () => document.body.requestFullscreen();
