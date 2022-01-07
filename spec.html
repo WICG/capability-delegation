@@ -6,7 +6,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/cg-draft" rel="stylesheet">
   <meta content="Bikeshed version 5c7bc9381, updated Wed May 12 18:18:08 2021 -0700" name="generator">
   <link href="https://wicg.github.io/capability-delegation/spec.html" rel="canonical">
-  <meta content="17316b7fceb12904d0dc128c291959d865541752" name="document-revision">
+  <meta content="3e5f77738c8bb0a153e937b3ac50ae12b3e35975" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -821,9 +821,11 @@ replaced to implement the delegated behavior:</p>
    <blockquote>
     <ol start="2">
      <li data-md>
-      <p>If the relevant global object of request does not have transient
-activation, return a promise rejected with with a "NotAllowedError"
-DOMException.</p>
+      <p>If the relevant global object of request does not have transient activation:</p>
+      <ol>
+       <li data-md>
+        <p>Return a promise rejected with a "SecurityError" DOMException.</p>
+      </ol>
      <li data-md>
       <p>Consume user activation of the relevant global object.</p>
     </ol>
@@ -834,8 +836,11 @@ DOMException.</p>
      <p>If the relevant global object of request does not have <a href="https://html.spec.whatwg.org/multipage/interaction.html#transient-activation">transient
 activation</a>,
 AND the timestamp <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps④">DELEGATED_CAPABILITY_TIMESTAMPS</a>["payment"] in the
-relevant global object is either undefined or <a href="https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry">expired</a>,
-then return a promise rejected with with a "NotAllowedError" DOMException.</p>
+relevant global object is either undefined or <a href="https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry">expired</a>:</p>
+     <ol>
+      <li data-md>
+       <p>Return a promise rejected with a "SecurityError" DOMException.</p>
+     </ol>
     <li data-md>
      <p>If the relevant global object of request does not have transient activation,
 then clear the map entry <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps⑤">DELEGATED_CAPABILITY_TIMESTAMPS</a>["payment"].</p>
