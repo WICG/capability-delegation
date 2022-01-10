@@ -68,13 +68,23 @@ capability delegation in future.
 
 ## Transient availability ## {#transient-availability}
 
-Both the steps mentioned above are time-constrained in nature.  The initiation
-step is [[html#user-activation-gated-apis|activation consuming]], so the step is
-allowed only after a recent user activation.  After successful completion of
-this step, the delegated API becomes available for use for a few seconds (to be
-precise, the same limit as [activation
-expiry](https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry)
-unless the limit is defined otherwise by the specification of the delegated API.
+Both the steps mentioned above are time-constrained in nature:
+
+1. The initiation step is [[html#user-activation-gated-apis|activation
+    consuming]], so the step is allowed only after a recent user activation.
+    Moreover, the consumption of user activation here guarantees that the
+    delegation mechanism can't be used more than once per user activation.  This
+    prevents malicous uses of capability delegation, like repeated delegation
+    attempts to multiple frames to effectively bypass the user activation
+    restriction for the delegated API.
+
+2. After a successful completion of the initiation step, the delegated API
+    becomes available for use in the target [=browsing context=] for a few
+    seconds only.  The exact time limit here depends on how a delegated API
+    defines the delegated behavior in its own specification.  For an API that
+    does not define its own time limit, the default limit will be the same as
+    [user activation
+    expiry](https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry).
 
 
 # Examples # {#examples}
@@ -144,6 +154,9 @@ will be followed by two additional steps as follows:
 7. Let <var>delegate</var> be <var>options</var>["delegate"].
 
 8. If <var>delegate</var> is not null, then:
+
+    1. If <var ignore=''>targetOrigin</var> is a single U+002A ASTERISK character (*), then throw a
+        a "NotAllowedError" DOMException.
 
     1. If <var>targetWindow</var>'s [associated
         Document](https://html.spec.whatwg.org/multipage/window-object.html#concept-document-window)
