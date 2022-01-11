@@ -157,9 +157,9 @@ the two examples above, the restricted APIs are `payment_request.show()` and
 
 ### Demo
 
-To see how this API works with Payment Request, run Chrome 90.0.4414.0 or newer
-with the command-line flag
-`--enable-blink-features=CapabilityDelegationPaymentRequest`, then open [this
+To see how this API works with Payment Request, run Chrome 93 or newer with the
+command-line flag `--enable-blink-features=CapabilityDelegationPaymentRequest`,
+then open [this
 demo](https://wicg.github.io/capability-delegation/example/payment-request/).
 
 
