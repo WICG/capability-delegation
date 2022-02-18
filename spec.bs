@@ -145,16 +145,23 @@ will be followed by two additional steps as follows:
 
 8. If <var>delegate</var> is not null, then:
 
-    1. If <var>targetOrigin</var> is a single U+002A ASTERISK character (*), then throw a
-        a "NotAllowedError" DOMException.
+    1. If <var>targetWindow</var>'s [associated
+        Document](https://html.spec.whatwg.org/multipage/window-object.html#concept-document-window)
+        is not
+        [allowed-to-use](https://html.spec.whatwg.org/multipage/iframe-embed-object.html#allowed-to-use)
+        the feature indicated by <var>delegate</var>, then throw a a
+        "NotAllowedError" DOMException.
 
-    2. If <var>targetWindow</var> has [transient
+    2. If <var ignore>targetOrigin</var> is a single U+002A ASTERISK character
+        (*), then throw a a "NotAllowedError" DOMException.
+
+    3. If <var>targetWindow</var> has [transient
         activation](https://html.spec.whatwg.org/multipage/interaction.html#transient-activation),
         then [consume user
         activation](https://html.spec.whatwg.org/multipage/interaction.html#consume-user-activation)
         in <var>targetWindow</var>.
 
-    3. Otherwise, set <var>delegate</var> to null.
+    4. Otherwise, set <var>delegate</var> to null.
 
 
 # Tracking delegated capability # {#tracking-delegation}
