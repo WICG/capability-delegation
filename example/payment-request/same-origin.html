@@ -6,7 +6,7 @@
     <title>Payment request example</title>
     <script>
       function init() {
-          let target_origin = "https://mustaqahmed.github.io";
+          let target_origin = "https://wicg.github.io";
 
           document.getElementById("button0").addEventListener("click", e => {
               frames[0].postMessage("checkout", {targetOrigin: target_origin});
