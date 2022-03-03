@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Payment request example: subframe</title>
+    <script>
+      const requestPayment = async e => {
+          const request = new PaymentRequest([{
+              supportedMethods: "basic-card",
+              data: {
+                  supportedNetworks: ["visa", "master", "amex"]
+              }
+          }], {
+              total: {
+                  label: "total",
+                  amount: { currency: "USD", value: "10.00" }
+              }
+          });
+          try {
+              const result = await request.show();
+              if (result === null) {
+                  result.complete(null);
+                  alert("success");
+                  return;
+              } else {
+                  return new Promise(resolve => {
+                      setTimeout(e => {
+                          result.complete("success");
+                          alert("success");
+                      }, 2000);
+                  });
+              }
+          } catch (e) {
+              if (e.name == "AbortError") {
+                  return;
+              } else {
+                  alert("error");
+              }
+          }
+      };
+
+      function init() {
+          document.getElementById("button").addEventListener("click", requestPayment);
+          window.addEventListener("message", requestPayment);
+      }
+    </script>
+    <style>
+      body {
+          background-color: lightcyan;
+      }
+      #button {
+          display: none;
+      }
+    </style>
+  </head>
+  <body onload="init()">
+    <h2>Payment processor subframe</h2>
+    <button id="button">Pay</button>
+  </body>
+</html>
