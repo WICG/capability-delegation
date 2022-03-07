@@ -158,16 +158,15 @@ will be followed by two additional steps as follows:
     1. If <var ignore="">targetOrigin</var> is a single U+002A ASTERISK character (*), then throw a
         a "NotAllowedError" DOMException.
 
-    2. If <var>targetWindow</var>'s [associated
+    2. If <var ignore="">targetWindow</var>'s [associated
         Document](https://html.spec.whatwg.org/multipage/window-object.html#concept-document-window)
         is not
         [allowed-to-use](https://html.spec.whatwg.org/multipage/iframe-embed-object.html#allowed-to-use)
         the feature indicated by <var>delegate</var>, then throw a a
         "NotAllowedError" DOMException.
 
-    3. Let <var>source</var> be the {{WindowProxy}} object corresponding to <var
-        ignore="">incumbentSettings</var>'s [=global object=] (a {{Window}}
-        object).
+    3. Let <var>source</var> be <var ignore="">incumbentSettings</var>'s [=environment settings
+        object/global object=].
 
     4. If <var>source</var> has [transient
         activation](https://html.spec.whatwg.org/multipage/interaction.html#transient-activation),
