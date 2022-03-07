@@ -6,7 +6,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/cg-draft" rel="stylesheet">
   <meta content="Bikeshed version 5c7bc9381, updated Wed May 12 18:18:08 2021 -0700" name="generator">
   <link href="https://wicg.github.io/capability-delegation/spec.html" rel="canonical">
-  <meta content="dd8d5da300d7b928309c7d5d435d8408dbf68798" name="document-revision">
+  <meta content="c76ffa0a214a7ee1ddcccdfe8cf5d6e689fa35d2" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -748,12 +748,12 @@ the following step:</p>
      <p>If <var>delegate</var> is not null, then:</p>
      <ol>
       <li data-md>
-       <p>If <var>targetOrigin</var> is a single U+002A ASTERISK character (*), then throw a
-a "NotAllowedError" DOMException.</p>
-      <li data-md>
        <p>If <var>targetWindow</var>’s <a href="https://html.spec.whatwg.org/multipage/window-object.html#concept-document-window">associated
 Document</a> is not <a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#allowed-to-use">allowed-to-use</a> the feature indicated by <var>delegate</var>, then throw a a
 "NotAllowedError" DOMException.</p>
+      <li data-md>
+       <p>If <var>targetOrigin</var> is a single U+002A ASTERISK character (*), then throw a
+a "NotAllowedError" DOMException.</p>
       <li data-md>
        <p>Let <var>source</var> be <var>incumbentSettings</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-settings-object-global" id="ref-for-concept-settings-object-global">global object</a>.</p>
       <li data-md>
