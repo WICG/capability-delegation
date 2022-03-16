@@ -6,7 +6,7 @@
     <title>Payment request example</title>
     <script>
       function init() {
-          let target_origin = "https://egirard.github.io";
+          let target_origin = "https://stephenmcgruer.github.io";
 
           document.getElementById("button0").addEventListener("click", e => {
               frames[0].postMessage("checkout", {targetOrigin: target_origin});
@@ -38,8 +38,12 @@
   </head>
   <body onload="init()">
     <h1>Test shopping cart</h1>
-    <small>This demo requires Chrome 93 or newer, and with the command-line flag
-      <code>--enable-blink-features=CapabilityDelegationPaymentRequest</code>.</small>
+    <small>This demo requires Chrome 93 or newer, and requires a version-dependent command-line flag:
+      <ul>
+        <li>Version 93-99<code>--enable-blink-features=CapabilityDelegationPaymentRequest</code></li>
+        <li>Version 100+<code>--enable-blink-features=PaymentRequestRequiresUserActivation</code></li>
+      </ul>
+    </small>
     <small>Exactly one of the following buttons should show a payment dialog.</small>
     <div id="cart">
       <span>3 items, $10.00</span><br>
@@ -51,7 +55,7 @@
     </div>
     <iframe
       id="iframe"
-      src="https://egirard.github.io/capability-delegation-example/payment-request/"
+      src="https://stephenmcgruer.github.io/capability-delegation-example/payment-request/"
       allow="payment">
     </iframe>
   </body>
