@@ -6,7 +6,7 @@
     <title>Payment request example</title>
     <script>
       function init() {
-          let target_origin = "https://humble-lava-beauty.glitch.me/";
+          let target_origin = "https://egirard.github.io";
 
           document.getElementById("button0").addEventListener("click", e => {
               frames[0].postMessage("checkout", {targetOrigin: target_origin});
@@ -55,7 +55,7 @@
     </div>
     <iframe
       id="iframe"
-      src="https://humble-lava-beauty.glitch.me/"
+      src="https://egirard.github.io/capability-delegation-example/payment-request/"
       allow="payment">
     </iframe>
   </body>
