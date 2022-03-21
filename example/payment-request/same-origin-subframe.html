@@ -7,10 +7,7 @@
     <script>
       const requestPayment = async e => {
           const request = new PaymentRequest([{
-              supportedMethods: "basic-card",
-              data: {
-                  supportedNetworks: ["visa", "master", "amex"]
-              }
+              supportedMethods: "https://bobbucks.dev/pay",
           }], {
               total: {
                   label: "total",
