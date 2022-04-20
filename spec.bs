@@ -266,8 +266,8 @@ will be replaced by the following three steps:
     then clear the map entry [=DELEGATED_CAPABILITY_TIMESTAMPS=]["payment"].
 
 4. Otherwise, [consume user
-        activation](https://html.spec.whatwg.org/multipage/interaction.html#consume-user-activation)
-        of the relevant global object.
+    activation](https://html.spec.whatwg.org/multipage/interaction.html#consume-user-activation)
+    of the relevant global object.
 
 ## Monkey-patch to Fullscreen spec ## {#monkey-patch-to-fullscreen}
 
@@ -289,12 +289,13 @@ will be replaced by:
         [expired](https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry), or
         the algorithm is triggered by a user generated orientation change.
 
-Right after the Step 10:
+Right before the Step 10:
 
 > 10. Let fullscreenElements be an ordered set initially consisting of this.
 
 the following new step will be inserted:
 
-10. Let fullscreenElements be an ordered set initially consisting of this. *(unchanged)*
-11. If this’s relevant global object does not have transient activation, then clear the map entry
+10. If this’s relevant global object does not have transient activation, then clear the map entry
      [=DELEGATED_CAPABILITY_TIMESTAMPS=]["fullscreen"] in this's relevant global object.
+11. Let fullscreenElements be an ordered set initially consisting of this. *(unchanged except
+     for numbering)*

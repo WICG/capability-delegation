@@ -6,7 +6,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/cg-draft" rel="stylesheet">
   <meta content="Bikeshed version 5c7bc9381, updated Wed May 12 18:18:08 2021 -0700" name="generator">
   <link href="https://wicg.github.io/capability-delegation/spec.html" rel="canonical">
-  <meta content="59eae40436811562ae2a813cd6d5ebb3eef9a01c" name="document-revision">
+  <meta content="274f1f9ac5b1fff9e3b7826ee1c9b1c370b980d3" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -865,7 +865,7 @@ relevant global object is either undefined or <a href="https://html.spec.whatwg.
 then clear the map entry <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps⑤">DELEGATED_CAPABILITY_TIMESTAMPS</a>["payment"].</p>
     <li data-md>
      <p>Otherwise, <a href="https://html.spec.whatwg.org/multipage/interaction.html#consume-user-activation">consume user
-    activation</a> of the relevant global object.</p>
+activation</a> of the relevant global object.</p>
    </ol>
    <h3 class="heading settled" data-level="5.2" id="monkey-patch-to-fullscreen"><span class="secno">5.2. </span><span class="content">Monkey-patch to Fullscreen spec</span><a class="self-link" href="#monkey-patch-to-fullscreen"></a></h3>
    <p>In the algorithm for <code class="idl"><a data-link-type="idl">dom-element-requestfullscreen</a></code>, the following changes will be
@@ -894,7 +894,7 @@ relevant global object is neither undefined nor <a href="https://html.spec.whatw
 the algorithm is triggered by a user generated orientation change.</p>
      </ul>
    </ol>
-   <p>Right after the Step 10:</p>
+   <p>Right before the Step 10:</p>
    <blockquote>
     <ol start="10">
      <li data-md>
@@ -904,9 +904,10 @@ the algorithm is triggered by a user generated orientation change.</p>
    <p>the following new step will be inserted:</p>
    <ol start="10">
     <li data-md>
-     <p>Let fullscreenElements be an ordered set initially consisting of this. <em>(unchanged)</em></p>
-    <li data-md>
      <p>If this’s relevant global object does not have transient activation, then clear the map entry <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps⑦">DELEGATED_CAPABILITY_TIMESTAMPS</a>["fullscreen"] in this’s relevant global object.</p>
+    <li data-md>
+     <p>Let fullscreenElements be an ordered set initially consisting of this. <em>(unchanged except
+ for numbering)</em></p>
    </ol>
   </main>
   <div data-fill-with="conformance">
