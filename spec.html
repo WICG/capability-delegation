@@ -6,7 +6,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/cg-draft" rel="stylesheet">
   <meta content="Bikeshed version 5c7bc9381, updated Wed May 12 18:18:08 2021 -0700" name="generator">
   <link href="https://wicg.github.io/capability-delegation/spec.html" rel="canonical">
-  <meta content="c76ffa0a214a7ee1ddcccdfe8cf5d6e689fa35d2" name="document-revision">
+  <meta content="59eae40436811562ae2a813cd6d5ebb3eef9a01c" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -563,7 +563,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Capability Delegation</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2022-03-07">7 March 2022</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2022-04-20">20 April 2022</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -620,6 +620,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <a href="#defining-delegated-behavior"><span class="secno">5</span> <span class="content">Defining delegated capability behavior</span></a>
      <ol class="toc">
       <li><a href="#monkey-patch-to-payment-req"><span class="secno">5.1</span> <span class="content">Monkey-patch to Payment Request spec</span></a>
+      <li><a href="#monkey-patch-to-fullscreen"><span class="secno">5.2</span> <span class="content">Monkey-patch to Fullscreen spec</span></a>
      </ol>
     <li>
      <a href="#w3c-conformance"><span class="secno"></span> <span class="content">Conformance</span></a>
@@ -866,6 +867,47 @@ then clear the map entry <a data-link-type="dfn" href="#delegated_capability_tim
      <p>Otherwise, <a href="https://html.spec.whatwg.org/multipage/interaction.html#consume-user-activation">consume user
     activation</a> of the relevant global object.</p>
    </ol>
+   <h3 class="heading settled" data-level="5.2" id="monkey-patch-to-fullscreen"><span class="secno">5.2. </span><span class="content">Monkey-patch to Fullscreen spec</span><a class="self-link" href="#monkey-patch-to-fullscreen"></a></h3>
+   <p>In the algorithm for <code class="idl"><a data-link-type="idl">dom-element-requestfullscreen</a></code>, the following changes will be
+done to implement the delegated behavior:</p>
+   <p>The last condition in Step 5:</p>
+   <blockquote>
+    <ol start="5">
+     <li data-md>
+      <p>If any of the following conditions are false, then set error to true: ...</p>
+      <ul>
+       <li data-md>
+        <p>This’s relevant global object has transient activation or
+the algorithm is triggered by a user generated orientation change.</p>
+      </ul>
+    </ol>
+   </blockquote>
+   <p>will be replaced by:</p>
+   <ol start="5">
+    <li data-md>
+     <p>If any of the following conditions are false, then set error to true: ... <em>(unchanged)</em></p>
+     <ul>
+      <li data-md>
+       <p>This’s relevant global object has transient activation, or
+the timestamp <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps⑥">DELEGATED_CAPABILITY_TIMESTAMPS</a>["fullscreen"] in this’s
+relevant global object is neither undefined nor <a href="https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry">expired</a>, or
+the algorithm is triggered by a user generated orientation change.</p>
+     </ul>
+   </ol>
+   <p>Right after the Step 10:</p>
+   <blockquote>
+    <ol start="10">
+     <li data-md>
+      <p>Let fullscreenElements be an ordered set initially consisting of this.</p>
+    </ol>
+   </blockquote>
+   <p>the following new step will be inserted:</p>
+   <ol start="10">
+    <li data-md>
+     <p>Let fullscreenElements be an ordered set initially consisting of this. <em>(unchanged)</em></p>
+    <li data-md>
+     <p>If this’s relevant global object does not have transient activation, then clear the map entry <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps⑦">DELEGATED_CAPABILITY_TIMESTAMPS</a>["fullscreen"] in this’s relevant global object.</p>
+   </ol>
   </main>
   <div data-fill-with="conformance">
    <h2 class="no-ref no-num heading settled" id="w3c-conformance"><span class="content">Conformance</span><a class="self-link" href="#w3c-conformance"></a></h2>
@@ -1044,6 +1086,7 @@ then clear the map entry <a data-link-type="dfn" href="#delegated_capability_tim
     <li><a href="#ref-for-delegated_capability_timestamps②">4.1. Monkey-patch to HTML spec</a>
     <li><a href="#ref-for-delegated_capability_timestamps③">5. Defining delegated capability behavior</a>
     <li><a href="#ref-for-delegated_capability_timestamps④">5.1. Monkey-patch to Payment Request spec</a> <a href="#ref-for-delegated_capability_timestamps⑤">(2)</a>
+    <li><a href="#ref-for-delegated_capability_timestamps⑥">5.2. Monkey-patch to Fullscreen spec</a> <a href="#ref-for-delegated_capability_timestamps⑦">(2)</a>
    </ul>
   </aside>
 <script>/* script-dfn-panel */
