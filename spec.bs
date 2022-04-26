@@ -165,9 +165,9 @@ will be followed by two additional steps as follows:
     2. If <var ignore="">targetOrigin</var> is a single U+002A ASTERISK character (*), then throw a
         a "NotAllowedError" DOMException.
         
-        Note: The default value of <var ignore="">targetOrigin</var> is "/", restricting the message to
-        same-origin targets. The additional requirement to use a string other than "*" means that
-        cross-origin messages must specify the specific origin for which they are intended.
+        Note: The default value of [=WindowPostMessageOptions/targetOrigin=] is "/", restricting the
+        message to same-origin targets. The additional requirement to use a string other than "*" means
+        that cross-origin messages must specify the specific origin for which they are intended.
 
     3. Let <var>source</var> be <var ignore="">incumbentSettings</var>'s [=environment settings
         object/global object=].
