@@ -81,6 +81,10 @@ window.onmessage = () => {
 
 ### Allowing fullscreen from opener Window click
 
+This is a
+[work-in-progress](https://groups.google.com/a/chromium.org/g/blink-dev/c/7YkubntWi3Y/m/gwK7fMiEAwAJ)
+in Chrome.
+
 Consider a presentation/slide website where the main "control panel" window has
 spawned a few presentation windows, and the user wants to selectively make one
 presentation window fullscreen by clicking on the appropriate button on the main
@@ -157,14 +161,16 @@ the two examples above, the restricted APIs are `payment_request.show()` and
 
 ### Demo
 
-To see how this API works with Payment Request, run Chrome 93 or newer with the
-below version-dependent command-line flag, then open [this
+- Payment Request API: To see how this API works with Payment Request, run
+Chrome 93 or newer with the version-dependent command-line flag below, then open
+[this
 demo](https://wicg.github.io/capability-delegation/example/payment-request/).
 
-Flag:
+  Flag to use:
+  - Version 93-99: `--enable-blink-features=CapabilityDelegationPaymentRequest`
+  - Version 100+: `--enable-blink-features=PaymentRequestRequiresUserActivation`
 
-- Version 93-99: `--enable-blink-features=CapabilityDelegationPaymentRequest`
-- Version 100+: `--enable-blink-features=PaymentRequestRequiresUserActivation`
+- Fullscreen API: Work in progress.
 
 ## Related links
 
