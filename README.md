@@ -162,13 +162,9 @@ the two examples above, the restricted APIs are `payment_request.show()` and
 ### Demo
 
 - Payment Request API: To see how this API works with Payment Request, run
-Chrome 93 or newer with the version-dependent command-line flag below, then open
+Chrome with the command-line flag: `--enable-blink-features=PaymentRequestRequiresUserActivation`, then open
 [this
 demo](https://wicg.github.io/capability-delegation/example/payment-request/).
-
-  Flag to use:
-  - Version 93-99: `--enable-blink-features=CapabilityDelegationPaymentRequest`
-  - Version 100+: `--enable-blink-features=PaymentRequestRequiresUserActivation`
 
 - Fullscreen API: Work in progress.
 
