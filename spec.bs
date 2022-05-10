@@ -266,5 +266,36 @@ will be replaced by the following three steps:
     then clear the map entry [=DELEGATED_CAPABILITY_TIMESTAMPS=]["payment"].
 
 4. Otherwise, [consume user
-        activation](https://html.spec.whatwg.org/multipage/interaction.html#consume-user-activation)
-        of the relevant global object.
+    activation](https://html.spec.whatwg.org/multipage/interaction.html#consume-user-activation)
+    of the relevant global object.
+
+## Monkey-patch to Fullscreen spec ## {#monkey-patch-to-fullscreen}
+
+In the algorithm for {{Fullscreen/dom-element-requestfullscreen}}, the following changes will be
+done to implement the delegated behavior:
+
+The last condition in Step 5:
+
+> 5.  If any of the following conditions are false, then set error to true: ...
+>      - This’s relevant global object has transient activation or
+>         the algorithm is triggered by a user generated orientation change.
+
+will be replaced by:
+
+5.  If any of the following conditions are false, then set error to true: ... *(unchanged)*
+     - This’s relevant global object has transient activation, or
+        the timestamp [=DELEGATED_CAPABILITY_TIMESTAMPS=]["fullscreen"] in this's
+        relevant global object is neither undefined nor
+        [expired](https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry), or
+        the algorithm is triggered by a user generated orientation change.
+
+Right before the Step 10:
+
+> 10. Let fullscreenElements be an ordered set initially consisting of this.
+
+the following new step will be inserted:
+
+10. If this’s relevant global object does not have transient activation, then clear the map entry
+     [=DELEGATED_CAPABILITY_TIMESTAMPS=]["fullscreen"] in this's relevant global object.
+11. Let fullscreenElements be an ordered set initially consisting of this. *(unchanged except
+     for numbering)*
