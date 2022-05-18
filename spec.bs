@@ -164,10 +164,13 @@ will be followed by two additional steps as follows:
 
     2. If <var ignore="">targetOrigin</var> is a single U+002A ASTERISK character (*), then throw a
         a "NotAllowedError" DOMException.
-        
-        Note: The default value of [=WindowPostMessageOptions/targetOrigin=] is "/", restricting the
-        message to same-origin targets. The additional requirement to use a string other than "*" means
-        that cross-origin messages must specify the specific origin for which they are intended.
+
+        <div class="note">
+          The default value of
+          [targetOrigin](https://html.spec.whatwg.org/multipage/window-object.html#dom-windowpostmessageoptions-targetorigin)
+          is "/", restricting the message to same-origin targets. The additional requirement to use a string other than "*" means
+          that cross-origin messages has to specify the specific origin for which they are intended.
+        </div>
 
     3. Let <var>source</var> be <var ignore="">incumbentSettings</var>'s [=environment settings
         object/global object=].
@@ -275,7 +278,7 @@ will be replaced by the following three steps:
 
 ## Monkey-patch to Fullscreen spec ## {#monkey-patch-to-fullscreen}
 
-In the algorithm for {{Fullscreen/dom-element-requestfullscreen}}, the following changes will be
+In the algorithm for {{Element/requestFullscreen()}}, the following changes will be
 done to implement the delegated behavior:
 
 The last condition in Step 5:

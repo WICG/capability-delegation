@@ -6,7 +6,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/cg-draft" rel="stylesheet">
   <meta content="Bikeshed version 5c7bc9381, updated Wed May 12 18:18:08 2021 -0700" name="generator">
   <link href="https://wicg.github.io/capability-delegation/spec.html" rel="canonical">
-  <meta content="274f1f9ac5b1fff9e3b7826ee1c9b1c370b980d3" name="document-revision">
+  <meta content="947cc5a81b9019a40e7b6526388e160577b84c13" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -563,7 +563,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Capability Delegation</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2022-04-20">20 April 2022</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2022-05-18">18 May 2022</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -638,7 +638,6 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <a href="#references"><span class="secno"></span> <span class="content">References</span></a>
      <ol class="toc">
       <li><a href="#normative"><span class="secno"></span> <span class="content">Normative References</span></a>
-      <li><a href="#informative"><span class="secno"></span> <span class="content">Informative References</span></a>
      </ol>
    </ol>
   </nav>
@@ -755,6 +754,8 @@ Document</a> is not <a href="https://html.spec.whatwg.org/multipage/iframe-embed
       <li data-md>
        <p>If <var>targetOrigin</var> is a single U+002A ASTERISK character (*), then throw a
 a "NotAllowedError" DOMException.</p>
+       <div class="note" role="note"> The default value of <a href="https://html.spec.whatwg.org/multipage/window-object.html#dom-windowpostmessageoptions-targetorigin">targetOrigin</a> is "/", restricting the message to same-origin targets. The additional requirement to use a string other than "*" means
+  that cross-origin messages has to specify the specific origin for which they are intended. </div>
       <li data-md>
        <p>Let <var>source</var> be <var>incumbentSettings</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-settings-object-global" id="ref-for-concept-settings-object-global">global object</a>.</p>
       <li data-md>
@@ -868,7 +869,7 @@ then clear the map entry <a data-link-type="dfn" href="#delegated_capability_tim
 activation</a> of the relevant global object.</p>
    </ol>
    <h3 class="heading settled" data-level="5.2" id="monkey-patch-to-fullscreen"><span class="secno">5.2. </span><span class="content">Monkey-patch to Fullscreen spec</span><a class="self-link" href="#monkey-patch-to-fullscreen"></a></h3>
-   <p>In the algorithm for <code class="idl"><a data-link-type="idl">dom-element-requestfullscreen</a></code>, the following changes will be
+   <p>In the algorithm for <code class="idl"><a data-link-type="idl" href="https://fullscreen.spec.whatwg.org/#dom-element-requestfullscreen" id="ref-for-dom-element-requestfullscreen①">requestFullscreen()</a></code>, the following changes will be
 done to implement the delegated behavior:</p>
    <p>The last condition in Step 5:</p>
    <blockquote>
@@ -961,6 +962,7 @@ the algorithm is triggered by a user generated orientation change.</p>
    <a href="https://fullscreen.spec.whatwg.org/#dom-element-requestfullscreen">https://fullscreen.spec.whatwg.org/#dom-element-requestfullscreen</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-element-requestfullscreen">1.1. What is capability delegation?</a>
+    <li><a href="#ref-for-dom-element-requestfullscreen①">5.2. Monkey-patch to Fullscreen spec</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-domhighrestimestamp">
@@ -1064,6 +1066,8 @@ the algorithm is triggered by a user generated orientation change.</p>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
+   <dt id="biblio-fullscreen">[FULLSCREEN]
+   <dd>Philip Jägenstedt. <a href="https://fullscreen.spec.whatwg.org/">Fullscreen API Standard</a>. Living Standard. URL: <a href="https://fullscreen.spec.whatwg.org/">https://fullscreen.spec.whatwg.org/</a>
    <dt id="biblio-hr-time-2">[HR-TIME-2]
    <dd>Ilya Grigorik. <a href="https://www.w3.org/TR/hr-time-2/">High Resolution Time Level 2</a>. 21 November 2019. REC. URL: <a href="https://www.w3.org/TR/hr-time-2/">https://www.w3.org/TR/hr-time-2/</a>
    <dt id="biblio-html">[HTML]
@@ -1074,11 +1078,6 @@ the algorithm is triggered by a user generated orientation change.</p>
    <dd>Marcos Caceres; et al. <a href="https://www.w3.org/TR/payment-request/">Payment Request API</a>. 3 December 2020. CR. URL: <a href="https://www.w3.org/TR/payment-request/">https://www.w3.org/TR/payment-request/</a>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
-  </dl>
-  <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
-  <dl>
-   <dt id="biblio-fullscreen">[FULLSCREEN]
-   <dd>Philip Jägenstedt. <a href="https://fullscreen.spec.whatwg.org/">Fullscreen API Standard</a>. Living Standard. URL: <a href="https://fullscreen.spec.whatwg.org/">https://fullscreen.spec.whatwg.org/</a>
   </dl>
   <aside class="dfn-panel" data-for="delegated_capability_timestamps">
    <b><a href="#delegated_capability_timestamps">#delegated_capability_timestamps</a></b><b>Referenced in:</b>
