@@ -155,7 +155,10 @@ will be followed by two additional steps as follows:
 
 8. If <var>delegate</var> is not null, then:
 
-    1. If <var ignore="">targetWindow</var>'s [associated
+    1. If the user agent does not support delegating the feature indicated by <var>delegate</var>,
+        then throw a "NotSupportedError" DOMException.
+
+    2. If <var ignore="">targetWindow</var>'s [associated
         Document](https://html.spec.whatwg.org/multipage/window-object.html#concept-document-window)
         is not
         [allowed-to-use](https://html.spec.whatwg.org/multipage/iframe-embed-object.html#allowed-to-use)
@@ -175,13 +178,13 @@ will be followed by two additional steps as follows:
     3. Let <var>source</var> be <var ignore="">incumbentSettings</var>'s [=environment settings
         object/global object=].
 
-    4. If <var>source</var> has [transient
+    4. If <var>source</var> does not have [transient
         activation](https://html.spec.whatwg.org/multipage/interaction.html#transient-activation),
-        then [consume user
+        then throw a "NotAllowedError" DOMException.
+
+    5. [Consume user
         activation](https://html.spec.whatwg.org/multipage/interaction.html#consume-user-activation)
         in <var>source</var>.
-
-    5. Otherwise, set <var>delegate</var> to null.
 
 
 # Tracking delegated capability # {#tracking-delegation}

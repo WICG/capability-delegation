@@ -6,7 +6,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/cg-draft" rel="stylesheet">
   <meta content="Bikeshed version 5c7bc9381, updated Wed May 12 18:18:08 2021 -0700" name="generator">
   <link href="https://wicg.github.io/capability-delegation/spec.html" rel="canonical">
-  <meta content="947cc5a81b9019a40e7b6526388e160577b84c13" name="document-revision">
+  <meta content="ff142a8df05bdfe2661347af29da09c17e077bc0" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -563,7 +563,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Capability Delegation</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2022-05-18">18 May 2022</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2022-06-09">9 June 2022</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -748,6 +748,9 @@ the following step:</p>
      <p>If <var>delegate</var> is not null, then:</p>
      <ol>
       <li data-md>
+       <p>If the user agent does not support delegating the feature indicated by <var>delegate</var>,
+then throw a "NotSupportedError" DOMException.</p>
+      <li data-md>
        <p>If <var>targetWindow</var>’s <a href="https://html.spec.whatwg.org/multipage/window-object.html#concept-document-window">associated
 Document</a> is not <a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#allowed-to-use">allowed-to-use</a> the feature indicated by <var>delegate</var>, then throw a a
 "NotAllowedError" DOMException.</p>
@@ -759,12 +762,12 @@ a "NotAllowedError" DOMException.</p>
       <li data-md>
        <p>Let <var>source</var> be <var>incumbentSettings</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-settings-object-global" id="ref-for-concept-settings-object-global">global object</a>.</p>
       <li data-md>
-       <p>If <var>source</var> has <a href="https://html.spec.whatwg.org/multipage/interaction.html#transient-activation">transient
+       <p>If <var>source</var> does not have <a href="https://html.spec.whatwg.org/multipage/interaction.html#transient-activation">transient
 activation</a>,
-then <a href="https://html.spec.whatwg.org/multipage/interaction.html#consume-user-activation">consume user
-activation</a> in <var>source</var>.</p>
+then throw a "NotAllowedError" DOMException.</p>
       <li data-md>
-       <p>Otherwise, set <var>delegate</var> to null.</p>
+       <p><a href="https://html.spec.whatwg.org/multipage/interaction.html#consume-user-activation">Consume user
+activation</a> in <var>source</var>.</p>
      </ol>
    </ol>
    <h2 class="heading settled" data-level="4" id="tracking-delegation"><span class="secno">4. </span><span class="content">Tracking delegated capability</span><a class="self-link" href="#tracking-delegation"></a></h2>
