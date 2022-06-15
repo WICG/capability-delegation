@@ -140,7 +140,7 @@ agent](https://w3c.github.io/webappsec-permissions-policy/#supported-features).
 The {{WindowPostMessageOptions}} IDL definition will include an additional field as follows:
 
 ```IDL
-  DOMString delegate = "";
+  DOMString? delegate;
 ```
 
 In the algorithm for [window post

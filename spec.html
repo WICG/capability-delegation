@@ -6,7 +6,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/cg-draft" rel="stylesheet">
   <meta content="Bikeshed version 5c7bc9381, updated Wed May 12 18:18:08 2021 -0700" name="generator">
   <link href="https://wicg.github.io/capability-delegation/spec.html" rel="canonical">
-  <meta content="ff142a8df05bdfe2661347af29da09c17e077bc0" name="document-revision">
+  <meta content="d8c6bfbf00ce4b4160bf9ab4d8904d61286a7132" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -563,7 +563,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Capability Delegation</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2022-06-09">9 June 2022</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2022-06-15">15 June 2022</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -729,7 +729,7 @@ agent</a>.</p>
    <div class="note" role="note"> A list of possible <a href="https://www.w3.org/TR/permissions-policy/#ascii-serialization">feature-identifier</a> values appears <a href="https://github.com/w3c/webappsec-permissions-policy/blob/main/features.md">here</a>. </div>
    <h3 class="heading settled" data-level="3.1" id="monkey-patch-to-html-initiating-delegation"><span class="secno">3.1. </span><span class="content">Monkey-patch to HTML spec</span><a class="self-link" href="#monkey-patch-to-html-initiating-delegation"></a></h3>
    <p>The <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/window-object.html#windowpostmessageoptions" id="ref-for-windowpostmessageoptions①">WindowPostMessageOptions</a></code> IDL definition will include an additional field as follows:</p>
-<pre class="language-IDL highlight">  DOMString delegate <c- o>=</c-> <c- u>""</c->;
+<pre class="language-IDL highlight">  DOMString? delegate;
 </pre>
    <p>In the algorithm for <a href="https://html.spec.whatwg.org/multipage/web-messaging.html#window-post-message-steps">window post
 message</a>,
