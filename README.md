@@ -126,8 +126,8 @@ or a screen, the top frame would delegate the `mediaDevices.getDisplayMedia()`
 permission to the `iframe` as follows:
 
 ```js
-// In the top frame, user clicks the "Share" button.
-shareButton.onclick = () =>
+// In the top frame, user clicks the "Share My Screen" button.
+button.onclick = () =>
   frames[0].postMessage("msg", { delegate: "display-capture" });
 ```
 
