@@ -131,7 +131,7 @@ button.onclick = () =>
 ```
 
 ```js
-// In the top frame.
+// In the top frame, prompt the user to share a tab, a window, or a screen.
 window.onmessage = () => navigator.mediaDevices.getDisplayMedia();
 ```
 
