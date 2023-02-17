@@ -110,6 +110,30 @@ button2.onclick = () => win2.postMessage("msg", {targetOrigin: "https://example.
 window.onmessage = () => document.body.requestFullscreen();
 ```
 
+### Allowing display capture from cross-origin iframe click
+
+Consider a web app in which you want to add video-conferencing capabilities.
+You turn to a third party solution that can be embedded in a cross-origin
+`iframe`. There's a lot of logic behind the scenes, but UX-wise, maybe you
+work out a scheme where it's mostly the video which is user-facing in the
+video-conferencing `iframe`, and the user-facing controls - mute, leave,
+share-screen - are all part of the web app, and receive its speficifc UX
+styling. When those buttons are pressed, some messages are exchanged between
+your the web app and the embedded video-conferencing solution.
+
+The web does not support this use-case today but Capability Delegation API
+provides a solution:
+
+```js
+// In the cross-origin video-conferencing iframe
+button.onclick = () =>
+  window.parent.postMessage("msg", { delegate: "display-capture" });
+```
+
+```js
+// In the top frame.
+window.onmessage = () => navigator.mediaDevices.getDisplayMedia();
+```
 
 ### Other similar scenarios
 
@@ -155,8 +179,8 @@ member called `delegate` specifying the capability.
 After a successful delegation, the "user API" (the restricted API being
 delegated) just works when called at the right moment.  The general idea is
 calling the restricted API in a `MessageEvent` handler or soon afterwards.  In
-the two examples above, the restricted APIs are `payment_request.show()` and
-`element.requestFullscreen()` respectively.
+the examples above, the restricted APIs are `payment_request.show()`,
+`element.requestFullscreen()`, and `mediaDevices.getDisplayMedia()` respectively.
 
 
 ### Demo
@@ -167,6 +191,8 @@ Chrome with the command-line flag: `--enable-blink-features=PaymentRequestRequir
 demo](https://wicg.github.io/capability-delegation/example/payment-request/).
 
 - Fullscreen API: Work in progress.
+
+- Screen Capture API: Work in progress.
 
 ## Related links
 
