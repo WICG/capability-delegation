@@ -117,23 +117,25 @@ You turn to a third party solution that can be embedded in a cross-origin
 `iframe`. There's a lot of logic behind the scenes, but UX-wise, maybe you
 work out a scheme where it's mostly the video which is user-facing in the
 video-conferencing `iframe`, and the user-facing controls - mute, leave,
-share-screen - are all part of the web app, and receive its speficifc UX
+share-screen - are all part of the web app, and receive its specific UX
 styling. When those buttons are pressed, some messages are exchanged between
-your the web app and the embedded video-conferencing solution.
+the web app and the embedded video-conferencing solution.
 
 The web does not support this use-case today but Capability Delegation API
 provides a solution:
 
 ```js
-// In the cross-origin video-conferencing iframe
-button.onclick = () =>
-  window.parent.postMessage("msg", { delegate: "display-capture" });
+// In the top frame, user clicks the "Share" button.
+shareButton.onclick = () =>
+  frames[0].postMessage("msg", { delegate: "display-capture" });
 ```
 
 ```js
-// In the top frame, prompt the user to share a tab, a window, or a screen.
+// In the cross-origin video-conferencing iframe, prompt the user
+// to share a tab, a window, or a screen.
 window.onmessage = () => navigator.mediaDevices.getDisplayMedia();
 ```
+
 
 ### Other similar scenarios
 
