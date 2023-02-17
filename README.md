@@ -121,8 +121,9 @@ share-screen - are all part of the web app, and receive its specific UX
 styling. When those buttons are pressed, some messages are exchanged between
 the web app and the embedded video-conferencing solution.
 
-The web does not support this use-case today but Capability Delegation API
-provides a solution:
+To let the third-party `iframe` to prompt the user to share a tab, a window,
+or a screen, the top frame would delegate the `mediaDevices.getDisplayMedia()`
+permission to the `iframe` as follows:
 
 ```js
 // In the top frame, user clicks the "Share" button.
