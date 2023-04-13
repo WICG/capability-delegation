@@ -4,9 +4,11 @@
   <title>Capability Delegation</title>
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <link href="https://www.w3.org/StyleSheets/TR/2021/cg-draft" rel="stylesheet">
-  <meta content="Bikeshed version f043d3484, updated Fri Feb 17 10:53:48 2023 -0800" name="generator">
+  <meta content="Bikeshed version 2aae228dc, updated Thu Jan 12 16:52:25 2023 -0800" name="generator">
   <link href="https://wicg.github.io/capability-delegation/spec.html" rel="canonical">
+  <meta content="08aceb5d1cec1266a92d22cb283e566da8bca563" name="document-revision">
 <style>/* style-autolinks */
+
 .css.css, .property.property, .descriptor.descriptor {
     color: var(--a-normal-text);
     font-size: inherit;
@@ -66,8 +68,7 @@ pre .property::before, pre .property::after {
 
 [data-link-type=biblio] {
     white-space: pre;
-}
-</style>
+}</style>
 <style>/* style-colors */
 
 /* Any --*-text not paired with a --*-bg is assumed to have a transparent bg */
@@ -176,9 +177,9 @@ pre .property::before, pre .property::after {
     --outdated-shadow: red;
 
     --editedrec-bg: darkorange;
-}
-</style>
+}</style>
 <style>/* style-counters */
+
 body {
     counter-reset: example figure issue;
 }
@@ -205,9 +206,9 @@ figcaption {
 }
 figcaption:not(.no-marker)::before {
     content: "Figure " counter(figure) " ";
-}
-</style>
+}</style>
 <style>/* style-dfn-panel */
+
 :root {
     --dfnpanel-bg: #ddd;
     --dfnpanel-text: var(--text);
@@ -215,10 +216,10 @@ figcaption:not(.no-marker)::before {
 .dfn-panel {
     position: absolute;
     z-index: 35;
-    width: 20em;
-    min-width: min-content;
-    max-width: 300px;
     height: auto;
+    width: -webkit-fit-content;
+    width: fit-content;
+    max-width: 300px;
     max-height: 500px;
     overflow: auto;
     padding: 0.5em 0.75em;
@@ -226,7 +227,6 @@ figcaption:not(.no-marker)::before {
     background: var(--dfnpanel-bg);
     color: var(--dfnpanel-text);
     border: outset 0.2em;
-    white-space: normal; /* in case it's moved into a pre */
 }
 .dfn-panel:not(.on) { display: none; }
 .dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
@@ -249,6 +249,7 @@ figcaption:not(.no-marker)::before {
 .dfn-paneled { cursor: pointer; }
 </style>
 <style>/* style-issues */
+
 a[href].issue-return {
     float: right;
     float: inline-end;
@@ -258,6 +259,7 @@ a[href].issue-return {
 }
 </style>
 <style>/* style-md-lists */
+
 /* This is a weird hack for me not yet following the commonmark spec
    regarding paragraph and lists. */
 [data-md] > :first-child {
@@ -265,8 +267,7 @@ a[href].issue-return {
 }
 [data-md] > :last-child {
     margin-bottom: 0;
-}
-</style>
+}</style>
 <style>/* style-selflinks */
 
 :root {
@@ -499,7 +500,6 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
        which is quite common in practice... */
     img { background: white; }
 }
-
 @media (prefers-color-scheme: dark) {
     :root {
         --selflink-text: black;
@@ -514,7 +514,6 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
         --dfnpanel-text: var(--text);
     }
 }
-
 @media (prefers-color-scheme: dark) {
     .highlight:not(.idl) { background: rgba(255, 255, 255, .05); }
 
@@ -582,7 +581,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Capability Delegation</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#CG-DRAFT">Draft Community Group Report</a>, <time class="dt-updated" datetime="2023-02-17">17 February 2023</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#CG-DRAFT">Draft Community Group Report</a>, <time class="dt-updated" datetime="2023-04-13">13 April 2023</time></p>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -646,7 +645,6 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <a href="#w3c-conformance"><span class="secno"></span> <span class="content">Conformance</span></a>
      <ol class="toc">
       <li><a href="#w3c-conventions"><span class="secno"></span> <span class="content">Document conventions</span></a>
-      <li><a href="#w3c-conformant-algorithms"><span class="secno"></span> <span class="content">Conformant Algorithms</span></a>
      </ol>
     <li>
      <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
@@ -770,22 +768,21 @@ the following step:</p>
      <ol>
       <li data-md>
        <p>If the user agent does not support delegating the feature indicated by <var>delegate</var>,
-then throw a "NotSupportedError" DOMException.</p>
+then throw a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#notsupportederror" id="ref-for-notsupportederror">"NotSupportedError"</a></code> <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMException" id="ref-for-idl-DOMException">DOMException</a></code>.</p>
       <li data-md>
        <p>If <var>targetWindow</var>’s <a href="https://html.spec.whatwg.org/multipage/window-object.html#concept-document-window">associated
-Document</a> is not <a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#allowed-to-use">allowed-to-use</a> the feature indicated by <var>delegate</var>, then throw a a
-"NotAllowedError" DOMException.</p>
+Document</a> is not <a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#allowed-to-use">allowed-to-use</a> the feature indicated by <var>delegate</var>, then throw a a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#notallowederror" id="ref-for-notallowederror">"NotAllowedError"</a></code> <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMException" id="ref-for-idl-DOMException①">DOMException</a></code>.</p>
       <li data-md>
        <p>If <var>targetOrigin</var> is a single U+002A ASTERISK character (*), then throw a
-a "NotAllowedError" DOMException.</p>
+a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#notallowederror" id="ref-for-notallowederror①">"NotAllowedError"</a></code> <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMException" id="ref-for-idl-DOMException②">DOMException</a></code>.</p>
        <div class="note" role="note"> The default value of <a href="https://html.spec.whatwg.org/multipage/window-object.html#dom-windowpostmessageoptions-targetorigin">targetOrigin</a> is "/", restricting the message to same-origin targets. The additional requirement to use a string other than "*" means
   that cross-origin messages has to specify the specific origin for which they are intended. </div>
       <li data-md>
        <p>Let <var>source</var> be <var>incumbentSettings</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-settings-object-global" id="ref-for-concept-settings-object-global">global object</a>.</p>
       <li data-md>
-       <p>If <var>source</var> does not have <a href="https://html.spec.whatwg.org/multipage/interaction.html#transient-activation" id="ref-for-5b762d09d78e8674458b84982b3cb3c9">transient
+       <p>If <var>source</var> does not have <a href="https://html.spec.whatwg.org/multipage/interaction.html#transient-activation" id="termref-for-transient-activation">transient
 activation</a>,
-then throw a "NotAllowedError" DOMException.</p>
+then throw a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#notallowederror" id="ref-for-notallowederror②">"NotAllowedError"</a></code> <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMException" id="ref-for-idl-DOMException③">DOMException</a></code>.</p>
       <li data-md>
        <p><a href="https://html.spec.whatwg.org/multipage/interaction.html#consume-user-activation">Consume user
 activation</a> in <var>source</var>.</p>
@@ -868,7 +865,7 @@ replaced to implement the delegated behavior:</p>
       <p>If the relevant global object of request does not have transient activation:</p>
       <ol>
        <li data-md>
-        <p>Return a promise rejected with a "SecurityError" DOMException.</p>
+        <p>Return a promise rejected with a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#securityerror" id="ref-for-securityerror">"SecurityError"</a></code> <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMException" id="ref-for-idl-DOMException④">DOMException</a></code>.</p>
       </ol>
      <li data-md>
       <p>Consume user activation of the relevant global object.</p>
@@ -877,13 +874,13 @@ replaced to implement the delegated behavior:</p>
    <p>will be replaced by the following three steps:</p>
    <ol start="2">
     <li data-md>
-     <p>If the relevant global object of request does not have <a href="https://html.spec.whatwg.org/multipage/interaction.html#transient-activation" id="ref-for-5b762d09d78e8674458b84982b3cb3c9①">transient
+     <p>If the relevant global object of request does not have <a href="https://html.spec.whatwg.org/multipage/interaction.html#transient-activation" id="termref-for-transient-activation①">transient
 activation</a>,
 AND the timestamp <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps④">DELEGATED_CAPABILITY_TIMESTAMPS</a>["payment"] in the
 relevant global object is either undefined or <a href="https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry">expired</a>:</p>
      <ol>
       <li data-md>
-       <p>Return a promise rejected with a "SecurityError" DOMException.</p>
+       <p>Return a promise rejected with a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#securityerror" id="ref-for-securityerror①">"SecurityError"</a></code> <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMException" id="ref-for-idl-DOMException⑤">DOMException</a></code>.</p>
      </ol>
     <li data-md>
      <p>If the relevant global object of request does not have transient activation,
@@ -942,7 +939,7 @@ done to implement the delegated behavior:</p>
     <ol start="3">
      <li data-md>
       <p>If the relevant global object of this does not have transient activation, return a promise
-rejected with a DOMException object whose name attribute has the value InvalidStateError.</p>
+rejected with a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMException" id="ref-for-idl-DOMException⑥">DOMException</a></code> object whose name attribute has the value InvalidStateError.</p>
     </ol>
    </blockquote>
    <p>will be replaced by:</p>
@@ -950,49 +947,49 @@ rejected with a DOMException object whose name attribute has the value InvalidSt
     <li data-md>
      <p>If the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global">relevant global object</a> of this does not have <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/interaction.html#transient-activation" id="ref-for-transient-activation">transient activation</a> AND the
 timestamp <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps⑧">DELEGATED_CAPABILITY_TIMESTAMPS</a>["display-capture"] in this’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global①">relevant global object</a> is either undefined or <a href="https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry">expired</a>,
-return a promise <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#reject" id="ref-for-reject">rejected</a> with a <a data-link-type="dfn" href="https://www.w3.org/TR/WebCryptoAPI/#dfn-DOMException" id="ref-for-dfn-DOMException">DOMException</a> object whose <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#dom-domexception-name" id="ref-for-dom-domexception-name">name</a></code> attribute has the value <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror">InvalidStateError</a></code>.</p>
+return a promise <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#reject" id="ref-for-reject">rejected</a> with a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMException" id="ref-for-idl-DOMException⑦">DOMException</a></code> object whose <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#dom-domexception-name" id="ref-for-dom-domexception-name">name</a></code> attribute has the value <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror">InvalidStateError</a></code>.</p>
    </ol>
   </main>
   <div data-fill-with="conformance">
    <h2 class="no-ref no-num heading settled" id="w3c-conformance"><span class="content">Conformance</span><a class="self-link" href="#w3c-conformance"></a></h2>
    <h3 class="no-ref no-num heading settled" id="w3c-conventions"><span class="content">Document conventions</span><a class="self-link" href="#w3c-conventions"></a></h3>
    <p>Conformance requirements are expressed
+
     with a combination of descriptive assertions
+
     and RFC 2119 terminology.
+
     The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL”
+
     in the normative parts of this document
+
     are to be interpreted as described in RFC 2119.
+
     However, for readability,
+
     these words do not appear in all uppercase letters in this specification. </p>
    <p>All of the text of this specification is normative
+
     except sections explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119" title="Key words for use in RFCs to Indicate Requirement Levels">[RFC2119]</a> </p>
    <p>Examples in this specification are introduced with the words “for example”
+
     or are set apart from the normative text
+
     with <code>class="example"</code>,
+
     like this: </p>
    <div class="example" id="w3c-example">
     <a class="self-link" href="#w3c-example"></a> 
     <p>This is an example of an informative example. </p>
    </div>
    <p>Informative notes begin with the word “Note”
+
     and are set apart from the normative text
+
     with <code>class="note"</code>,
+
     like this: </p>
    <p class="note" role="note">Note, this is an informative note.</p>
-   <h3 class="no-ref no-num heading settled" id="w3c-conformant-algorithms"><span class="content">Conformant Algorithms</span><a class="self-link" href="#w3c-conformant-algorithms"></a></h3>
-   <p>Requirements phrased in the imperative as part of algorithms
-    (such as "strip any leading space characters"
-    or "return false and abort these steps")
-    are to be interpreted with the meaning of the key word
-    ("must", "should", "may", etc)
-    used in introducing the algorithm. </p>
-   <p>Conformance requirements phrased as algorithms or specific steps
-    can be implemented in any manner,
-    so long as the end result is equivalent.
-    In particular, the algorithms defined in this specification
-    are intended to be easy to understand
-    and are not intended to be performant.
-    Implementers are encouraged to optimize. </p>
   </div>
 <script src="https://www.w3.org/scripts/TR/2021/fixup.js"></script>
   <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
@@ -1000,43 +997,43 @@ return a promise <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#r
   <ul class="index">
    <li><a href="#delegated_capability_timestamps">DELEGATED_CAPABILITY_TIMESTAMPS</a><span>, in § 4.1</span>
   </ul>
-  <aside aria-labelledby="infopaneltitle-for-17f1422256aaa84ed73c3e82e27bec5c" class="dfn-panel" data-for="17f1422256aaa84ed73c3e82e27bec5c" id="infopanel-for-17f1422256aaa84ed73c3e82e27bec5c">
-   <span id="infopaneltitle-for-17f1422256aaa84ed73c3e82e27bec5c" style="display:none">Info about the 'requestFullscreen()' external reference.</span><a href="https://fullscreen.spec.whatwg.org/#dom-element-requestfullscreen">https://fullscreen.spec.whatwg.org/#dom-element-requestfullscreen</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-dom-element-requestfullscreen">
+   <a href="https://fullscreen.spec.whatwg.org/#dom-element-requestfullscreen">https://fullscreen.spec.whatwg.org/#dom-element-requestfullscreen</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-element-requestfullscreen">1.1. What is capability delegation?</a>
     <li><a href="#ref-for-dom-element-requestfullscreen①">5.2. Monkey-patch to Fullscreen spec</a>
    </ul>
   </aside>
-  <aside aria-labelledby="infopaneltitle-for-0527034ee7070fda15ffa50c34dbbc63" class="dfn-panel" data-for="0527034ee7070fda15ffa50c34dbbc63" id="infopanel-for-0527034ee7070fda15ffa50c34dbbc63">
-   <span id="infopaneltitle-for-0527034ee7070fda15ffa50c34dbbc63" style="display:none">Info about the 'DOMHighResTimeStamp' external reference.</span><a href="https://w3c.github.io/hr-time/#dom-domhighrestimestamp">https://w3c.github.io/hr-time/#dom-domhighrestimestamp</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-dom-domhighrestimestamp">
+   <a href="https://w3c.github.io/hr-time/#dom-domhighrestimestamp">https://w3c.github.io/hr-time/#dom-domhighrestimestamp</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-domhighrestimestamp">4. Tracking delegated capability</a> <a href="#ref-for-dom-domhighrestimestamp①">(2)</a>
     <li><a href="#ref-for-dom-domhighrestimestamp②">4.1. Monkey-patch to HTML spec</a>
    </ul>
   </aside>
-  <aside aria-labelledby="infopaneltitle-for-d1f0a86fd49be388d8b0159e241a1172" class="dfn-panel" data-for="d1f0a86fd49be388d8b0159e241a1172" id="infopanel-for-d1f0a86fd49be388d8b0159e241a1172">
-   <span id="infopaneltitle-for-d1f0a86fd49be388d8b0159e241a1172" style="display:none">Info about the 'Window' external reference.</span><a href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#window">https://html.spec.whatwg.org/multipage/nav-history-apis.html#window</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-window">
+   <a href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#window">https://html.spec.whatwg.org/multipage/nav-history-apis.html#window</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-window">4. Tracking delegated capability</a> <a href="#ref-for-window①">(2)</a>
     <li><a href="#ref-for-window②">4.1. Monkey-patch to HTML spec</a>
     <li><a href="#ref-for-window③">5. Defining delegated capability behavior</a>
    </ul>
   </aside>
-  <aside aria-labelledby="infopaneltitle-for-cb85fbb587526778c5c5e0faab249075" class="dfn-panel" data-for="cb85fbb587526778c5c5e0faab249075" id="infopanel-for-cb85fbb587526778c5c5e0faab249075">
-   <span id="infopaneltitle-for-cb85fbb587526778c5c5e0faab249075" style="display:none">Info about the 'WindowPostMessageOptions' external reference.</span><a href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#windowpostmessageoptions">https://html.spec.whatwg.org/multipage/nav-history-apis.html#windowpostmessageoptions</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-windowpostmessageoptions">
+   <a href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#windowpostmessageoptions">https://html.spec.whatwg.org/multipage/nav-history-apis.html#windowpostmessageoptions</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-windowpostmessageoptions">3. Initiating capability delegation</a>
     <li><a href="#ref-for-windowpostmessageoptions①">3.1. Monkey-patch to HTML spec</a>
    </ul>
   </aside>
-  <aside aria-labelledby="infopaneltitle-for-c4ff264d4a1b262f1245a080117b5c19" class="dfn-panel" data-for="c4ff264d4a1b262f1245a080117b5c19" id="infopanel-for-c4ff264d4a1b262f1245a080117b5c19">
-   <span id="infopaneltitle-for-c4ff264d4a1b262f1245a080117b5c19" style="display:none">Info about the 'allow' external reference.</span><a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#dom-iframe-allow">https://html.spec.whatwg.org/multipage/iframe-embed-object.html#dom-iframe-allow</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-dom-iframe-allow">
+   <a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#dom-iframe-allow">https://html.spec.whatwg.org/multipage/iframe-embed-object.html#dom-iframe-allow</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-iframe-allow">1.1. What is capability delegation?</a>
    </ul>
   </aside>
-  <aside aria-labelledby="infopaneltitle-for-5db590bc82ac7edd15fc4ebd1b0c25f0" class="dfn-panel" data-for="5db590bc82ac7edd15fc4ebd1b0c25f0" id="infopanel-for-5db590bc82ac7edd15fc4ebd1b0c25f0">
-   <span id="infopaneltitle-for-5db590bc82ac7edd15fc4ebd1b0c25f0" style="display:none">Info about the 'browsing context' external reference.</span><a href="https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context">https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-browsing-context">
+   <a href="https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context">https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-browsing-context">1. Introduction</a> <a href="#ref-for-browsing-context①">(2)</a>
     <li><a href="#ref-for-browsing-context②">1.1. What is capability delegation?</a>
@@ -1047,71 +1044,91 @@ return a promise <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#r
     <li><a href="#ref-for-browsing-context①①">4.1. Monkey-patch to HTML spec</a>
    </ul>
   </aside>
-  <aside aria-labelledby="infopaneltitle-for-53ea12fcca4eab4ccddd5da403fd6e4b" class="dfn-panel" data-for="53ea12fcca4eab4ccddd5da403fd6e4b" id="infopanel-for-53ea12fcca4eab4ccddd5da403fd6e4b">
-   <span id="infopaneltitle-for-53ea12fcca4eab4ccddd5da403fd6e4b" style="display:none">Info about the 'global object' external reference.</span><a href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-settings-object-global">https://html.spec.whatwg.org/multipage/webappapis.html#concept-settings-object-global</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-concept-settings-object-global">
+   <a href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-settings-object-global">https://html.spec.whatwg.org/multipage/webappapis.html#concept-settings-object-global</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-concept-settings-object-global">3.1. Monkey-patch to HTML spec</a>
    </ul>
   </aside>
-  <aside aria-labelledby="infopaneltitle-for-3b26601cc89b91ada4c771e32284e4c9" class="dfn-panel" data-for="3b26601cc89b91ada4c771e32284e4c9" id="infopanel-for-3b26601cc89b91ada4c771e32284e4c9">
-   <span id="infopaneltitle-for-3b26601cc89b91ada4c771e32284e4c9" style="display:none">Info about the 'open(url, target, features)' external reference.</span><a href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#dom-open">https://html.spec.whatwg.org/multipage/nav-history-apis.html#dom-open</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-dom-open">
+   <a href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#dom-open">https://html.spec.whatwg.org/multipage/nav-history-apis.html#dom-open</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-open">1.1. What is capability delegation?</a>
    </ul>
   </aside>
-  <aside aria-labelledby="infopaneltitle-for-2233058c8f0998915af8393ee2abbc1d" class="dfn-panel" data-for="2233058c8f0998915af8393ee2abbc1d" id="infopanel-for-2233058c8f0998915af8393ee2abbc1d">
-   <span id="infopaneltitle-for-2233058c8f0998915af8393ee2abbc1d" style="display:none">Info about the 'relevant global object' external reference.</span><a href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global">https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-concept-relevant-global">
+   <a href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global">https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-concept-relevant-global">5.3. Monkey-patch to [SCREEN-CAPTURE] spec</a> <a href="#ref-for-concept-relevant-global①">(2)</a>
    </ul>
   </aside>
-  <aside aria-labelledby="infopaneltitle-for-5b762d09d78e8674458b84982b3cb3c9" class="dfn-panel" data-for="5b762d09d78e8674458b84982b3cb3c9" id="infopanel-for-5b762d09d78e8674458b84982b3cb3c9">
-   <span id="infopaneltitle-for-5b762d09d78e8674458b84982b3cb3c9" style="display:none">Info about the 'transient activation' external reference.</span><a href="https://html.spec.whatwg.org/multipage/interaction.html#transient-activation">https://html.spec.whatwg.org/multipage/interaction.html#transient-activation</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-transient-activation">
+   <a href="https://html.spec.whatwg.org/multipage/interaction.html#transient-activation">https://html.spec.whatwg.org/multipage/interaction.html#transient-activation</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-5b762d09d78e8674458b84982b3cb3c9">3.1. Monkey-patch to HTML spec</a>
-    <li><a href="#ref-for-5b762d09d78e8674458b84982b3cb3c9">5.1. Monkey-patch to Payment Request spec</a>
+    <li><a href="#termref-for-transient-activation">3.1. Monkey-patch to HTML spec</a>
+    <li><a href="#termref-for-transient-activation">5.1. Monkey-patch to Payment Request spec</a>
     <li><a href="#ref-for-transient-activation">5.3. Monkey-patch to [SCREEN-CAPTURE] spec</a>
    </ul>
   </aside>
-  <aside aria-labelledby="infopaneltitle-for-4bf12d0cddf322a1e2a9fb52f4d85843" class="dfn-panel" data-for="4bf12d0cddf322a1e2a9fb52f4d85843" id="infopanel-for-4bf12d0cddf322a1e2a9fb52f4d85843">
-   <span id="infopaneltitle-for-4bf12d0cddf322a1e2a9fb52f4d85843" style="display:none">Info about the 'map' external reference.</span><a href="https://infra.spec.whatwg.org/#ordered-map">https://infra.spec.whatwg.org/#ordered-map</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-ordered-map">
+   <a href="https://infra.spec.whatwg.org/#ordered-map">https://infra.spec.whatwg.org/#ordered-map</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-ordered-map">4.1. Monkey-patch to HTML spec</a>
    </ul>
   </aside>
-  <aside aria-labelledby="infopaneltitle-for-17e80d10b630cdfcf78a93f4eda10fa4" class="dfn-panel" data-for="17e80d10b630cdfcf78a93f4eda10fa4" id="infopanel-for-17e80d10b630cdfcf78a93f4eda10fa4">
-   <span id="infopaneltitle-for-17e80d10b630cdfcf78a93f4eda10fa4" style="display:none">Info about the 'show()' external reference.</span><a href="https://w3c.github.io/payment-request/#dom-paymentrequest-show">https://w3c.github.io/payment-request/#dom-paymentrequest-show</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-dom-paymentrequest-show">
+   <a href="https://w3c.github.io/payment-request/#dom-paymentrequest-show">https://w3c.github.io/payment-request/#dom-paymentrequest-show</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-paymentrequest-show">2. Examples</a> <a href="#ref-for-dom-paymentrequest-show①">(2)</a>
     <li><a href="#ref-for-dom-paymentrequest-show②">5.1. Monkey-patch to Payment Request spec</a>
    </ul>
   </aside>
-  <aside aria-labelledby="infopaneltitle-for-854ba5a2ea0a9f054dc77d8686489fd4" class="dfn-panel" data-for="854ba5a2ea0a9f054dc77d8686489fd4" id="infopanel-for-854ba5a2ea0a9f054dc77d8686489fd4">
-   <span id="infopaneltitle-for-854ba5a2ea0a9f054dc77d8686489fd4" style="display:none">Info about the 'getDisplayMedia()' external reference.</span><a href="https://w3c.github.io/mediacapture-screen-share/#dom-mediadevices-getdisplaymedia">https://w3c.github.io/mediacapture-screen-share/#dom-mediadevices-getdisplaymedia</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-dom-mediadevices-getdisplaymedia">
+   <a href="https://w3c.github.io/mediacapture-screen-share/#dom-mediadevices-getdisplaymedia">https://w3c.github.io/mediacapture-screen-share/#dom-mediadevices-getdisplaymedia</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-mediadevices-getdisplaymedia">5.3. Monkey-patch to [SCREEN-CAPTURE] spec</a>
    </ul>
   </aside>
-  <aside aria-labelledby="infopaneltitle-for-3b36e8bc99a9e9d1772d3adc9864c284" class="dfn-panel" data-for="3b36e8bc99a9e9d1772d3adc9864c284" id="infopanel-for-3b36e8bc99a9e9d1772d3adc9864c284">
-   <span id="infopaneltitle-for-3b36e8bc99a9e9d1772d3adc9864c284" style="display:none">Info about the 'domexception' external reference.</span><a href="https://www.w3.org/TR/WebCryptoAPI/#dfn-DOMException">https://www.w3.org/TR/WebCryptoAPI/#dfn-DOMException</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-idl-DOMException">
+   <a href="https://webidl.spec.whatwg.org/#idl-DOMException">https://webidl.spec.whatwg.org/#idl-DOMException</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dfn-DOMException">5.3. Monkey-patch to [SCREEN-CAPTURE] spec</a>
+    <li><a href="#ref-for-idl-DOMException">3.1. Monkey-patch to HTML spec</a> <a href="#ref-for-idl-DOMException①">(2)</a> <a href="#ref-for-idl-DOMException②">(3)</a> <a href="#ref-for-idl-DOMException③">(4)</a>
+    <li><a href="#ref-for-idl-DOMException④">5.1. Monkey-patch to Payment Request spec</a> <a href="#ref-for-idl-DOMException⑤">(2)</a>
+    <li><a href="#ref-for-idl-DOMException⑥">5.3. Monkey-patch to [SCREEN-CAPTURE] spec</a> <a href="#ref-for-idl-DOMException⑦">(2)</a>
    </ul>
   </aside>
-  <aside aria-labelledby="infopaneltitle-for-e2a06375a2fb70c61a8b4cd0abe9d4f1" class="dfn-panel" data-for="e2a06375a2fb70c61a8b4cd0abe9d4f1" id="infopanel-for-e2a06375a2fb70c61a8b4cd0abe9d4f1">
-   <span id="infopaneltitle-for-e2a06375a2fb70c61a8b4cd0abe9d4f1" style="display:none">Info about the 'InvalidStateError' external reference.</span><a href="https://webidl.spec.whatwg.org/#invalidstateerror">https://webidl.spec.whatwg.org/#invalidstateerror</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-invalidstateerror">
+   <a href="https://webidl.spec.whatwg.org/#invalidstateerror">https://webidl.spec.whatwg.org/#invalidstateerror</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-invalidstateerror">5.3. Monkey-patch to [SCREEN-CAPTURE] spec</a>
    </ul>
   </aside>
-  <aside aria-labelledby="infopaneltitle-for-ca5e897d4befe095f6d3540651df0e93" class="dfn-panel" data-for="ca5e897d4befe095f6d3540651df0e93" id="infopanel-for-ca5e897d4befe095f6d3540651df0e93">
-   <span id="infopaneltitle-for-ca5e897d4befe095f6d3540651df0e93" style="display:none">Info about the 'name' external reference.</span><a href="https://webidl.spec.whatwg.org/#dom-domexception-name">https://webidl.spec.whatwg.org/#dom-domexception-name</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-notallowederror">
+   <a href="https://webidl.spec.whatwg.org/#notallowederror">https://webidl.spec.whatwg.org/#notallowederror</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-notallowederror">3.1. Monkey-patch to HTML spec</a> <a href="#ref-for-notallowederror①">(2)</a> <a href="#ref-for-notallowederror②">(3)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-notsupportederror">
+   <a href="https://webidl.spec.whatwg.org/#notsupportederror">https://webidl.spec.whatwg.org/#notsupportederror</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-notsupportederror">3.1. Monkey-patch to HTML spec</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-securityerror">
+   <a href="https://webidl.spec.whatwg.org/#securityerror">https://webidl.spec.whatwg.org/#securityerror</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-securityerror">5.1. Monkey-patch to Payment Request spec</a> <a href="#ref-for-securityerror①">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dom-domexception-name">
+   <a href="https://webidl.spec.whatwg.org/#dom-domexception-name">https://webidl.spec.whatwg.org/#dom-domexception-name</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-domexception-name">5.3. Monkey-patch to [SCREEN-CAPTURE] spec</a>
    </ul>
   </aside>
-  <aside aria-labelledby="infopaneltitle-for-f7204c0306e7ffcb24c31adf6e629e1d" class="dfn-panel" data-for="f7204c0306e7ffcb24c31adf6e629e1d" id="infopanel-for-f7204c0306e7ffcb24c31adf6e629e1d">
-   <span id="infopaneltitle-for-f7204c0306e7ffcb24c31adf6e629e1d" style="display:none">Info about the 'reject' external reference.</span><a href="https://webidl.spec.whatwg.org/#reject">https://webidl.spec.whatwg.org/#reject</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-reject">
+   <a href="https://webidl.spec.whatwg.org/#reject">https://webidl.spec.whatwg.org/#reject</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-reject">5.3. Monkey-patch to [SCREEN-CAPTURE] spec</a>
    </ul>
@@ -1121,51 +1138,50 @@ return a promise <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#r
    <li>
     <a data-link-type="biblio">[FULLSCREEN]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="17f1422256aaa84ed73c3e82e27bec5c">requestFullscreen()</span>
+     <li><span class="dfn-paneled" id="term-for-dom-element-requestfullscreen">requestFullscreen()</span>
     </ul>
    <li>
     <a data-link-type="biblio">[HR-TIME-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="0527034ee7070fda15ffa50c34dbbc63">DOMHighResTimeStamp</span>
+     <li><span class="dfn-paneled" id="term-for-dom-domhighrestimestamp">DOMHighResTimeStamp</span>
     </ul>
    <li>
     <a data-link-type="biblio">[HTML]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="d1f0a86fd49be388d8b0159e241a1172">Window</span>
-     <li><span class="dfn-paneled" id="cb85fbb587526778c5c5e0faab249075">WindowPostMessageOptions</span>
-     <li><span class="dfn-paneled" id="c4ff264d4a1b262f1245a080117b5c19">allow</span>
-     <li><span class="dfn-paneled" id="5db590bc82ac7edd15fc4ebd1b0c25f0">browsing context</span>
-     <li><span class="dfn-paneled" id="53ea12fcca4eab4ccddd5da403fd6e4b">global object</span>
-     <li><span class="dfn-paneled" id="3b26601cc89b91ada4c771e32284e4c9">open(url, target, features)</span>
-     <li><span class="dfn-paneled" id="2233058c8f0998915af8393ee2abbc1d">relevant global object</span>
-     <li><span class="dfn-paneled" id="5b762d09d78e8674458b84982b3cb3c9">transient activation</span>
+     <li><span class="dfn-paneled" id="term-for-window">Window</span>
+     <li><span class="dfn-paneled" id="term-for-windowpostmessageoptions">WindowPostMessageOptions</span>
+     <li><span class="dfn-paneled" id="term-for-dom-iframe-allow">allow</span>
+     <li><span class="dfn-paneled" id="term-for-browsing-context">browsing context</span>
+     <li><span class="dfn-paneled" id="term-for-concept-settings-object-global">global object</span>
+     <li><span class="dfn-paneled" id="term-for-dom-open">open(url, target, features)</span>
+     <li><span class="dfn-paneled" id="term-for-concept-relevant-global">relevant global object</span>
+     <li><span class="dfn-paneled" id="term-for-transient-activation">transient activation</span>
     </ul>
    <li>
     <a data-link-type="biblio">[INFRA]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="4bf12d0cddf322a1e2a9fb52f4d85843">map</span>
+     <li><span class="dfn-paneled" id="term-for-ordered-map">map</span>
     </ul>
    <li>
     <a data-link-type="biblio">[PAYMENT-REQUEST-1.1]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="17e80d10b630cdfcf78a93f4eda10fa4">show()</span>
+     <li><span class="dfn-paneled" id="term-for-dom-paymentrequest-show">show()</span>
     </ul>
    <li>
     <a data-link-type="biblio">[SCREEN-CAPTURE]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="854ba5a2ea0a9f054dc77d8686489fd4">getDisplayMedia()</span>
-    </ul>
-   <li>
-    <a data-link-type="biblio">[WebCryptoAPI]</a> defines the following terms:
-    <ul>
-     <li><span class="dfn-paneled" id="3b36e8bc99a9e9d1772d3adc9864c284">domexception</span>
+     <li><span class="dfn-paneled" id="term-for-dom-mediadevices-getdisplaymedia">getDisplayMedia()</span>
     </ul>
    <li>
     <a data-link-type="biblio">[WEBIDL]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="e2a06375a2fb70c61a8b4cd0abe9d4f1">InvalidStateError</span>
-     <li><span class="dfn-paneled" id="ca5e897d4befe095f6d3540651df0e93">name</span>
-     <li><span class="dfn-paneled" id="f7204c0306e7ffcb24c31adf6e629e1d">reject</span>
+     <li><span class="dfn-paneled" id="term-for-idl-DOMException">DOMException</span>
+     <li><span class="dfn-paneled" id="term-for-invalidstateerror">InvalidStateError</span>
+     <li><span class="dfn-paneled" id="term-for-notallowederror">NotAllowedError</span>
+     <li><span class="dfn-paneled" id="term-for-notsupportederror">NotSupportedError</span>
+     <li><span class="dfn-paneled" id="term-for-securityerror">SecurityError</span>
+     <li><span class="dfn-paneled" id="term-for-dom-domexception-name">name</span>
+     <li><span class="dfn-paneled" id="term-for-reject">reject</span>
     </ul>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
@@ -1187,8 +1203,6 @@ return a promise <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#r
    <dd>S. Bradner. <a href="https://datatracker.ietf.org/doc/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. March 1997. Best Current Practice. URL: <a href="https://datatracker.ietf.org/doc/html/rfc2119">https://datatracker.ietf.org/doc/html/rfc2119</a>
    <dt id="biblio-screen-capture">[SCREEN-CAPTURE]
    <dd>Jan-Ivar Bruaroey; Elad Alon. <a href="https://w3c.github.io/mediacapture-screen-share/"><cite>Screen Capture</cite></a>. URL: <a href="https://w3c.github.io/mediacapture-screen-share/">https://w3c.github.io/mediacapture-screen-share/</a>
-   <dt id="biblio-webcryptoapi">[WebCryptoAPI]
-   <dd>Mark Watson. <a href="https://w3c.github.io/webcrypto/"><cite>Web Cryptography API</cite></a>. URL: <a href="https://w3c.github.io/webcrypto/">https://w3c.github.io/webcrypto/</a>
    <dt id="biblio-webidl">[WEBIDL]
    <dd>Edgar Chen; Timothy Gu. <a href="https://webidl.spec.whatwg.org/"><cite>Web IDL Standard</cite></a>. Living Standard. URL: <a href="https://webidl.spec.whatwg.org/">https://webidl.spec.whatwg.org/</a>
   </dl>
@@ -1197,8 +1211,8 @@ return a promise <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#r
    <dt id="biblio-payment-request">[PAYMENT-REQUEST]
    <dd>Marcos Caceres; Rouslan Solomakhin; Ian Jacobs. <a href="https://w3c.github.io/payment-request/"><cite>Payment Request API</cite></a>. URL: <a href="https://w3c.github.io/payment-request/">https://w3c.github.io/payment-request/</a>
   </dl>
-  <aside aria-labelledby="infopaneltitle-for-delegated_capability_timestamps" class="dfn-panel" data-for="delegated_capability_timestamps" id="infopanel-for-delegated_capability_timestamps">
-   <span id="infopaneltitle-for-delegated_capability_timestamps" style="display:none">Info about the 'DELEGATED_CAPABILITY_TIMESTAMPS' definition.</span><b><a href="#delegated_capability_timestamps">#delegated_capability_timestamps</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="delegated_capability_timestamps">
+   <b><a href="#delegated_capability_timestamps">#delegated_capability_timestamps</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-delegated_capability_timestamps">4. Tracking delegated capability</a> <a href="#ref-for-delegated_capability_timestamps①">(2)</a>
     <li><a href="#ref-for-delegated_capability_timestamps②">4.1. Monkey-patch to HTML spec</a>
@@ -1209,112 +1223,58 @@ return a promise <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#r
    </ul>
   </aside>
 <script>/* script-dfn-panel */
-"use strict";
-{
-    function queryAll(sel) {
-        return [].slice.call(document.querySelectorAll(sel));
+
+document.body.addEventListener("click", function(e) {
+    var queryAll = function(sel) { return [].slice.call(document.querySelectorAll(sel)); }
+    // Find the dfn element or panel, if any, that was clicked on.
+    var el = e.target;
+    var target;
+    var hitALink = false;
+    while(el.parentElement) {
+        if(el.tagName == "A") {
+            // Clicking on a link in a <dfn> shouldn't summon the panel
+            hitALink = true;
+        }
+        if(el.classList.contains("dfn-paneled")) {
+            target = "dfn";
+            break;
+        }
+        if(el.classList.contains("dfn-panel")) {
+            target = "dfn-panel";
+            break;
+        }
+        el = el.parentElement;
     }
-
-    // Add popup behavior to all dfns to show the corresponding dfn-panel.
-    var dfns = document.querySelectorAll('.dfn-paneled');
-    for (let dfn of dfns) { insertDfnPopupAction(dfn); }
-
-    document.body.addEventListener("click", (e) => {
-        // If not handled already, just hide all dfn panels.
-        hideAllDfnPanels();
-    });
-
-    function hideAllDfnPanels() {
+    if(target != "dfn-panel") {
         // Turn off any currently "on" or "activated" panels.
-        queryAll(".dfn-panel.on, .dfn-panel.activated").forEach(el=>hideDfnPanel(el));
+        queryAll(".dfn-panel.on, .dfn-panel.activated").forEach(function(el){
+            el.classList.remove("on");
+            el.classList.remove("activated");
+        });
     }
-
-    function showDfnPanel(dfnPanel, dfn) {
-        hideAllDfnPanels(); // Only display one at this time.
-        dfn.setAttribute("aria-expanded", "true");
-        dfnPanel.classList.add("on");
-        dfnPanel.style.left = "5px";
-        dfnPanel.style.top = "0px";
-        const panelRect = dfnPanel.getBoundingClientRect();
-        const panelWidth = panelRect.right - panelRect.left;
-        if (panelRect.right > document.body.scrollWidth) {
-            // Panel's overflowing the screen.
-            // Just drop it below the dfn and flip it rightward instead.
-            // This still wont' fix things if the screen is *really* wide,
-            // but fixing that's a lot harder without 'anchor()'.
-            dfnPanel.style.top = "1.5em";
-            dfnPanel.style.left = "auto";
-            dfnPanel.style.right = "0px";
+    if(target == "dfn" && !hitALink) {
+        // open the panel
+        var dfnPanel = document.querySelector(".dfn-panel[data-for='" + el.id + "']");
+        if(dfnPanel) {
+            dfnPanel.classList.add("on");
+            var rect = el.getBoundingClientRect();
+            dfnPanel.style.left = window.scrollX + rect.right + 5 + "px";
+            dfnPanel.style.top = window.scrollY + rect.top + "px";
+            var panelRect = dfnPanel.getBoundingClientRect();
+            var panelWidth = panelRect.right - panelRect.left;
+            if(panelRect.right > document.body.scrollWidth && (rect.left - (panelWidth + 5)) > 0) {
+                // Reposition, because the panel is overflowing
+                dfnPanel.style.left = window.scrollX + rect.left - (panelWidth + 5) + "px";
+            }
+        } else {
+            console.log("Couldn't find .dfn-panel[data-for='" + el.id + "']");
         }
-    }
-
-    function pinDfnPanel(dfnPanel) {
+    } else if(target == "dfn-panel") {
         // Switch it to "activated" state, which pins it.
-        dfnPanel.classList.add("activated");
-        dfnPanel.style.left = null;
-        dfnPanel.style.top = null;
+        el.classList.add("activated");
+        el.style.left = null;
+        el.style.top = null;
     }
 
-    function hideDfnPanel(dfnPanel, dfn) {
-        if(!dfn) {
-            dfn = document.getElementById(dfnPanel.getAttribute("data-for"));
-        }
-        dfn.setAttribute("aria-expanded", "false")
-        dfnPanel.classList.remove("on");
-        dfnPanel.classList.remove("activated");
-    }
-
-    function toggleDfnPanel(dfnPanel, dfn) {
-        if(dfnPanel.classList.contains("on")) {
-            hideDfnPanel(dfnPanel, dfn);
-        } else {
-            showDfnPanel(dfnPanel, dfn);
-        }
-    }
-
-    function insertDfnPopupAction(dfn) {
-        // Find dfn panel
-        const dfnPanel = document.querySelector(`.dfn-panel[data-for='${dfn.id}']`);
-        if (dfnPanel) {
-            const panelWrapper = document.createElement('span');
-            panelWrapper.appendChild(dfnPanel);
-            panelWrapper.style.position = "relative";
-            panelWrapper.style.height = "0px";
-            dfn.insertAdjacentElement("afterend", panelWrapper);
-            dfn.setAttribute('role', 'button');
-            dfn.setAttribute('aria-expanded', 'false')
-            dfn.tabIndex = 0;
-            dfn.classList.add('has-dfn-panel');
-            dfn.addEventListener('click', (event) => {
-                showDfnPanel(dfnPanel, dfn);
-                event.stopPropagation();
-            });
-            dfn.addEventListener('keypress', (event) => {
-                const kc = event.keyCode;
-                // 32->Space, 13->Enter
-                if(kc == 32 || kc == 13) {
-                    toggleDfnPanel(dfnPanel, dfn);
-                    event.stopPropagation();
-                    event.preventDefault();
-                }
-            });
-
-            dfnPanel.addEventListener('click', (event) => {
-                pinDfnPanel(dfnPanel);
-                event.stopPropagation();
-            });
-
-            dfnPanel.addEventListener('keydown', (event) => {
-                if(event.keyCode == 27) { // Escape key
-                    hideDfnPanel(dfnPanel, dfn);
-                    event.stopPropagation();
-                    event.preventDefault();
-                }
-            })
-
-        } else {
-            console.log("Couldn't find .dfn-panel[data-for='" + dfn.id + "']");
-        }
-    }
-}
+});
 </script>
