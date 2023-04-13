@@ -156,17 +156,17 @@ will be followed by two additional steps as follows:
 8. If <var>delegate</var> is not null, then:
 
     1. If the user agent does not support delegating the feature indicated by <var>delegate</var>,
-        then throw a "NotSupportedError" DOMException.
+        then throw a {{"NotSupportedError"}} {{DOMException}}.
 
     2. If <var ignore="">targetWindow</var>'s [associated
         Document](https://html.spec.whatwg.org/multipage/window-object.html#concept-document-window)
         is not
         [allowed-to-use](https://html.spec.whatwg.org/multipage/iframe-embed-object.html#allowed-to-use)
         the feature indicated by <var>delegate</var>, then throw a a
-        "NotAllowedError" DOMException.
+        {{"NotAllowedError"}} {{DOMException}}.
 
     2. If <var ignore="">targetOrigin</var> is a single U+002A ASTERISK character (*), then throw a
-        a "NotAllowedError" DOMException.
+        a {{"NotAllowedError"}} {{DOMException}}.
 
         <div class="note">
           The default value of
@@ -180,7 +180,7 @@ will be followed by two additional steps as follows:
 
     4. If <var>source</var> does not have [transient
         activation](https://html.spec.whatwg.org/multipage/interaction.html#transient-activation),
-        then throw a "NotAllowedError" DOMException.
+        then throw a {{"NotAllowedError"}} {{DOMException}}.
 
     5. [Consume user
         activation](https://html.spec.whatwg.org/multipage/interaction.html#consume-user-activation)
@@ -259,7 +259,7 @@ replaced to implement the delegated behavior:
 The two steps:
 
 > 2. If the relevant global object of request does not have transient activation:
->     1. Return a promise rejected with a "SecurityError" DOMException.
+>     1. Return a promise rejected with a {{"SecurityError"}} {{DOMException}}.
 >
 > 3. Consume user activation of the relevant global object.
 
@@ -270,7 +270,7 @@ will be replaced by the following three steps:
     AND the timestamp [=DELEGATED_CAPABILITY_TIMESTAMPS=]["payment"] in the
     relevant global object is either undefined or
     [expired](https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry):
-     1. Return a promise rejected with a "SecurityError" DOMException.
+     1. Return a promise rejected with a {{"SecurityError"}} {{DOMException}}.
 
 3. If the relevant global object of request does not have transient activation,
     then clear the map entry [=DELEGATED_CAPABILITY_TIMESTAMPS=]["payment"].
@@ -318,7 +318,7 @@ done to implement the delegated behavior:
 The condition in Step 3:
 
 > 3. If the relevant global object of this does not have transient activation, return a promise
->     rejected with a DOMException object whose name attribute has the value InvalidStateError.
+>     rejected with a {{DOMException}} object whose name attribute has the value {{InvalidStateError}}.
 
 will be replaced by:
 
@@ -326,5 +326,5 @@ will be replaced by:
     timestamp [=DELEGATED_CAPABILITY_TIMESTAMPS=]["display-capture"] in this's
     [=relevant global object=] is either undefined or
     [expired](https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry),
-    return a promise [=rejected=] with a [=DOMException=] object whose {{DOMException/name}}
+    return a promise [=rejected=] with a {{DOMException}} object whose {{DOMException/name}}
     attribute has the value {{InvalidStateError}}.
