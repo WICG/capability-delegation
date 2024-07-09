@@ -919,20 +919,30 @@ relevant global object is neither undefined nor <a href="https://html.spec.whatw
 the algorithm is triggered by a user generated orientation change.</p>
      </ul>
    </ol>
-   <p>Right before the Step 10:</p>
+   <p>Step 6:</p>
    <blockquote>
-    <ol start="10">
+    <ol start="6">
      <li data-md>
-      <p>Let fullscreenElements be an ordered set initially consisting of this.</p>
+      <p>If <var>error</var> is false, then consume user activation given <var>pendingDoc</var>'s
+      relevant global object.</p>
     </ol>
    </blockquote>
-   <p>the following new step will be inserted:</p>
-   <ol start="10">
-    <li data-md>
-     <p>If this’s relevant global object does not have transient activation, then clear the map entry <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps⑦">DELEGATED_CAPABILITY_TIMESTAMPS</a>["fullscreen"] in this’s relevant global object.</p>
-    <li data-md>
-     <p>Let fullscreenElements be an ordered set initially consisting of this. <em>(unchanged except
- for numbering)</em></p>
+   will be replaced by:
+   <ol start="6">
+    <li data-md><p>If <var>error</var> is false:</p>
+     <ol>
+      <li data-md>
+       <p>Clear the map entry <a data-link-type="dfn"
+       href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps⑦"
+       >DELEGATED_CAPABILITY_TIMESTAMPS</a>["fullscreen"] in this’
+       <a href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global"
+       >relevant global object</a>.</p>
+      <li data-md>
+       <a href="https://html.spec.whatwg.org/multipage/interaction.html#consume-user-activation"
+       >Consume user activation</a> given <var>pendingDoc</var>'s'
+       <a href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global"
+       >relevant global object</a>.</p>
+     </ol>
    </ol>
    <h3 class="heading settled" data-level="5.3" id="monkey-patch-to-screen-capture"><span class="secno">5.3. </span><span class="content">Monkey-patch to <a data-link-type="biblio" href="#biblio-screen-capture" title="Screen Capture">[SCREEN-CAPTURE]</a> spec</span><a class="self-link" href="#monkey-patch-to-screen-capture"></a></h3>
    <p>In the algorithm for <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/mediacapture-screen-share/#dom-mediadevices-getdisplaymedia" id="ref-for-dom-mediadevices-getdisplaymedia">getDisplayMedia()</a></code>, the following changes will be
