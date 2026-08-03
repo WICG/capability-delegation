@@ -226,6 +226,6 @@ This feature grants a bypass to the popup blocker, which is a high-security-risk
 
 ## References & Prior Discussion
 
--   **Chromium Bug**: [crbug.com/529458813](https://crbug.com/529458813)
+-   **Chromium Bug**: [crbug.com/542314185](https://crbug.com/542314185)
 -   **WICG Capability Delegation**: https://github.com/WICG/capability-delegation
 -   **Capability Delegation Specification**: https://wicg.github.io/capability-delegation/spec.html
