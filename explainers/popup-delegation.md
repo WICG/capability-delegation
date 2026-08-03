@@ -214,8 +214,10 @@ This feature grants a bypass to the popup blocker, which is a high-security-risk
 2.  **Activation Consumption on Sender**: Initiating a delegation consumes the transient activation on the sender context immediately, preventing the sender from reusing the same gesture.
 3.  **Single-Use Token**: The delegated capability token on the receiver side is consumed immediately upon the first call to `window.open()`. It cannot be used to spawn multiple pop-ups.
 4.  **Lifespan Constraints**:
-    *   **Sender Activation**: The Service Worker's transient user activation (acquired from a notification click) has a user-agent defined lifespan, similar to standard window transient user activation. (In Chromium, this is implemented as 1 second to minimize the abuse window).
-    *   **Delegated Token**: The delegated `"popup"` capability token on the receiver client window follows the standard Capability Delegation lifespan constraints (which is user-agent defined, typically matching the transient user activation lifetime). (In Chromium, this is implemented as 1 second to prevent "delayed" popups that could surprise the user).
+    *   **Sender Activation**: The sender has a user-agent defined lifespan after user interaction to perform the delegation:
+        *   **Frame-to-Frame**: Uses standard transient user activation, which lasts 5 seconds in Chrome.
+        *   **Service Worker**: Uses the window interaction permission (triggered by a notification click), which lasts 10 seconds in Chrome (`kWindowInteractionTimeout`) to accommodate potential Service Worker startup and asynchronous delays.
+    *   **Delegated Token**: Once the delegation message is received by the target window, it has a short user-agent defined lifespan to consume the delegated capability (e.g., calling `window.open()`). In Chrome, this delegated capability lifespan is 1 second (`kActivationLifespan`) for both frame-to-frame and Service Worker-to-client delegations to prevent delayed, unexpected pop-ups.
 5.  **Scope Restrictions**:
     *   **Service Workers**: SW delegation is strictly same-origin (enforced by the SW scope and client matching model).
     *   **Windows**: While Window-to-Iframe delegation can cross origin boundaries (essential for payment/auth use cases), developers are strongly encouraged to specify an explicit target origin in `postMessage()` to prevent accidental delegation to untrusted frames.
