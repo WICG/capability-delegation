@@ -152,16 +152,16 @@ window.addEventListener('message', (event) => {
 ## Key Scenarios Walkthrough
 
 ### 1. Successful Delegation
-- User clicks notification -> SW gets 1-second transient activation.
-- SW calls `postMessage` with `{delegate: 'popup'}` within 1 second.
+- User clicks notification -> SW gets transient user activation.
+- SW calls `postMessage` with `{delegate: 'popup'}` before the activation expires.
 - SW transient activation is consumed.
 - Client window receives message with `kPopup` capability.
-- Client window gets 1-second transient activation token for popups.
+- Client window gets a transient activation token for popups.
 - Client window calls `window.open()` synchronously in event handler -> Pop-up opens, token is consumed.
 
 ### 2. Timeout (Abuse Mitigation)
-- User clicks notification -> SW gets 1-second transient activation.
-- SW waits 2 seconds (e.g., doing heavy work) before calling `postMessage`.
+- User clicks notification -> SW gets transient user activation.
+- SW waits (e.g., doing heavy work) until the activation expires.
 - SW activation has expired.
 - SW call to `postMessage` with `delegate` throws `NotAllowedError` DOMException.
 
@@ -213,9 +213,9 @@ This feature grants a bypass to the popup blocker, which is a high-security-risk
 1.  **Sender Activation Required**: The sender (Service Worker or Window) must possess active transient user activation (e.g., from a notification click or direct click) to initiate the delegation.
 2.  **Activation Consumption on Sender**: Initiating a delegation consumes the transient activation on the sender context immediately, preventing the sender from reusing the same gesture.
 3.  **Single-Use Token**: The delegated capability token on the receiver side is consumed immediately upon the first call to `window.open()`. It cannot be used to spawn multiple pop-ups.
-4.  **Short Lifespan (1-second limit)**: 
-    *   **Service Worker Activation**: The transient user activation acquired by a Service Worker (e.g., from a notification click) is proposed to have a short **1-second** lifespan (compared to the standard 5-second lifespan for window interactions) to ensure delegation happens immediately.
-    *   **Delegated Token**: The delegated `"popup"` capability token on the receiver client window also expires after **1 second** (using a 1-second expiry instead of the standard capability delegation default which often matches the 5s user activation window). This prevents "delayed" popups that could surprise the user long after they clicked the notification.
+4.  **Lifespan Constraints**:
+    *   **Sender Activation**: The Service Worker's transient user activation (acquired from a notification click) has a user-agent defined lifespan, similar to standard window transient user activation. (In Chromium, this is implemented as 1 second to minimize the abuse window).
+    *   **Delegated Token**: The delegated `"popup"` capability token on the receiver client window follows the standard Capability Delegation lifespan constraints (which is user-agent defined, typically matching the transient user activation lifetime). (In Chromium, this is implemented as 1 second to prevent "delayed" popups that could surprise the user).
 5.  **Scope Restrictions**:
     *   **Service Workers**: SW delegation is strictly same-origin (enforced by the SW scope and client matching model).
     *   **Windows**: While Window-to-Iframe delegation can cross origin boundaries (essential for payment/auth use cases), developers are strongly encouraged to specify an explicit target origin in `postMessage()` to prevent accidental delegation to untrusted frames.
