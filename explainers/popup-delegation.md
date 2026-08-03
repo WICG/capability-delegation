@@ -60,7 +60,6 @@ dictionary PostMessageOptions : StructuredSerializeOptions {
     DOMString? delegate;
 };
 
-// Change: Window-specific options inherit from PostMessageOptions
 dictionary WindowPostMessageOptions : PostMessageOptions {
     USVString targetOrigin = "/";
     // Change: Move `DOMString? delegate;` to above.
