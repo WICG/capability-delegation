@@ -49,34 +49,33 @@ This enables two key use cases:
 
 ## Proposed API
 
-We propose moving the `delegate` option from `WindowPostMessageOptions` to the base `PostMessageOptions` dictionary, making it available to `ServiceWorkerClient.postMessage()`. We also introduce `"popup"` as a new valid capability for delegation.
+We propose introducing a `ClientPostMessageOptions` dictionary for `ServiceWorkerClient.postMessage()`, mirroring `WindowPostMessageOptions`, to allow specifying the `delegate` capability without polluting the base `StructuredSerializeOptions` or non-delegation channels (`MessagePort`, `BroadcastChannel`). We also introduce `"popup"` as a valid capability identifier.
 
 ### Web IDL Changes
 
 ```webidl
-dictionary PostMessageOptions : StructuredSerializeOptions {
-    boolean includeUserActivation = false;
-    // Change: Expose 'delegate' to all postMessage options (including Service Worker Client)
+// In Service Workers specification:
+dictionary ClientPostMessageOptions : StructuredSerializeOptions {
     DOMString? delegate;
 };
 
-dictionary WindowPostMessageOptions : PostMessageOptions {
-    USVString targetOrigin = "/";
-    // Change: Move `DOMString? delegate;` to above.
+partial interface ServiceWorkerClient {
+    [NewObject] undefined postMessage(any message, optional ClientPostMessageOptions options = {});
+};
+
+// In Window specification (existing):
+partial dictionary WindowPostMessageOptions {
+    DOMString? delegate;
 };
 ```
 
-### Behavior on Unsupported Channels
+### Supported Delegation Targets
 
-Because `PostMessageOptions` is shared, moving `delegate` to it syntactically exposes the option to non-delegation-capable interfaces:
-1.  `MessagePort.postMessage()`
-2.  `BroadcastChannel` (does not support `PostMessageOptions` or delegation)
-3.  `ServiceWorker.postMessage()` (sending a message to a Service Worker)
-4.  `Client.postMessage()` when the target client is a worker or shared worker (i.e., `client.type !== 'window'`)
+Capability delegation is exclusively supported on:
+1.  `Window.postMessage(message, options)` (delegating to another `Window` / frame)
+2.  `Client.postMessage(message, options)` on `WindowClient` instances (delegating from a `ServiceWorker` to a same-origin client window)
 
-To prevent developer confusion and avoid silent failures, the specification proposes to **throw a `NotSupportedError` DOMException** if the `delegate` option is provided on these unsupported channels.
-
-*Implementation Note:* Reusing the dictionary is an implementation convenience in Blink, but the spec definition should ensure that only `Window` and `ServiceWorkerClient` (specifically window client) targets can receive delegated capabilities.
+Other messaging interfaces (such as `MessagePort`, `BroadcastChannel`, `Worker.postMessage()`, `ServiceWorker.postMessage()`, or `Client.postMessage()` when targeting a worker client) do not accept delegation options and do not participate in capability delegation.
 
 ### Developer Usage Example
 
@@ -89,12 +88,12 @@ self.addEventListener('notificationclick', (event) => {
     const targetClient = clients.find(c => c.visibilityState === 'visible') || clients[0];
     
     if (targetClient) {
-      // Focus the client
+      // Bring client to foreground
       await targetClient.focus();
       
       // Delegate the popup capability to the client
-      // The SW has transient activation because of the notification click
-      targetClient.postMessage({action: 'open_tearoff'}, {delegate: 'popup'});
+      // The SW has transient activation from the notification click
+      targetClient.postMessage({action: 'open_tearoff', emailId: '123'}, {delegate: 'popup'});
     }
   }());
 });
@@ -104,15 +103,17 @@ self.addEventListener('notificationclick', (event) => {
 ```javascript
 navigator.serviceWorker.addEventListener('message', (event) => {
   if (event.data.action === 'open_tearoff') {
-    // This call is allowed because of the delegated 'popup' capability.
-    // It must be called synchronously in the message event handler.
-    const popup = window.open('/tearoff', 'tearoff_view', 'width=600,height=400');
+    // Synchronous open consumes the single-use delegated 'popup' capability token
+    const popup = window.open('/tearoff?id=' + event.data.emailId, 'tearoff_view', 'width=600,height=400');
     if (!popup) {
       console.error('Popup was blocked despite delegation.');
     }
   }
 });
 ```
+
+> [!TIP]
+> **Async Data Fetching Pattern**: If the client window needs to fetch data before rendering, it should call `window.open('about:blank', ...)` **synchronously** in the `message` event handler to consume the 1-second token, and then asynchronously update `popup.location.href` or inject DOM elements once data arrives. Waiting on an asynchronous `await fetch()` before calling `window.open()` risks token expiration.
 
 #### Window-to-IFrame (shop.example to pay.example)
 
@@ -181,34 +182,32 @@ To integrate this with the HTML, Service Workers, and Capability Delegation spec
 The [HTML User Activation Data Model](https://html.spec.whatwg.org/multipage/interaction.html#user-activation-data-model) currently tracks transient and sticky activation (`has_transient_activation` and `has_been_activated`) strictly on `Window` objects (associated with a `Navigable`).
 
 To support capability delegation from Service Workers:
-- **Extend Activation Tracking to `ServiceWorkerGlobalScope`**: The spec must formalize that certain trusted events (specifically `notificationclick` in the Notifications API) grant **transient user activation** to the `ServiceWorkerGlobalScope`.
-- **Event-Scoped Lifecycle & Immediate Disposal**: Transient activation on a Service Worker is strictly tied to the active `notificationclick` event dispatch and its `ExtendableEvent.waitUntil()` execution. The Service Worker must either forward the capability during the event or drop it:
-  - If the SW delegates via `Client.postMessage(..., {delegate: 'popup'})`, the activation is **consumed immediately**.
-  - If the event handler completes, the `waitUntil` promise resolves, or the Service Worker terminates without delegating, the transient activation is **immediately discarded** and does not persist across subsequent events or tasks.
-  - User Agents may impose a safety timeout ceiling (e.g., matching the standard notification interaction timeout) to prevent unfulfilled promises in `waitUntil` from hanging open indefinitely.
-- **Directionality (SW-to-Window Only)**: Delegation is strictly unidirectional from the Service Worker to a Window Client. Initiating delegation from a DOM Window to a Service Worker via `ServiceWorker.postMessage()` is disallowed and throws a `NotSupportedError` DOMException, preventing pages from "banking" activation in the worker.
+- **Event-Scoped Activation Tracking**: The spec must define that handling a trusted `notificationclick` event in the Notifications API grants **transient user activation** strictly scoped to that specific `NotificationEvent` execution context (and its `ExtendableEvent.waitUntil()` promise chain), rather than an ambient boolean on `ServiceWorkerGlobalScope`. This prevents concurrent, untrusted background tasks (such as incoming `fetch` or `push` events) from hijacking or consuming the user activation.
+- **Strict Lifespan Cap**: Transient activation in the Service Worker is valid for `min(5000ms, ExtendableEventDuration)`. If the event handler completes, the `waitUntil` promise settles, or 5 seconds elapse without delegating, the transient activation is **immediately discarded**.
+- **Activation Consumption**: Calling `Client.postMessage()` with a `delegate` option [consumes user activation](https://html.spec.whatwg.org/multipage/interaction.html#consume-user-activation) on that event context, ensuring only a single delegation can occur per notification click.
 
 ### 2. Sender Side (`Client.postMessage`)
 When `Client.postMessage(message, options)` is called:
 - If `options.delegate` is set to `"popup"`:
   - If the target client's type is not `"window"` (i.e., it is a worker or shared worker), the User Agent must throw a `NotSupportedError` DOMException.
-  - The User Agent must verify that the sender's `ServiceWorkerGlobalScope` has active [transient user activation](https://html.spec.whatwg.org/multipage/interaction.html#transient-activation).
-  - If active, the User Agent **consumes** the Service Worker's transient user activation and attaches the delegated capability `"popup"` to the message container.
+  - The User Agent must verify that the caller is executing within a `NotificationEvent` context with active [transient user activation](https://html.spec.whatwg.org/multipage/interaction.html#transient-activation).
+  - If active, the User Agent **consumes** the event's transient user activation and attaches the delegated capability `"popup"` to the message container.
   - If not active, the User Agent rejects the call by throwing a `NotAllowedError` DOMException, matching `DOMWindow` behavior (as specified in [Section 3.1 of the Capability Delegation Spec](https://wicg.github.io/capability-delegation/spec.html#monkey-patch-to-html-initiating-delegation)).
 
 ### 3. Receiver Side (Client Window)
 The Service Workers specification defines that `Client.postMessage` dispatches a `message` event on the target client's `ServiceWorkerContainer` (`navigator.serviceWorker`).
-- When the User Agent queues the task to fire the `message` event:
+- When the User Agent dispatches the `message` event task:
   - If the message container has the delegated capability `"popup"` attached:
     - The User Agent sets `DELEGATED_CAPABILITY_TIMESTAMPS["popup"]` on the target `Window` to the [current high resolution time](https://w3c.github.io/hr-time/#dfn-current-high-resolution-time).
-    - This activates the delegated capability token on the target window for a short duration (`kActivationLifespan`, e.g. 1 second).
+    - This activates the delegated capability token on the target window for a short duration (`kActivationLifespan`, 1 second).
 
 ### 4. Monkey-Patch to `window.open()` (Popup Capability Definition)
 In the HTML specification's window open steps / popup blocker check:
 - When `Window.open()` is called:
-  1. Check if the relevant global object has [transient activation](https://html.spec.whatwg.org/multipage/interaction.html#transient-activation), OR if `DELEGATED_CAPABILITY_TIMESTAMPS["popup"]` is present and not [expired](https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry).
-  2. If neither condition is met, the popup is blocked by the User Agent's popup blocker policy.
-  3. If permitted via delegated capability (and lacking direct transient activation), the User Agent **clears** `DELEGATED_CAPABILITY_TIMESTAMPS["popup"]` immediately, consuming the single-use token.
+  1. **Iframe Sandbox Enforcement**: If the calling context is a sandboxed iframe that lacks the `allow-popups` sandbox flag, the request is immediately blocked (capability delegation **never** overrides sandbox restrictions).
+  2. **Popup Blocker Verification**: Check if the relevant global object has [transient activation](https://html.spec.whatwg.org/multipage/interaction.html#transient-activation), OR if `DELEGATED_CAPABILITY_TIMESTAMPS["popup"]` is present and not [expired](https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry).
+  3. If neither condition is met, the popup is blocked by the User Agent's popup blocker policy.
+  4. If permitted via delegated capability (and lacking direct transient activation), the User Agent **clears** `DELEGATED_CAPABILITY_TIMESTAMPS["popup"]` immediately, consuming the single-use token.
 
 ---
 
@@ -216,7 +215,7 @@ In the HTML specification's window open steps / popup blocker check:
 
 ### 1. `Clients.openWindow()`
 *Why it is insufficient:* 
-- **Performance / State Sharing**: `Clients.openWindow()` creates a completely new, isolated top-level browsing context. For large web applications (like Gmail), this forces a full cold application bootstrap from scratch, leading to noticeable latency compared to opening a tearoff window that shares in-memory state and script context with an existing tab.
+- **Synchronous `WindowProxy` & Thread Boundary**: `Clients.openWindow()` executes on the Service Worker thread and returns `Promise<WindowClient>`. It fundamentally *cannot* return a synchronous DOM `WindowProxy` to an existing tab. In contrast, calling `window.open()` in an existing client window provides a synchronous `WindowProxy`, enabling direct in-memory JavaScript object sharing (state trees, functions, cached models) without requiring a costly full app bootstrap or serialization round-trip.
 - **Window Positioning and Features**: `Clients.openWindow()` opens a new standard browser tab/window without allowing the developer to customize popup features (e.g. `width`, `height`, popup window placement, or minimal window chrome).
 - **Navigation Capture / TWA Differences**: In Progressive Web Apps (PWAs) and Trusted Web Activities (TWAs), `openWindow()` can trigger navigation capturing that either replaces the current window or opens in a separate browser tab rather than an auxiliary popup view.
 
@@ -241,14 +240,16 @@ We considered only allowing the `"popup"` capability to be delegated from Servic
 This feature grants a bypass to the popup blocker, which is a high-security-risk area. We mitigate abuse through the following design constraints:
 
 1.  **Sender Activation Required**: The sender (Service Worker or Window) must possess active transient user activation (e.g., from a `notificationclick` event or direct user interaction) to initiate the delegation.
-2.  **Activation Consumption on Sender**: Initiating a delegation consumes the transient activation on the sender context immediately. A Service Worker cannot broadcast or loop `postMessage` with delegation to multiple client windows from a single click event.
-3.  **Single-Use Token**: The delegated capability token on the receiver side is consumed immediately upon the first call to `window.open()`. It cannot be used to spawn multiple pop-ups.
-4.  **Lifespan Constraints**:
+2.  **Concurrency & Event Isolation**: In Service Workers, transient activation is bound strictly to the `NotificationEvent` context, preventing concurrent background tasks (`fetch`, `push`) from accessing or consuming the activation.
+3.  **Activation Consumption on Sender**: Initiating a delegation consumes the transient activation on the sender context immediately. A Service Worker cannot broadcast or loop `postMessage` with delegation to multiple client windows from a single click event.
+4.  **Single-Use Token**: The delegated capability token on the receiver side is consumed immediately upon the first call to `window.open()`. It cannot be used to spawn multiple pop-ups.
+5.  **Lifespan Constraints**:
     *   **Sender Activation**: 
         *   **Frame-to-Frame**: Uses standard transient user activation, which expires after a short UA-defined duration (5 seconds in Chrome).
-        *   **Service Worker**: Scoped strictly to the execution of the `notificationclick` event. The SW must either forward the capability during the event or drop it. If the SW finishes event processing or terminates without delegating, the activation is immediately discarded. A maximum timeout ceiling prevents hanging promises from holding activation open indefinitely.
+        *   **Service Worker**: Scoped to the `notificationclick` event execution with a hard 5-second ceiling (`min(5000ms, ExtendableEventDuration)`). If the SW finishes event processing or terminates without delegating, the activation is immediately discarded.
     *   **Delegated Token**: Once the delegation message is received by the target window, it has a short user-agent defined lifespan to consume the delegated capability (e.g., calling `window.open()`). In Chrome, this delegated capability lifespan is 1 second (`kActivationLifespan`) for both frame-to-frame and Service Worker-to-client delegations to prevent delayed, unexpected pop-ups.
-5.  **Scope, Reachability & Multi-Client Isolation**:
+6.  **Iframe Sandbox Invariant**: Capability delegation **never bypasses iframe sandboxing**. If an iframe is sandboxed without `allow-popups`, calls to `window.open()` will fail regardless of delegated tokens.
+7.  **Scope, Reachability & Multi-Client Isolation**:
     *   **Service Workers (1-to-1 Same-Origin)**: SW delegation is strictly same-origin. Because a Service Worker registration can control multiple browsing contexts simultaneously, delegation is strictly 1-to-1: only the specific `WindowClient` explicitly addressed via `targetClient.postMessage(..., {delegate: 'popup'})` receives the capability token.
     *   **Window-to-Window & Auxiliary Frames (Handle-Restricted)**:
         *   A `Window` can only delegate to browsing contexts where it holds a direct `WindowProxy` reference (e.g., a child `iframe`, a parent/opener window, or an auxiliary top-level window opened via `window.open()`).
@@ -258,7 +259,7 @@ This feature grants a bypass to the popup blocker, which is a high-security-risk
             2. Initiating delegation immediately consumes the sender's transient activation, maintaining a strict 1:1 invariant between user gestures and popups (zero popup amplification).
             3. The target window only has a 1-second window to consume the single-use token upon receiving the message.
     *   **Cross-Origin Windows**: While Window-to-Iframe delegation can cross origin boundaries (essential for payment/auth use cases), developers are strongly encouraged to specify an explicit target origin in `postMessage()` to prevent accidental delegation to untrusted frames.
-6.  **Focus & Presentation Flow**: 
+8.  **Focus & Presentation Flow**: 
     *   Capability delegation transfers the capability token without altering browser focus state.
     *   In the Service Worker notification flow, developers use the existing `await client.focus()` API to bring the desired client window into the foreground upon handling the notification click before delegating the capability.
     *   When the client window consumes the token via `window.open()`, the resulting popup window is created and presented following standard browser window manager rules.
