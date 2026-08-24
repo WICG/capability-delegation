@@ -14,9 +14,9 @@ Many web APIs are gated by transient user activation to prevent abuse (such as u
 
 In the legacy, document-bound Notifications API (`new Notification()`), clicking a notification dispatches an `onclick` event directly in the originating `Window` context. Because this event runs on a `Window`, the browser automatically grants transient user activation to the page, allowing the click handler to call `window.open()` directly and share application state.
 
-However, modern web applications and Progressive Web Apps (PWAs) rely on **Service Worker Notifications** (`registration.showNotification()`) to handle push notifications and background messaging when client windows may be closed or backgrounded. When a user interacts with a Service Worker notification, the `notificationclick` event is dispatched to the background Service Worker execution context, which lacks a DOM and cannot directly open windows with shared memory. 
+**Service Worker Notifications** (`registration.showNotification()`) are intended to be a more featured and efficient way to handle push notifications and background messaging when client windows may be closed or backgrounded. When a user interacts with a Service Worker notification, the `notificationclick` event is dispatched to the background Service Worker execution context, which lacks a DOM and cannot directly open windows with shared memory. 
 
-Today, if a Service Worker handling a notification click wants an existing tab to open an auxiliary view (such as an email preview or chat popup) that shares live in-memory state and cache with the main window, the client window cannot call `window.open()` because it lacks user activation.
+Today, a service worker push notification **cannot** result in a tab opening an auxiliary view (AKA `window.open()`). This is because it lacks user activation. However, this is the current & efficient way that certain webapps, like gmail, open quick compose or preview popup windows in response to notification clicks.
 
 This proposal extends the **Capability Delegation** framework to bridge this gap, allowing Service Workers to receive transient capabilities upon user interaction events and delegate them to same-origin client windows.
 
@@ -27,33 +27,37 @@ Specifically:
 4. Calling `window.open()` on the client is permitted if **either** transient user activation or the delegated `"popup"` capability is present, consuming **both** upon execution.
 
 ## Goals
-- Allow Service Workers handling notification clicks to delegate the `"popup"` capability to a same-origin `WindowClient`, achieving parity with the capabilities of the legacy document-bound Notification API.
-- Enable high-performance, state-sharing popup window flows (e.g., email preview, chat popouts) for web applications from notifications.
+- Allow a Service Worker `notificationclick` event to result in a popup window created from an existing `WindowClient` (achieving parity with legacy document-bound Notification API).
 - Maintain a strict 1:1 invariant between user notification clicks and permitted popup windows (zero popup amplification).
 
 ## Non-Goals
-- **Frame-to-Frame / Window-to-Iframe Popup Delegation**: Delegating popup capabilities across frames or to cross-origin iframes is intentionally excluded from this proposal to de-risk security reviews and avoid cross-origin popup blocker complexities (see [Future Considerations](#future-considerations-frame-to-frame-popup-delegation)).
-- **General Worker User Activation**: Exposing general user activation states (such as `navigator.userActivation` or ambient transient activation) to Service Workers or Web Workers.
-- **Cross-Origin SW Delegation**: Allowing Service Workers to delegate capabilities to cross-origin clients (SW delegation is strictly same-origin to its registered `WindowClient`s).
-- **Direct Popups from Workers**: Allowing Service Workers to directly invoke `window.open()` or spawn DOM windows from background threads.
+- **Fixing General Transient Activation Specification for Existing Service Worker APIs**: Currently, web specifications have a recognized gap regarding transient user activation in Service Workers. Certain APIs like `WindowClient.focus()` and `Clients.openWindow()` normatively require user activation in standard window contexts, but in Service Workers specifications historically relied on stop-gap prose (e.g., advising implementers to allow `focus()` or `openWindow()` during notification click events without defining a formal user activation model for workers). It is **not** a goal of this proposal to holistically resolve or re-specify general transient activation for those existing worker APIs, except where Capability Delegation specifically addresses delegating the `"popup"` capability to client windows. This should be fixed in a separate effort.
+- **Frame-to-Frame / Window-to-Iframe Popup Delegation**: Allowing one frame, which currently can create an aux popup window, to delegate this ability to another frame (either an iframe or a separate document tab). See [Future Considerations](#future-considerations-frame-to-frame-popup-delegation).
+- **Cross-Origin Support**: The document is always same-origin as the service worker.
+
 
 ## Motivating User Scenario: Webmail Notification & State-Sharing Preview
 
 1. A user receives a desktop notification for a new incoming email.
 2. The user clicks the notification.
-3. The browser dispatches the `notificationclick` event to the Service Worker, granting a transient `"popup"` capability to the event context.
+3. The browser dispatches the `notificationclick` event to the Service Worker.
 4. The Service Worker identifies an existing, open webmail client tab and brings it to the foreground via `await client.focus()`.
-5. The Service Worker posts a message to that client tab delegating the popup capability:
+5. The Service Worker posts a message to that client tab for it to open the preview window (this is without the proposal):
    ```javascript
-   targetClient.postMessage({action: 'preview_email', emailId: 'msg_42'}, {delegate: 'popup'});
+   targetClient.postMessage({action: 'preview_email', emailId: 'msg_42'});
    ```
 6. The webmail tab receives the message. Its `message` event handler calls `window.open()`:
    ```javascript
    const popup = window.open('/preview?id=' + event.data.emailId, 'preview_win', 'width=600,height=500');
    ```
-7. The popup opens successfully. Because it was opened from the existing client window, it can synchronously access the main tab's in-memory data store, shared WebAssembly modules, active caches, and live state via `window.opener` without a full cold-start bootstrap.
+
+**Desired Outcome:** The popup opens successfully, querying the parent frame for the email contents and other shared data.
+
+**Actual Outcome:** The popup is blocked by the popup blocker, as the frame did not have transient activation
 
 ## Proposed API
+
+<insert summary>
 
 ### Web IDL Changes
 
@@ -233,23 +237,51 @@ In the HTML specification's window open steps:
 
 ## Alternatives Considered
 
-### 1. User Activation on `ServiceWorkerGlobalScope`
+### 1. General User Activation on `ServiceWorkerGlobalScope` & Implicit Transfer via `postMessage`
 
-* **Alternative Concept**: Extend the [HTML User Activation Data Model](https://html.spec.whatwg.org/multipage/interaction.html#user-activation-data-model) to `ServiceWorkerGlobalScope`. When a trusted user event (such as `notificationclick`) is dispatched, the Service Worker would be granted standard transient user activation. The Service Worker could then consume this activation to delegate it via `postMessage()`, or user activation could propagate to a client window.
-* **Why Rejected / Why Transient Capabilities are Preferable**:
-  * **HTML Spec Coupling**: User activation in the HTML standard is fundamentally defined for `Window` objects and browsing contexts (tied to `Navigable`s and document trees). Web Workers and Service Workers have never had user activation. Introducing user activation to workers would require significant, invasive modifications to the core HTML specification.
-  * **Spec Ambiguities & Scope Creep**: Bringing user activation to worker scopes raises challenging questions:
-    * Should `navigator.userActivation` (exposing `hasBeenActive` and `isActive`) exist on `WorkerNavigator`?
-    * Does sticky user activation persist across the Service Worker lifecycle, or does it reset when the worker terminates?
-    * Does worker user activation inadvertently unlock other activation-gated APIs (e.g., Clipboard, Web Bluetooth, Fullscreen, Media Playback) in background worker threads where user intent cannot be visually verified?
-  * **Risk of Ambient Activation in Concurrency**: Ambient user activation stored on `ServiceWorkerGlobalScope` could be inadvertently intercepted or consumed by concurrent, untrusted background event handlers (e.g., incoming `push` or `fetch` events) executing in the same worker.
-  * **Direct Alignment with Capability Delegation**: Modeling the `notificationclick` allowance as an event-scoped **transient capability** (specifically `"popup"`) allows us to leverage the existing Capability Delegation lifecycle without modifying the fundamental HTML User Activation architecture. The capability is scoped, single-use, feature-specific, and has zero side-effects on other web platform APIs.
+* **Alternative Concept**: Formally extend the [HTML User Activation Data Model](https://html.spec.whatwg.org/multipage/interaction.html#user-activation-data-model) to `ServiceWorkerGlobalScope`. When a trusted user event (such as `notificationclick`) is dispatched, the Service Worker would be granted standard transient user activation. The Service Worker could then consume this activation or implicitly propagate it to a client window upon sending a `client.postMessage()`.
+* **Context on Spec Gaps**:
+  * There is a recognized historical gap in the web platform specifications regarding transient user activation in Service Workers. APIs like `WindowClient.focus()` and `Clients.openWindow()` normatively require transient user activation (or user interaction) to execute in standard browsing contexts.
+  * In the Push/Notifications and Service Worker specifications, this was historically addressed via informal or stop-gap prose (e.g., instructing implementers to allow `focus()` or `openWindow()` during notification events without defining a formal user activation data model for workers). While transient user activation *should* arguably be formalized in the specifications for those worker APIs, relying on ambient transient user activation for popup delegation introduces serious practical issues.
+* **Why Rejected / Why Explicit Capability Delegation is Preferable**:
+  * **Inability to Specify Which `postMessage` Receives Activation**: In an ambient transient activation model, there is no explicit way to declare *which* `postMessage()` call receives or consumes the transient user activation. If the first message implicitly transfers or consumes activation, developer control is lost.
+  * **Fragility & Developer Footguns (Intervening Calls & Libraries)**: If an application, framework, or third-party library (e.g., for analytics, telemetry, state synchronization, or push logging) calls `postMessage()` inside the `notificationclick` handler before the intended client message, that unrelated call would inadvertently consume or transfer the activation token. The subsequent message intended to trigger `window.open()` on the client tab would then arrive without activation and fail unexpectedly.
+  * **Potential Breakage for Existing Sites**: Many existing web applications already dispatch multiple `postMessage()` calls during notification click processing. Implicitly attaching activation to `postMessage()` or consuming worker activation on the first message risks altering runtime behavior, introducing subtle race conditions, or breaking existing applications that do not expect activation transfer semantics on routine messages.
+  * **The Advantage of Capability Delegation**: Explicit capability delegation (`client.postMessage(msg, {delegate: 'popup'})`) avoids all of these issues. It requires explicit developer intent, pinpoints the exact message and recipient tab, does not alter routine `postMessage` semantics, scopes the capability strictly to the `NotificationEvent`, and leaves other activation-gated APIs untouched.
 
-### 2. `Clients.openWindow()`
-- *Why Insufficient*: `Clients.openWindow()` creates an isolated top-level tab/window from the background worker. It cannot return a synchronous DOM `WindowProxy` to an existing client tab. Without a synchronous `WindowProxy`, web apps cannot share in-memory JavaScript state, caches, or state trees, forcing an expensive cold-start app reload. Furthermore, `Clients.openWindow()` cannot configure popup positioning or popup window features (`width`, `height`, minimal chrome).
+### 2. Service Worker Auxiliary Window API / `Clients.openWindow()` with Opener Option
 
-### 3. Implicit Activation Propagation on `client.focus()`
-- *Why Rejected*: Automatically granting full user activation whenever `client.focus()` is called is overly broad. It creates security risks by exposing unrestricted user activation to the client page, unlocking APIs unrelated to the notification click. Capability delegation requires explicit intent and is tightly restricted to the `"popup"` capability.
+* **Alternative Concept**: Extend `Clients.openWindow()` (or introduce an API such as `Clients.openAuxiliaryWindow()`) allowing the Service Worker to open a new auxiliary window and explicitly assign an existing `WindowClient` as its `window.opener`:
+  ```javascript
+  // Hypothetical Service Worker API:
+  const popupClient = await self.clients.openWindow('/preview?id=42', {
+    opener: targetClient,
+    features: 'width=600,height=500'
+  });
+  ```
+* **Why this is a Compelling Consideration**:
+  * Real-world web applications (such as Gmail) often do not open `about:blank` popups and synchronously populate them. Instead, they open a specific URL for auxiliary views (e.g., an email compose or preview window) that loads its own scripts and expects `window.opener` to be connected to the main webmail tab so the popup can communicate and access state.
+  * Opening the auxiliary window directly from the Service Worker with the opener pre-wired could theoretically eliminate the need to delegate capability to the client tab first.
+* **Why Rejected / Why Capability Delegation is Preferable**:
+  * **Absence of Synchronous `WindowProxy` on the Parent Tab**:
+    * When a popup is opened from the client tab via `window.open()`, the parent tab receives a synchronous DOM `WindowProxy` reference (`const popup = window.open(...)`). This allows the parent tab to immediately attach event listeners, inspect `popup.closed`, manage multiple popup instances, and pass initial state directly.
+    * A Service Worker cannot hold or return a DOM `WindowProxy` (workers run on background threads without DOM access). `Clients.openWindow()` returns a `Promise<WindowClient>`. The parent `WindowClient` would not receive any synchronous reference to the newly created child window, breaking common window-management patterns unless an elaborate asynchronous messaging handshake is built between the two windows.
+  * **Coordination & Readiness Race Conditions**:
+    * The Service Worker has no direct insight into the internal lifecycle state of the parent `WindowClient` (e.g., whether the parent tab is currently navigating, busy, or ready to handle requests from the new child window via `window.opener`). When the client tab opens the popup itself, it has complete synchronous control over readiness and coordination.
+  * **Duplication of Window Feature Parsing in Workers**:
+    * Auxiliary popups require custom dimensions, positioning, and window feature configurations (`width`, `height`, `left`, `top`, `popup=true`, minimal browser chrome). Service Workers have no access to DOM, display geometry, or screen metrics (`window.screen`, DPI, multi-monitor offsets). Implementing popup feature parsing and screen placement in Service Worker APIs duplicates complex windowing logic that naturally belongs in DOM `Window` contexts.
+  * **Multi-Process Architecture & Security Complexity**:
+    * Establishing an opener relationship between two windows from a third, background worker thread introduces intricate process-allocation and routing edge cases in multi-process browser architectures with Site Isolation (especially if the parent tab is backgrounded, frozen, or undergoing lifecycle transitions).
+  * **Developer Simplicity & Existing Code Reuse**:
+    * Web applications already have mature frontend code for opening and managing popups via `window.open()`. Capability delegation allows web applications to reuse their existing window management infrastructure with minimal changes, rather than having to split window lifecycle management between the Service Worker and the client window.
+
+### 3. Unmodified `Clients.openWindow()`
+
+* *Why Insufficient*: Standard `Clients.openWindow()` creates an isolated top-level browser tab/window from the background worker. It cannot establish an opener relationship with an existing client tab. Without `window.opener` or a synchronous `WindowProxy`, web apps cannot share in-memory JavaScript state, active caches, or state trees, forcing an expensive cold-start app bootstrap. Furthermore, `Clients.openWindow()` cannot configure popup positioning or popup window features (`width`, `height`, minimal chrome).
+
+### 4. Implicit Activation Propagation on `client.focus()`
+
+* *Why Rejected*: Automatically granting full user activation whenever `client.focus()` is called is overly broad. It creates security risks by exposing unrestricted user activation to the client page, unlocking APIs unrelated to the notification click. Capability delegation requires explicit intent and is tightly restricted to the `"popup"` capability.
 
 ## Future Considerations: Frame-to-Frame Popup Delegation
 
