@@ -153,42 +153,32 @@ navigator.serviceWorker.addEventListener('message', (event) => {
   - First call succeeds and immediately clears the delegated capability token (and transient activation).
   - Second call finds no activation or capability token and is blocked by the popup blocker.
 
-## Detailed Specification Integration
+## Specification Changes
 
-### 1. Event-Scoped Transient Capability Lifecycle on `NotificationEvent`
-Rather than introducing ambient mutable state on `ServiceWorkerGlobalScope`, transient capabilities are tracked per-event execution context:
-- In the Notifications API when [firing a service worker notification event](https://notifications.spec.whatwg.org/#fire-a-service-worker-notification-event) for a trusted `notificationclick` event:
-  - The User Agent associates an active transient capability token for `"popup"` with that specific [`NotificationEvent`](https://notifications.spec.whatwg.org/#notificationevent) instance and its [`ExtendableEvent.waitUntil()`](https://w3c.github.io/ServiceWorker/#dom-extendableevent-waituntil) promise chain.
-  - The capability lifespan is bounded by min(5000ms, ExtendableEvent duration). Once the event handler completes, its `waitUntil` promise chain settles, or 5 seconds elapse without delegating, the token is invalidated.
-  - Because tracking is scoped strictly to the `NotificationEvent`, concurrent background operations (such as incoming `push`, `sync`, or `fetch` events) cannot access or consume the capability.
+### 1. WHATWG Notifications Standard
+Grants an ephemeral `"popup"` capability token scoped to the `NotificationEvent` execution context when a user interacts with a notification.
 
-### 2. Initiating Delegation (`Client.postMessage`)
-In the [algorithm for `Client.postMessage(message, options)`](https://w3c.github.io/ServiceWorker/#dom-client-postmessage) on the [`Client`](https://w3c.github.io/ServiceWorker/#client-interface) interface:
-1. If `options["delegate"]` is present and not null:
-   - If `options["delegate"]` is not `"popup"`, throw a `NotSupportedError` DOMException.
-   - If the target client is not a [`WindowClient`](https://w3c.github.io/ServiceWorker/#windowclient-interface), throw a `NotSupportedError` DOMException.
-   - Let `currentEvent` be the active event execution context of the caller.
-   - If `currentEvent` is not a [`NotificationEvent`](https://notifications.spec.whatwg.org/#notificationevent) with an active, unexpired transient capability token for `options["delegate"]`, throw a `NotAllowedError` DOMException.
-   - **Consume the transient capability**: Invalidate/consume the capability token on `currentEvent`.
-   - Attach the delegated capability identifier to the queued message event task.
+- **[Firing a service worker notification event](https://notifications.spec.whatwg.org/#fire-a-service-worker-notification-event)**:
+  - When dispatching a trusted `notificationclick` event, associate an active transient capability token for `"popup"` with the [`NotificationEvent`](https://notifications.spec.whatwg.org/#notificationevent) instance (expiring upon [`ExtendableEvent.waitUntil()`](https://w3c.github.io/ServiceWorker/#dom-extendableevent-waituntil) settlement or after 5 seconds).
 
-### 3. Receiving Delegation (`WindowClient`) & Popunder Defenses
-When the User Agent runs the [service worker client message event task](https://w3c.github.io/ServiceWorker/#service-worker-container-message-event) on the target client's [`ServiceWorkerContainer`](https://w3c.github.io/ServiceWorker/#serviceworkercontainer-interface) (`navigator.serviceWorker`):
-- If the message task contains a delegated capability `"popup"`:
-  - Set [`DELEGATED_CAPABILITY_TIMESTAMPS["popup"]`](https://wicg.github.io/capability-delegation/spec.html#tracking-delegation) on the target `Window` to the [current high resolution time](https://w3c.github.io/hr-time/#dfn-current-high-resolution-time) (lifespan of 1 second).
-- **Popunder Defense**: When the client window consumes the token via `window.open()`, the User Agent popup blocker enforces standard window focus and visibility policies (e.g., verifying [`document.visibilityState === 'visible'`](https://html.spec.whatwg.org/multipage/interaction.html#dom-document-visibilitystate)). Spawning background popunders from occluded or minimized tabs remains blocked per User Agent security policy.
+### 2. W3C Service Workers Standard
+Extends `Client.postMessage()` to accept a capability delegation option, validating and transferring the transient token from the worker to the recipient client window.
 
-### 4. Monkey-Patch to `window.open()` (Popup Blocker Verification & Unified Consumption)
-Calling `window.open()` invokes [the window open steps](https://html.spec.whatwg.org/multipage/nav-history-apis.html#the-window-open-steps), which evaluates [the rules for choosing a navigable](https://html.spec.whatwg.org/multipage/document-sequences.html#rules-for-choosing-a-navigable). In standard browsers, creating a new auxiliary browsing context operates as an [activation-consuming API](https://html.spec.whatwg.org/multipage/interaction.html#activation-consuming-api) subject to popup blocker policies:
+- **Web IDL**: Add `ClientPostMessageOptions` inheriting from [`StructuredSerializeOptions`](https://html.spec.whatwg.org/multipage/structured-data.html#structuredserializeoptions) with `DOMString? delegate`.
+- **[`Client.postMessage(message, options)`](https://w3c.github.io/ServiceWorker/#dom-client-postmessage)**:
+  - If `options.delegate === "popup"`:
+    1. If the target client is not a [`WindowClient`](https://w3c.github.io/ServiceWorker/#windowclient-interface), throw a `NotSupportedError`.
+    2. If the current execution context is not a [`NotificationEvent`](https://notifications.spec.whatwg.org/#notificationevent) with an active `"popup"` token, throw a `NotAllowedError`.
+    3. Consume the token from the event context and attach `"popup"` to the queued message event task.
+- **[Service worker client message event task](https://w3c.github.io/ServiceWorker/#service-worker-container-message-event)**:
+  - When dispatching on [`ServiceWorkerContainer`](https://w3c.github.io/ServiceWorker/#serviceworkercontainer-interface) (`navigator.serviceWorker`), if the task contains `"popup"`, set [`DELEGATED_CAPABILITY_TIMESTAMPS["popup"]`](https://wicg.github.io/capability-delegation/spec.html#tracking-delegation) on the target `Window` to the [current high resolution time](https://w3c.github.io/hr-time/#dfn-current-high-resolution-time) (1-second lifespan).
 
-1. **Sandbox Check**: If the calling browsing context is a sandboxed iframe without [`allow-popups`](https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-sandbox-allow-popups), immediately block the popup. Capability delegation never overrides sandbox restrictions.
-2. **Popup Allowed Check**: In [the rules for choosing a navigable](https://html.spec.whatwg.org/multipage/document-sequences.html#rules-for-choosing-a-navigable), when evaluating whether the User Agent permits creating a new auxiliary / top-level navigable:
-   - Allow creation if the relevant global object has active [transient user activation](https://html.spec.whatwg.org/multipage/interaction.html#transient-activation), **OR** if [`DELEGATED_CAPABILITY_TIMESTAMPS["popup"]`](https://wicg.github.io/capability-delegation/spec.html#tracking-delegation) in the relevant global object is present and not [expired](https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry).
-3. If neither condition is true, the User Agent refuses to create the navigable per popup blocker policy (causing `window.open()` to return `null`).
-4. **Unified Consumption**:
-   - If transient user activation is present on the global object, [consume user activation](https://html.spec.whatwg.org/multipage/interaction.html#consume-user-activation).
-   - If [`DELEGATED_CAPABILITY_TIMESTAMPS["popup"]`](https://wicg.github.io/capability-delegation/spec.html#tracking-delegation) is present, clear/remove the `"popup"` entry from `DELEGATED_CAPABILITY_TIMESTAMPS`.
-   *(Consuming both guarantees that no residual activation or capability tokens linger for subsequent calls).*
+### 3. WHATWG HTML Standard
+Updates popup blocker verification in the navigable creation steps to permit window creation if an unexpired delegated `"popup"` timestamp is present, consuming it upon use.
+
+- **[The rules for choosing a navigable](https://html.spec.whatwg.org/multipage/document-sequences.html#rules-for-choosing-a-navigable)** (invoked by [the window open steps](https://html.spec.whatwg.org/multipage/nav-history-apis.html#the-window-open-steps)):
+  - **Popup Allowed Check**: In evaluating whether the User Agent permits creating a new auxiliary/top-level navigable, allow creation if the relevant global object has active [transient user activation](https://html.spec.whatwg.org/multipage/interaction.html#transient-activation) **OR** if [`DELEGATED_CAPABILITY_TIMESTAMPS["popup"]`](https://wicg.github.io/capability-delegation/spec.html#tracking-delegation) is present and not [expired](https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry).
+  - **Unified Consumption**: Upon creating the window, [consume user activation](https://html.spec.whatwg.org/multipage/interaction.html#consume-user-activation) (if present) and remove the `"popup"` entry from `DELEGATED_CAPABILITY_TIMESTAMPS`.
 
 ## Security & Privacy Considerations
 
