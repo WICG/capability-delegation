@@ -198,6 +198,11 @@ Updates popup blocker verification in the navigable creation steps to permit win
    - Sandboxed contexts without `allow-popups` remain strictly prohibited from opening popups, even if receiving a delegated capability.
 6. **Popunder & Focus Mitigations**:
    - Delegating to a client tab does not allow silent background popunders. The Service Worker brings the window to focus with `await client.focus()`, and browser popup blockers continue to enforce foreground visibility checks on `window.open()`.
+7. **Dual Action: Client Focus and Popup Creation**:
+   - In today's Service Worker `notificationclick` handling, a single notification interaction generally permits either focusing an existing client (`client.focus()`) or opening a new top-level window (`clients.openWindow()`), as invoking `client.focus()` consumes the interaction allowance.
+   - This proposal allows a single notification click to result in both focusing an existing client tab (`await client.focus()`) and opening an auxiliary popup window (`window.open()`) from that tab.
+   - While this enables two distinct window actions from one user gesture in Service Workers, it directly restores parity with the legacy document-bound Notification API (where an `onclick` handler in a `Window` context could bring the window to focus and call `window.open()`).
+   - This behavior is strictly bounded and non-abusive: it allows at most one existing client tab to be focused and at most one popup window to be opened, and requiring/recommending the client tab to be focused first ensures that the popup is visually anchored to the active application rather than spawned as a seemingly lone popup window. 
 
 ### Privacy & Fingerprinting
 - **No Persistent State or Identifiers**: Capability tokens and timestamps are ephemeral, stored strictly in memory for at most a few seconds, and wiped upon consumption or expiry. They introduce no persistent storage, tracking identifiers, or cross-origin leakage vectors.
@@ -219,8 +224,8 @@ Updates popup blocker verification in the navigable creation steps to permit win
 
 - **W3C / WHATWG Standards Venue**: Proposed as an extension to [WICG Capability Delegation](https://wicg.github.io/capability-delegation/spec.html) in collaboration with WHATWG (HTML `window.open` and messaging) and W3C WebApps (Service Workers).
 - **Chromium / Blink**: Positive / Prototyping ([crbug.com/542314185](https://crbug.com/542314185)).
-- **Gecko / Mozilla**: Pending review / standards position request.
-- **WebKit / Apple**: Pending review / standards position request.
+- **Gecko / Mozilla**: Pending standards position request.
+- **WebKit / Apple**: Pending standards position request.
 - **Web Developers**: Strong demand from major web application developers (e.g. email, chat, and productivity suites) needing low-latency, state-sharing popup windows from notification clicks without full-page reloads.
 
 
