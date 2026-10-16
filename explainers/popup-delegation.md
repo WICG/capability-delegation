@@ -581,6 +581,58 @@ and cross-site user activation transfer. To keep this proposal de-risked and
 focused on the immediate developer need in Service Workers, frame-to-frame popup
 delegation is deferred as a potential future extension.
 
+## Future Consideration: Web Share Target Integration
+
+Another motivating use case for Service Worker popup capability delegation is
+the [Web Share Target API](https://w3c.github.io/web-share-target/) for
+installed PWAs and Trusted Web Activities (TWAs).
+
+When a user shares content (such as text, links, or files) from the operating
+system share sheet to an installed web application, the browser dispatches a
+navigation `FetchEvent` (typically a `POST` request with
+`multipart/form-data`) to the application's Service Worker. Today, the Service
+Worker generally handles this by storing the shared payload and returning a
+`303 See Other` redirect, forcing a full top-level navigation and cold page
+load.
+
+However, if an existing client window (such as a webmail inbox) is already open,
+the application may instead want to open a lightweight "tear-off" compose popup
+window (`window.open()`) from that existing client window so that it can share
+in-memory state and avoid a full page reload:
+
+1. The user shares content to the installed web app via the OS share sheet.
+1. The Service Worker intercepts the resulting Share Target `POST`
+   `FetchEvent`, which is granted a transient `"popup"` capability token (and
+   `client.focus()` allowance) because it was directly initiated by the user's
+   share action.
+1. The Service Worker locates the existing open client window, brings it to the
+   foreground via `await client.focus()`, and delegates the `"popup"`
+   capability along with the shared payload via
+   `client.postMessage(sharedData, {delegate: 'popup'})`.
+1. The Service Worker cancels the redundant navigation request (for example, by
+   responding with `204 No Content`), while the existing client window consumes
+   the delegated `"popup"` token to call `window.open()` and spawn a fast
+   tear-off compose window connected via `window.opener`.
+
+Supporting this flow is deferred as a future extension because it requires
+additional specification and lifecycle considerations beyond
+`notificationclick`, including:
+
+- **Identifying Share Target `FetchEvent`s**: Unlike `notificationclick`
+  (which always represents a discrete user interaction), `fetch` events fire
+  for arbitrary network and navigation requests. Specifications would need to
+  formally distinguish `FetchEvent`s triggered by a user-initiated Web Share
+  Target invocation to grant both `client.focus()` and the transient `"popup"`
+  capability token.
+- **Navigation Cancellation & Window Lifecycle**: When a Share Target is
+  invoked from the OS, the user agent may already be creating or navigating a
+  target browsing context before the Service Worker responds to the
+  `FetchEvent`. Cleanly suppressing or aborting that navigation (e.g., via a
+  `204 No Content` response or coordination with
+  [Web App Launch Handler](https://wicg.github.io/web-app-launch/)) without
+  leaving behind a blank or orphaned window requires careful lifecycle
+  integration.
+
 ## Future Consideration: Monitor & Modify the Timeout Constants
 
 We can add metrics to see how often the token expires on the serviceworker (5
@@ -601,3 +653,5 @@ these constraints to limit the impact on legitimate use cases on slow devices.
   [https://notifications.spec.whatwg.org/](https://notifications.spec.whatwg.org/)
 - **WHATWG HTML Window Open Steps**:
   [https://html.spec.whatwg.org/multipage/window-object.html#dom-open](https://html.spec.whatwg.org/multipage/window-object.html#dom-open)
+- **W3C Web Share Target Specification**:
+  [https://w3c.github.io/web-share-target/](https://w3c.github.io/web-share-target/)
