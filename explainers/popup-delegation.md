@@ -379,6 +379,14 @@ consuming it upon use.
      opened, and requiring/recommending the client tab to be focused first
      ensures that the popup is visually anchored to the active application
      rather than spawned as a seemingly lone popup window.
+1. **BFCache & Document Disconnection**:
+   - A document in BFCache is not an active/visible client eligible for focus
+     and cannot process `window.open()` while frozen; furthermore, because the
+     delegated capability token expires after 1 second, any token delivered
+     prior to navigation expires before or upon BFCache restoration.
+   - If the target `WindowClient` is unloaded or disconnected, any pending
+     message or transient capability timestamp on that `Window` is destroyed
+     with the document.
 
 ### Privacy & Fingerprinting
 
@@ -389,6 +397,16 @@ consuming it upon use.
 - **Partitioning & Storage Boundaries**: Service Worker registration and client
   matching strictly adhere to standard third-party storage partitioning and
   origin boundaries.
+
+### W3C Security and Privacy Self-Review Questionnaire
+
+The full question-by-question responses for the W3C TAG Security and Privacy
+Self-Review Questionnaire specifically covering Service Worker Popup Capability
+Delegation are maintained in
+[popup-delegation-security-privacy-questionnaire.md](popup-delegation-security-privacy-questionnaire.md).
+The baseline questionnaire for the overall Capability Delegation framework is
+maintained in
+[../security_and_privacy_questionnaire.md](../security_and_privacy_questionnaire.md).
 
 ## Accessibility (A11y) Considerations
 
@@ -642,6 +660,11 @@ these constraints to limit the impact on legitimate use cases on slow devices.
 
 ## References & Prior Discussion
 
+- **W3C Security and Privacy Self-Review Questionnaire**:
+  [Security and Privacy Self-Review Questionnaire (Popup
+  Delegation)](popup-delegation-security-privacy-questionnaire.md) (and
+  [Overall Capability Delegation Security & Privacy
+  Questionnaire](../security_and_privacy_questionnaire.md))
 - **Chromium Issue**: [crbug.com/542314185](https://crbug.com/542314185)
 - **Public Issue**:
   [capability-delegation Issue 42](https://github.com/WICG/capability-delegation/issues/42)
