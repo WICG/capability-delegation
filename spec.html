@@ -4,9 +4,12 @@
   <title>Capability Delegation</title>
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <link href="https://www.w3.org/StyleSheets/TR/2021/cg-draft" rel="stylesheet">
-  <meta content="Bikeshed version f043d3484, updated Fri Feb 17 10:53:48 2023 -0800" name="generator">
+  <meta content="Bikeshed version 49e9fdd4f, updated Tue Oct 13 14:27:53 2026 -0700" name="generator">
   <link href="https://wicg.github.io/capability-delegation/spec.html" rel="canonical">
-<style>/* style-autolinks */
+  <meta content="50272869413fa409f2326497b92f56620ee8df98" name="revision">
+  <meta content="dark light" name="color-scheme">
+  <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
+<style>/* Boilerplate: style-autolinks */
 .css.css, .property.property, .descriptor.descriptor {
     color: var(--a-normal-text);
     font-size: inherit;
@@ -67,9 +70,16 @@ pre .property::before, pre .property::after {
 [data-link-type=biblio] {
     white-space: pre;
 }
-</style>
-<style>/* style-colors */
 
+@media (prefers-color-scheme: dark) {
+    :root {
+        --selflink-text: black;
+        --selflink-bg: silver;
+        --selflink-hover-text: white;
+    }
+}
+</style>
+<style>/* Boilerplate: style-colors */
 /* Any --*-text not paired with a --*-bg is assumed to have a transparent bg */
 :root {
     color-scheme: light dark;
@@ -177,216 +187,6 @@ pre .property::before, pre .property::after {
 
     --editedrec-bg: darkorange;
 }
-</style>
-<style>/* style-counters */
-body {
-    counter-reset: example figure issue;
-}
-.issue {
-    counter-increment: issue;
-}
-.issue:not(.no-marker)::before {
-    content: "Issue " counter(issue);
-}
-
-.example {
-    counter-increment: example;
-}
-.example:not(.no-marker)::before {
-    content: "Example " counter(example);
-}
-.invalid.example:not(.no-marker)::before,
-.illegal.example:not(.no-marker)::before {
-    content: "Invalid Example" counter(example);
-}
-
-figcaption {
-    counter-increment: figure;
-}
-figcaption:not(.no-marker)::before {
-    content: "Figure " counter(figure) " ";
-}
-</style>
-<style>/* style-dfn-panel */
-:root {
-    --dfnpanel-bg: #ddd;
-    --dfnpanel-text: var(--text);
-}
-.dfn-panel {
-    position: absolute;
-    z-index: 35;
-    width: 20em;
-    min-width: min-content;
-    max-width: 300px;
-    height: auto;
-    max-height: 500px;
-    overflow: auto;
-    padding: 0.5em 0.75em;
-    font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
-    background: var(--dfnpanel-bg);
-    color: var(--dfnpanel-text);
-    border: outset 0.2em;
-    white-space: normal; /* in case it's moved into a pre */
-}
-.dfn-panel:not(.on) { display: none; }
-.dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
-.dfn-panel > b { display: block; }
-.dfn-panel a { color: var(--dfnpanel-text); }
-.dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
-.dfn-panel > b + b { margin-top: 0.25em; }
-.dfn-panel ul { padding: 0; }
-.dfn-panel li { list-style: inside; }
-.dfn-panel.activated {
-    display: inline-block;
-    position: fixed;
-    left: .5em;
-    bottom: 2em;
-    margin: 0 auto;
-    max-width: calc(100vw - 1.5em - .4em - .5em);
-    max-height: 30vh;
-}
-
-.dfn-paneled { cursor: pointer; }
-</style>
-<style>/* style-issues */
-a[href].issue-return {
-    float: right;
-    float: inline-end;
-    color: var(--issueheading-text);
-    font-weight: bold;
-    text-decoration: none;
-}
-</style>
-<style>/* style-md-lists */
-/* This is a weird hack for me not yet following the commonmark spec
-   regarding paragraph and lists. */
-[data-md] > :first-child {
-    margin-top: 0;
-}
-[data-md] > :last-child {
-    margin-bottom: 0;
-}
-</style>
-<style>/* style-selflinks */
-
-:root {
-    --selflink-text: white;
-    --selflink-bg: gray;
-    --selflink-hover-text: black;
-}
-.heading, .issue, .note, .example, li, dt {
-    position: relative;
-}
-a.self-link {
-    position: absolute;
-    top: 0;
-    left: calc(-1 * (3.5rem - 26px));
-    width: calc(3.5rem - 26px);
-    height: 2em;
-    text-align: center;
-    border: none;
-    transition: opacity .2s;
-    opacity: .5;
-}
-a.self-link:hover {
-    opacity: 1;
-}
-.heading > a.self-link {
-    font-size: 83%;
-}
-.example > a.self-link,
-.note > a.self-link,
-.issue > a.self-link {
-    /* These blocks are overflow:auto, so positioning outside
-       doesn't work. */
-    left: auto;
-    right: 0;
-}
-li > a.self-link {
-    left: calc(-1 * (3.5rem - 26px) - 2em);
-}
-dfn > a.self-link {
-    top: auto;
-    left: auto;
-    opacity: 0;
-    width: 1.5em;
-    height: 1.5em;
-    background: var(--selflink-bg);
-    color: var(--selflink-text);
-    font-style: normal;
-    transition: opacity .2s, background-color .2s, color .2s;
-}
-dfn:hover > a.self-link {
-    opacity: 1;
-}
-dfn > a.self-link:hover {
-    color: var(--selflink-hover-text);
-}
-
-a.self-link::before            { content: "¶"; }
-.heading > a.self-link::before { content: "§"; }
-dfn > a.self-link::before      { content: "#"; }
-</style>
-<style>/* style-syntax-highlighting */
-
-code.highlight { padding: .1em; border-radius: .3em; }
-pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em 0; overflow: auto; border-radius: 0; }
-
-.highlight:not(.idl) { background: rgba(0, 0, 0, .03); }
-c-[a] { color: #990055 } /* Keyword.Declaration */
-c-[b] { color: #990055 } /* Keyword.Type */
-c-[c] { color: #708090 } /* Comment */
-c-[d] { color: #708090 } /* Comment.Multiline */
-c-[e] { color: #0077aa } /* Name.Attribute */
-c-[f] { color: #669900 } /* Name.Tag */
-c-[g] { color: #222222 } /* Name.Variable */
-c-[k] { color: #990055 } /* Keyword */
-c-[l] { color: #000000 } /* Literal */
-c-[m] { color: #000000 } /* Literal.Number */
-c-[n] { color: #0077aa } /* Name */
-c-[o] { color: #999999 } /* Operator */
-c-[p] { color: #999999 } /* Punctuation */
-c-[s] { color: #a67f59 } /* Literal.String */
-c-[t] { color: #a67f59 } /* Literal.String.Single */
-c-[u] { color: #a67f59 } /* Literal.String.Double */
-c-[cp] { color: #708090 } /* Comment.Preproc */
-c-[c1] { color: #708090 } /* Comment.Single */
-c-[cs] { color: #708090 } /* Comment.Special */
-c-[kc] { color: #990055 } /* Keyword.Constant */
-c-[kn] { color: #990055 } /* Keyword.Namespace */
-c-[kp] { color: #990055 } /* Keyword.Pseudo */
-c-[kr] { color: #990055 } /* Keyword.Reserved */
-c-[ld] { color: #000000 } /* Literal.Date */
-c-[nc] { color: #0077aa } /* Name.Class */
-c-[no] { color: #0077aa } /* Name.Constant */
-c-[nd] { color: #0077aa } /* Name.Decorator */
-c-[ni] { color: #0077aa } /* Name.Entity */
-c-[ne] { color: #0077aa } /* Name.Exception */
-c-[nf] { color: #0077aa } /* Name.Function */
-c-[nl] { color: #0077aa } /* Name.Label */
-c-[nn] { color: #0077aa } /* Name.Namespace */
-c-[py] { color: #0077aa } /* Name.Property */
-c-[ow] { color: #999999 } /* Operator.Word */
-c-[mb] { color: #000000 } /* Literal.Number.Bin */
-c-[mf] { color: #000000 } /* Literal.Number.Float */
-c-[mh] { color: #000000 } /* Literal.Number.Hex */
-c-[mi] { color: #000000 } /* Literal.Number.Integer */
-c-[mo] { color: #000000 } /* Literal.Number.Oct */
-c-[sb] { color: #a67f59 } /* Literal.String.Backtick */
-c-[sc] { color: #a67f59 } /* Literal.String.Char */
-c-[sd] { color: #a67f59 } /* Literal.String.Doc */
-c-[se] { color: #a67f59 } /* Literal.String.Escape */
-c-[sh] { color: #a67f59 } /* Literal.String.Heredoc */
-c-[si] { color: #a67f59 } /* Literal.String.Interpol */
-c-[sx] { color: #a67f59 } /* Literal.String.Other */
-c-[sr] { color: #a67f59 } /* Literal.String.Regex */
-c-[ss] { color: #a67f59 } /* Literal.String.Symbol */
-c-[vc] { color: #0077aa } /* Name.Variable.Class */
-c-[vg] { color: #0077aa } /* Name.Variable.Global */
-c-[vi] { color: #0077aa } /* Name.Variable.Instance */
-c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
-</style>
-<style>/* style-darkmode */
 
 @media (prefers-color-scheme: dark) {
     :root {
@@ -499,21 +299,340 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
        which is quite common in practice... */
     img { background: white; }
 }
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        --selflink-text: black;
-        --selflink-bg: silver;
-        --selflink-hover-text: white;
-    }
+</style>
+<style>/* Boilerplate: style-counters */
+body {
+    counter-reset: example figure issue table;
+}
+.issue {
+    counter-increment: issue;
+}
+.issue:not(.no-marker)::before {
+    content: "Issue " counter(issue);
 }
 
+.example {
+    counter-increment: example;
+}
+.example:not(.no-marker)::before {
+    content: "Example " counter(example);
+}
+.invalid.example:not(.no-marker)::before,
+.illegal.example:not(.no-marker)::before {
+    content: "Invalid Example " counter(example);
+}
+
+figcaption {
+    counter-increment: figure;
+}
+figcaption:not(.no-marker)::before {
+    content: "Figure " counter(figure) " ";
+}
+
+figure.table figcaption {
+    counter-increment: table;
+}
+figure.table figcaption:not(.no-marker)::before {
+    content: "Table " counter(table) " ";
+}
+</style>
+<style>/* Boilerplate: style-dfn-panel */
+:root {
+    --dfnpanel-bg: #ddd;
+    --dfnpanel-text: var(--text);
+    --dfnpanel-target-bg: #ffc;
+    --dfnpanel-target-outline: orange;
+}
 @media (prefers-color-scheme: dark) {
     :root {
         --dfnpanel-bg: #222;
         --dfnpanel-text: var(--text);
+        --dfnpanel-target-bg: #333;
+        --dfnpanel-target-outline: silver;
     }
 }
+.dfn-panel {
+    position: absolute;
+    z-index: 35;
+    width: 20em;
+    width: 300px;
+    height: auto;
+    max-height: 500px;
+    overflow: auto;
+    padding: 0.5em 0.75em;
+    font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
+    background: var(--dfnpanel-bg);
+    color: var(--dfnpanel-text);
+    border: outset 0.2em;
+    white-space: normal; /* in case it's moved into a pre */
+}
+.dfn-panel:not(.on) { display: none; }
+.dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
+.dfn-panel > b { display: block; }
+.dfn-panel a { color: var(--dfnpanel-text); }
+.dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
+.dfn-panel a:focus {
+    outline: 5px auto Highlight;
+    outline: 5px auto -webkit-focus-ring-color;
+}
+.dfn-panel > b + b { margin-top: 0.25em; }
+.dfn-panel ul { padding: 0 0 0 1em; list-style: none; }
+.dfn-panel li a {
+    max-width: calc(300px - 1.5em - 1em);
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dfn-panel.activated {
+    display: inline-block;
+    position: fixed;
+    left: 8px;
+    bottom: 2em;
+    margin: 0 auto;
+    max-width: calc(100vw - 1.5em - .4em - .5em);
+    max-height: 30vh;
+    transition: left 1s ease-out, bottom 1s ease-out;
+}
+
+.dfn-panel .link-item:hover {
+    text-decoration: underline;
+}
+.dfn-panel .link-item .copy-icon {
+    opacity: 0;
+}
+.dfn-panel .link-item:hover .copy-icon,
+.dfn-panel .link-item .copy-icon:focus {
+    opacity: 1;
+}
+
+.dfn-panel .copy-icon {
+    display: inline-block;
+    margin-right: 0.5em;
+    width: 0.85em;
+    height: 1em;
+    border-radius: 3px;
+    background-color: #ccc;
+    cursor: pointer;
+}
+
+.dfn-panel .copy-icon .icon {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.dfn-panel .copy-icon .icon::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 1px solid black;
+    background-color: #ccc;
+    opacity: 0.25;
+    transform: translate(3px, -3px);
+}
+
+.dfn-panel .copy-icon:active .icon::before {
+    opacity: 1;
+}
+
+.dfn-paneled[role="button"] { cursor: help; }
+
+.highlighted {
+    animation: target-fade 3s;
+}
+
+@keyframes target-fade {
+    from {
+        background-color: var(--dfnpanel-target-bg);
+        outline: 5px solid var(--dfnpanel-target-outline);
+    }
+    to {
+        color: var(--a-normal-text);
+        background-color: transparent;
+        outline: transparent;
+    }
+}
+</style>
+<style>/* Boilerplate: style-idl-highlighting */
+pre.idl.highlight {
+    background: var(--borderedblock-bg, var(--def-bg));
+}
+</style>
+<style>/* Boilerplate: style-issues */
+a[href].issue-return {
+    float: right;
+    float: inline-end;
+    color: var(--issueheading-text);
+    font-weight: bold;
+    text-decoration: none;
+}
+</style>
+<style>/* Boilerplate: style-md-lists */
+/* This is a weird hack for me not yet following the commonmark spec
+   regarding paragraph and lists. */
+[data-md] > :first-child {
+    margin-top: 0;
+}
+[data-md] > :last-child {
+    margin-bottom: 0;
+}
+</style>
+<style>/* Boilerplate: style-ref-hints */
+:root {
+    --ref-hint-bg: #ddd;
+    --ref-hint-text: var(--text);
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --ref-hint-bg: #222;
+        --ref-hint-text: var(--text);
+    }
+}
+
+.ref-hint {
+    display: inline-block;
+    position: absolute;
+    z-index: 35;
+    width: 20em;
+    width: 300px;
+    height: auto;
+    max-height: 500px;
+    overflow: auto;
+    padding: 0.5em 0.5em;
+    font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
+    background: var(--ref-hint-bg);
+    color: var(--ref-hint-text);
+    border: outset 0.2em;
+    white-space: normal; /* in case it's moved into a pre */
+}
+
+.ref-hint * { margin: 0; padding: 0; text-indent: 0; }
+
+.ref-hint ul { padding: 0 0 0 1em; list-style: none; }
+</style>
+<style>/* Boilerplate: style-selflinks */
+:root {
+    --selflink-text: white;
+    --selflink-bg: gray;
+    --selflink-hover-text: black;
+}
+.heading, .issue, .note, .example, li, dt {
+    position: relative;
+}
+a.self-link {
+    position: absolute;
+    top: 0;
+    left: calc(-1 * (3.5rem - 26px));
+    width: calc(3.5rem - 26px);
+    height: 2em;
+    text-align: center;
+    border: none;
+    transition: opacity .2s;
+    opacity: .5;
+}
+a.self-link:hover {
+    opacity: 1;
+}
+.heading > a.self-link {
+    font-size: 83%;
+}
+.example > a.self-link,
+.note > a.self-link,
+.issue > a.self-link {
+    /* These blocks are overflow:auto, so positioning outside
+       doesn't work. */
+    left: auto;
+    right: 0;
+}
+li > a.self-link {
+    left: calc(-1 * (3.5rem - 26px) - 2em);
+}
+dfn > a.self-link {
+    top: auto;
+    left: auto;
+    opacity: 0;
+    width: 1.5em;
+    height: 1.5em;
+    background: var(--selflink-bg);
+    color: var(--selflink-text);
+    font-style: normal;
+    transition: opacity .2s, background-color .2s, color .2s;
+}
+dfn:hover > a.self-link {
+    opacity: 1;
+}
+dfn > a.self-link:hover {
+    color: var(--selflink-hover-text);
+}
+
+a.self-link::before            { content: "¶"; }
+.heading > a.self-link::before { content: "§"; }
+dfn > a.self-link::before      { content: "#"; }
+</style>
+<style>/* Boilerplate: style-syntax-highlighting */
+code.highlight { padding: .1em; border-radius: .3em; }
+pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em 0; overflow: auto; border-radius: 0; }
+
+.highlight:not(.idl) { background: rgba(0, 0, 0, .03); }
+c-[a] { color: #990055 } /* Keyword.Declaration */
+c-[b] { color: #990055 } /* Keyword.Type */
+c-[c] { color: #708090 } /* Comment */
+c-[d] { color: #708090 } /* Comment.Multiline */
+c-[e] { color: #0077aa } /* Name.Attribute */
+c-[f] { color: #669900 } /* Name.Tag */
+c-[g] { color: #222222 } /* Name.Variable */
+c-[k] { color: #990055 } /* Keyword */
+c-[l] { color: #000000 } /* Literal */
+c-[m] { color: #000000 } /* Literal.Number */
+c-[n] { color: #0077aa } /* Name */
+c-[o] { color: #999999 } /* Operator */
+c-[p] { color: #999999 } /* Punctuation */
+c-[s] { color: #a67f59 } /* Literal.String */
+c-[t] { color: #a67f59 } /* Literal.String.Single */
+c-[u] { color: #a67f59 } /* Literal.String.Double */
+c-[cp] { color: #708090 } /* Comment.Preproc */
+c-[c1] { color: #708090 } /* Comment.Single */
+c-[cs] { color: #708090 } /* Comment.Special */
+c-[kc] { color: #990055 } /* Keyword.Constant */
+c-[kn] { color: #990055 } /* Keyword.Namespace */
+c-[kp] { color: #990055 } /* Keyword.Pseudo */
+c-[kr] { color: #990055 } /* Keyword.Reserved */
+c-[ld] { color: #000000 } /* Literal.Date */
+c-[nc] { color: #0077aa } /* Name.Class */
+c-[no] { color: #0077aa } /* Name.Constant */
+c-[nd] { color: #0077aa } /* Name.Decorator */
+c-[ni] { color: #0077aa } /* Name.Entity */
+c-[ne] { color: #0077aa } /* Name.Exception */
+c-[nf] { color: #0077aa } /* Name.Function */
+c-[nl] { color: #0077aa } /* Name.Label */
+c-[nn] { color: #0077aa } /* Name.Namespace */
+c-[py] { color: #0077aa } /* Name.Property */
+c-[ow] { color: #999999 } /* Operator.Word */
+c-[mb] { color: #000000 } /* Literal.Number.Bin */
+c-[mf] { color: #000000 } /* Literal.Number.Float */
+c-[mh] { color: #000000 } /* Literal.Number.Hex */
+c-[mi] { color: #000000 } /* Literal.Number.Integer */
+c-[mo] { color: #000000 } /* Literal.Number.Oct */
+c-[sb] { color: #a67f59 } /* Literal.String.Backtick */
+c-[sc] { color: #a67f59 } /* Literal.String.Char */
+c-[sd] { color: #a67f59 } /* Literal.String.Doc */
+c-[se] { color: #a67f59 } /* Literal.String.Escape */
+c-[sh] { color: #a67f59 } /* Literal.String.Heredoc */
+c-[si] { color: #a67f59 } /* Literal.String.Interpol */
+c-[sx] { color: #a67f59 } /* Literal.String.Other */
+c-[sr] { color: #a67f59 } /* Literal.String.Regex */
+c-[ss] { color: #a67f59 } /* Literal.String.Symbol */
+c-[vc] { color: #0077aa } /* Name.Variable.Class */
+c-[vg] { color: #0077aa } /* Name.Variable.Global */
+c-[vi] { color: #0077aa } /* Name.Variable.Instance */
+c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 
 @media (prefers-color-scheme: dark) {
     .highlight:not(.idl) { background: rgba(255, 255, 255, .05); }
@@ -577,12 +696,36 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     c-[vm] { color: #cb4b16 } /* Name.Variable.Magic */
     c-[il] { color: #657b83 } /* Literal.Number.Integer.Long */
 }
+
+@media print {
+    /* Darken colors for print that would otherwise print too faintly */
+    c-[c]  { color: #555555 } /* Comment */
+    c-[d]  { color: #555555 } /* Comment.Multiline */
+    c-[cp] { color: #555555 } /* Comment.Preproc */
+    c-[c1] { color: #555555 } /* Comment.Single */
+    c-[cs] { color: #555555 } /* Comment.Special */
+    c-[o]  { color: #222222 } /* Operator */
+    c-[p]  { color: #222222 } /* Punctuation */
+    c-[ow] { color: #222222 } /* Operator.Word */
+    c-[s]  { color: #664400 } /* Literal.String */
+    c-[t]  { color: #664400 } /* Literal.String.Single */
+    c-[u]  { color: #664400 } /* Literal.String.Double */
+    c-[sb] { color: #664400 } /* Literal.String.Backtick */
+    c-[sc] { color: #664400 } /* Literal.String.Char */
+    c-[sd] { color: #664400 } /* Literal.String.Doc */
+    c-[se] { color: #664400 } /* Literal.String.Escape */
+    c-[sh] { color: #664400 } /* Literal.String.Heredoc */
+    c-[si] { color: #664400 } /* Literal.String.Interpol */
+    c-[sx] { color: #664400 } /* Literal.String.Other */
+    c-[sr] { color: #664400 } /* Literal.String.Regex */
+    c-[ss] { color: #664400 } /* Literal.String.Symbol */
+}
 </style>
  <body class="h-entry">
   <div class="head">
-   <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
-   <h1 class="p-name no-ref" id="title">Capability Delegation</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#CG-DRAFT">Draft Community Group Report</a>, <time class="dt-updated" datetime="2023-02-17">17 February 2023</time></p>
+   <h1 class="no-ref p-name" id="title">Capability Delegation</h1>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#CG-DRAFT">Draft Community Group Report</a>,
+    <time class="dt-updated" datetime="2026-10-23">23 October 2026</time></p>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -590,33 +733,39 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <dt>Issue Tracking:
      <dd><a href="https://github.com/WICG/capability-delegation/issues/">GitHub</a>
      <dt class="editor">Editor:
-     <dd class="editor p-author h-card vcard" data-editor-id="75206"><a class="p-name fn u-email email" href="mailto:mustaq@chromium.org">Mustaq Ahmed</a> (<a class="p-org org" href="https://google.com/">Google Canada</a>)
+     <dd class="editor h-card p-author vcard" data-editor-id="75206"><a class="email fn p-name u-email" href="mailto:mustaq@chromium.org">Mustaq Ahmed</a> (<a class="org p-org" href="https://google.com/">Google Canada</a>)
     </dl>
    </div>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2023 the Contributors to the Capability Delegation Specification, published by the <a href="https://www.w3.org/community/wicg/">Web Platform Incubator Community Group</a> under the <a href="https://www.w3.org/community/about/agreements/cla/">W3C Community Contributor License Agreement (CLA)</a>.
-A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/">summary</a> is available. </p>
+   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/policies/#copyright">Copyright</a> © 2026 the Contributors to the Capability Delegation Specification, published by the <a href="https://www.w3.org/community/wicg/">Web Platform Incubator Community Group</a> under the <a href="https://www.w3.org/community/about/agreements/cla/">W3C Community Contributor License Agreement (CLA)</a>.
+A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/">summary</a> is available.
+</p>
    <hr title="Separator for header">
   </div>
   <div class="p-summary" data-fill-with="abstract">
-   <h2 class="no-num no-toc no-ref heading settled" id="abstract"><span class="content">Abstract</span></h2>
+   <h2 class="heading no-num no-ref no-toc settled" id="abstract"><span class="content">Abstract</span></h2>
    <p>Transferring the ability to use restricted APIs to another window.</p>
   </div>
   <div data-fill-with="at-risk"></div>
-  <h2 class="no-num no-toc no-ref heading settled" id="status"><span class="content">Status of this document</span></h2>
+  <h2 class="heading no-num no-ref no-toc settled" id="status"><span class="content">Status of this document</span></h2>
   <div data-fill-with="status">
-   <p> This specification was published by the <a href="https://www.w3.org/community/wicg/">Web Platform Incubator Community Group</a>.
+   <p>
+  This specification was published by the <a href="https://www.w3.org/community/wicg/">Web Platform Incubator Community Group</a>.
   It is not a W3C Standard nor is it on the W3C Standards Track.
 
-  Please note that under the <a href="https://www.w3.org/community/about/agreements/cla/">W3C Community Contributor License Agreement (CLA)</a> there is a limited opt-out and other conditions apply.
+  Please note that under the
+  <a href="https://www.w3.org/community/about/agreements/cla/">W3C Community Contributor License Agreement (CLA)</a>
+  there is a limited opt-out and other conditions apply.
 
-  Learn more about <a href="http://www.w3.org/community/">W3C Community and Business Groups</a>. </p>
+  Learn more about
+  <a href="http://www.w3.org/community/">W3C Community and Business Groups</a>.
+</p>
    <p></p>
   </div>
   <div data-fill-with="at-risk"></div>
   <nav data-fill-with="table-of-contents" id="toc">
-   <h2 class="no-num no-toc no-ref" id="contents">Table of Contents</h2>
-   <ol class="toc" role="directory">
+   <h2 class="no-num no-ref no-toc" id="contents">Table of Contents</h2>
+   <ol class="toc">
     <li>
      <a href="#intro"><span class="secno">1</span> <span class="content">Introduction</span></a>
      <ol class="toc">
@@ -629,6 +778,8 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <a href="#initiating-delegation"><span class="secno">3</span> <span class="content">Initiating capability delegation</span></a>
      <ol class="toc">
       <li><a href="#monkey-patch-to-html-initiating-delegation"><span class="secno">3.1</span> <span class="content">Monkey-patch to HTML spec</span></a>
+      <li><a href="#monkey-patch-to-notifications"><span class="secno">3.2</span> <span class="content">Monkey-patch to Notifications spec</span></a>
+      <li><a href="#monkey-patch-to-service-workers"><span class="secno">3.3</span> <span class="content">Monkey-patch to Service Workers spec</span></a>
      </ol>
     <li>
      <a href="#tracking-delegation"><span class="secno">4</span> <span class="content">Tracking delegated capability</span></a>
@@ -641,12 +792,12 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
       <li><a href="#monkey-patch-to-payment-req"><span class="secno">5.1</span> <span class="content">Monkey-patch to Payment Request spec</span></a>
       <li><a href="#monkey-patch-to-fullscreen"><span class="secno">5.2</span> <span class="content">Monkey-patch to Fullscreen spec</span></a>
       <li><a href="#monkey-patch-to-screen-capture"><span class="secno">5.3</span> <span class="content">Monkey-patch to <span title="Screen Capture">[SCREEN-CAPTURE]</span> spec</span></a>
+      <li><a href="#monkey-patch-to-html-window-open"><span class="secno">5.4</span> <span class="content">Monkey-patch to HTML spec for window open</span></a>
      </ol>
     <li>
      <a href="#w3c-conformance"><span class="secno"></span> <span class="content">Conformance</span></a>
      <ol class="toc">
       <li><a href="#w3c-conventions"><span class="secno"></span> <span class="content">Document conventions</span></a>
-      <li><a href="#w3c-conformant-algorithms"><span class="secno"></span> <span class="content">Conformant Algorithms</span></a>
      </ol>
     <li>
      <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
@@ -658,8 +809,8 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
      <a href="#references"><span class="secno"></span> <span class="content">References</span></a>
      <ol class="toc">
       <li><a href="#normative"><span class="secno"></span> <span class="content">Normative References</span></a>
-      <li><a href="#informative"><span class="secno"></span> <span class="content">Informative References</span></a>
      </ol>
+    <li><a href="#idl-index"><span class="secno"></span> <span class="content">IDL Index</span></a>
    </ol>
   </nav>
   <main>
@@ -686,13 +837,12 @@ or a user interaction within the frame.</p>
 ability to call a restricted API and transfer the ability to another (sub)frame
 it can trust.  The word "dynamic" here means the effect of the delegation lasts
 for a limited time as defined by the capability being delegated.  This is
-different from static (load-time) exposure of a capability to a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context" id="ref-for-browsing-context②">browsing
-context</a> through <a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element">iframe</a> <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#dom-iframe-allow" id="ref-for-dom-iframe-allow">allow</a></code> attribute where the capability becomes exposed to a subframe in a
+different from static (load-time) exposure of a capability to a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context" id="ref-for-browsing-context②">browsing context</a> through <a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element">iframe</a> <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#dom-iframe-allow" id="ref-for-dom-iframe-allow">allow</a></code>
+attribute where the capability becomes exposed to a subframe in a
 time-unconstrained manner.</p>
     <h3 class="heading settled" data-level="1.2" id="initiate-vs-use"><span class="secno">1.2. </span><span class="content">Initiating a delegation vs using a capability</span><a class="self-link" href="#initiate-vs-use"></a></h3>
     <p>Capability delegation needs two distinct steps to be effective.  The first step
-is "initiation" where one <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context" id="ref-for-browsing-context③">browsing context</a> notifies another <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context" id="ref-for-browsing-context④">browsing
-context</a> about a specific capability being delegated.  After initiation, the
+is "initiation" where one <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context" id="ref-for-browsing-context③">browsing context</a> notifies another <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context" id="ref-for-browsing-context④">browsing context</a> about a specific capability being delegated.  After initiation, the
 second (i.e. the receiver) <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context" id="ref-for-browsing-context⑤">browsing context</a> would "use" the delegated
 capability, which typically means calling a capability-defined method.  While
 the capability delegation specification here does not define the API interface
@@ -719,38 +869,87 @@ restriction for the delegated API.</p>
 becomes available for use in the target <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context" id="ref-for-browsing-context⑥">browsing context</a> for a few
 seconds only.  The exact time limit here depends on how a delegated API
 defines the delegated behavior in its own specification.  For an API that
-does not define its own time limit, the default limit will be the same as <a href="https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry">user activation
+does not define its own time limit, the default limit will be the same as
+<a href="https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry">user activation
 expiry</a>.</p>
     </ol>
     <h2 class="heading settled" data-level="2" id="examples"><span class="secno">2. </span><span class="content">Examples</span><a class="self-link" href="#examples"></a></h2>
     <div class="example" id="example-payment-request">
-     <a class="self-link" href="#example-payment-request"></a> When a site wants to delegate the capability to call <a data-link-type="biblio" href="#biblio-payment-request" title="Payment Request API">[payment-request]</a> <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/payment-request/#dom-paymentrequest-show" id="ref-for-dom-paymentrequest-show">show()</a></code> from a subframe after a mouse click, it will <a href="https://html.spec.whatwg.org/multipage/web-messaging.html#posting-messages">post a message</a> to the subframe with an additional
-  option to specify the delegated capability: 
-<pre class="language-javascript highlight">window<c- p>.</c->onclick <c- o>=</c-> <c- p>()</c-> <c- p>=></c-> <c- p>{</c->
+     <a class="self-link" href="#example-payment-request"></a>
+  When a site wants to delegate the capability to call <a data-link-type="biblio" href="#biblio-payment-request" title="Payment Request API">[payment-request]</a>
+  <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/payment-request/#dom-paymentrequest-show" id="ref-for-dom-paymentrequest-show">show()</a></code> from a subframe after a mouse click, it will
+  <a href="https://html.spec.whatwg.org/multipage/web-messaging.html#posting-messages">post a message</a> to the subframe with an additional
+  option to specify the delegated capability:
+
+  
+<pre class="highlight language-javascript">window<c- p>.</c->onclick <c- o>=</c-> <c- p>()</c-> <c- p>=></c-> <c- p>{</c->
   targetWindow<c- p>.</c->postMessage<c- p>(</c-><c- t>'a_message'</c-><c- p>,</c-> <c- p>{</c->delegate<c- o>:</c-> <c- u>"payment"</c-><c- p>});</c->
 <c- p>};</c->
 </pre>
-     <p>Upon receiving the message, the subframe would be able to use <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/payment-request/#dom-paymentrequest-show" id="ref-for-dom-paymentrequest-show①">show()</a></code> even though the frame hasn’t received a user
+     <p>Upon receiving the message, the subframe would be able to use
+  <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/payment-request/#dom-paymentrequest-show" id="ref-for-dom-paymentrequest-show①">show()</a></code> even though the frame hasn’t received a user
   activation:</p>
-<pre class="language-javascript highlight">window<c- p>.</c->onmessage <c- o>=</c-> <c- p>()</c-> <c- p>=></c-> <c- p>{</c->
+<pre class="highlight language-javascript">window<c- p>.</c->onmessage <c- o>=</c-> <c- p>()</c-> <c- p>=></c-> <c- p>{</c->
   <c- a>const</c-> payRequest <c- o>=</c-> <c- ow>new</c-> PaymentRequest<c- p>(...);</c->
   <c- a>const</c-> payResponse <c- o>=</c-> <c- k>await</c-> payRequest<c- p>.</c->show<c- p>();</c->
   <c- p>...</c->
 <c- p>}</c->
 </pre>
     </div>
+    <div class="example" id="example-popup">
+     <a class="self-link" href="#example-popup"></a>
+  When a service worker wants to delegate the capability to open a popup
+  window to an existing client tab after a user interacts with a notification,
+  it posts a message to that <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/ServiceWorker/#windowclient" id="ref-for-windowclient">WindowClient</a></code> with <code>{delegate: "popup"}</code>:
+
+  
+<pre class="highlight language-javascript"><c- c1>// sw.js (Service Worker):</c->
+self<c- p>.</c->addEventListener<c- p>(</c-><c- t>'notificationclick'</c-><c- p>,</c-> <c- p>(</c->event<c- p>)</c-> <c- p>=></c-> <c- p>{</c->
+  event<c- p>.</c->waitUntil<c- p>((</c-><c- k>async</c-> <c- p>()</c-> <c- p>=></c-> <c- p>{</c->
+    <c- a>const</c-> clients <c- o>=</c-> <c- k>await</c-> self<c- p>.</c->clients<c- p>.</c->matchAll<c- p>({</c->type<c- o>:</c-> <c- t>'window'</c-><c- p>});</c->
+    <c- a>const</c-> client <c- o>=</c-> clients<c- p>.</c->find<c- p>(</c->c <c- p>=></c-> c<c- p>.</c->visibilityState <c- o>===</c-> <c- t>'visible'</c-><c- p>)</c-> <c- o>||</c-> clients<c- p>[</c-><c- mf>0</c-><c- p>];</c->
+    <c- k>if</c-> <c- p>(</c->client<c- p>)</c-> <c- p>{</c->
+      <c- k>await</c-> client<c- p>.</c->focus<c- p>();</c->
+      client<c- p>.</c->postMessage<c- p>(</c->
+        <c- p>{</c->action<c- o>:</c-> <c- t>'preview_email'</c-><c- p>,</c-> emailId<c- o>:</c-> event<c- p>.</c->notification<c- p>.</c->data<c- p>.</c->emailId<c- p>},</c->
+        <c- p>{</c->delegate<c- o>:</c-> <c- t>'popup'</c-><c- p>}</c->
+      <c- p>);</c->
+    <c- p>}</c->
+  <c- p>})());</c->
+<c- p>});</c->
+</pre>
+     <p>Upon receiving the message, the client window can call
+  <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#dom-open" id="ref-for-dom-open①">window.open()</a></code> even without
+  transient user activation:</p>
+<pre class="highlight language-javascript"><c- c1>// main.js (Client Window):</c->
+navigator<c- p>.</c->serviceWorker<c- p>.</c->addEventListener<c- p>(</c-><c- t>'message'</c-><c- p>,</c-> <c- p>(</c->event<c- p>)</c-> <c- p>=></c-> <c- p>{</c->
+  <c- k>if</c-> <c- p>(</c->event<c- p>.</c->data<c- p>.</c->action <c- o>===</c-> <c- t>'preview_email'</c-><c- p>)</c-> <c- p>{</c->
+    window<c- p>.</c->open<c- p>(</c->
+      <c- t>'/preview?id='</c-> <c- o>+</c-> event<c- p>.</c->data<c- p>.</c->emailId<c- p>,</c->
+      <c- t>'preview_win'</c-><c- p>,</c->
+      <c- t>'width=600,height=500'</c->
+    <c- p>);</c->
+  <c- p>}</c->
+<c- p>});</c->
+</pre>
+    </div>
    </section>
    <h2 class="heading settled" data-level="3" id="initiating-delegation"><span class="secno">3. </span><span class="content">Initiating capability delegation</span><a class="self-link" href="#initiating-delegation"></a></h2>
-   <p>When a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context" id="ref-for-browsing-context⑦">browsing context</a> wants to delegate a capability to another <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context" id="ref-for-browsing-context⑧">browsing
-context</a>, it posts a message to the second <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context" id="ref-for-browsing-context⑨">browsing context</a> with an extra <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#windowpostmessageoptions" id="ref-for-windowpostmessageoptions">WindowPostMessageOptions</a></code> called <code>delegate</code> specifying the capability.  The
-value of this option MUST be a <a href="https://w3c.github.io/webappsec-permissions-policy/#ascii-serialization">feature-identifier</a>.  The option MUST
-be ignored if the value does not correspond to any <a href="https://w3c.github.io/webappsec-permissions-policy/#supported-features">features supported by the
-user
-agent</a>.</p>
-   <div class="note" role="note"> A list of possible <a href="https://w3c.github.io/webappsec-permissions-policy/#ascii-serialization">feature-identifier</a> values appears <a href="https://github.com/w3c/webappsec-permissions-policy/blob/main/features.md">here</a>. </div>
+   <p>When a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context" id="ref-for-browsing-context⑦">browsing context</a> or <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-service-worker" id="ref-for-dfn-service-worker">service worker</a> wants to delegate a capability to another <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context" id="ref-for-browsing-context⑧">browsing context</a>, it posts a message with an extra option called <code>delegate</code> specifying the capability.
+For a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context" id="ref-for-browsing-context⑨">browsing context</a>, the message is sent using <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#windowpostmessageoptions" id="ref-for-windowpostmessageoptions">WindowPostMessageOptions</a></code>, and the value
+of this option MUST be a <a href="https://w3c.github.io/webappsec-permissions-policy/#ascii-serialization">feature-identifier</a>.
+For a <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-service-worker" id="ref-for-dfn-service-worker①">service worker</a>, the message is sent to a same-origin <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/ServiceWorker/#windowclient" id="ref-for-windowclient①">WindowClient</a></code> using <code class="idl"><a data-link-type="idl" href="#dictdef-clientpostmessageoptions" id="ref-for-dictdef-clientpostmessageoptions">ClientPostMessageOptions</a></code>,
+and the value of this option MUST be <code>"popup"</code>.
+The option MUST be ignored or rejected if the value does not correspond to any capability supported
+for delegation by the user agent.</p>
+   <div class="note" role="note">
+  A list of possible
+  <a href="https://w3c.github.io/webappsec-permissions-policy/#ascii-serialization">feature-identifier</a> values appears
+  <a href="https://github.com/w3c/webappsec-permissions-policy/blob/main/features.md">here</a>.
+</div>
    <h3 class="heading settled" data-level="3.1" id="monkey-patch-to-html-initiating-delegation"><span class="secno">3.1. </span><span class="content">Monkey-patch to HTML spec</span><a class="self-link" href="#monkey-patch-to-html-initiating-delegation"></a></h3>
    <p>The <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#windowpostmessageoptions" id="ref-for-windowpostmessageoptions①">WindowPostMessageOptions</a></code> IDL definition will include an additional field as follows:</p>
-<pre class="language-IDL highlight">DOMString? delegate;
+<pre class="highlight language-IDL">DOMString? delegate;
 </pre>
    <p>In the algorithm for <a href="https://html.spec.whatwg.org/multipage/web-messaging.html#window-post-message-steps">window post
 message</a>,
@@ -769,42 +968,119 @@ the following step:</p>
      <p>If <var>delegate</var> is not null, then:</p>
      <ol>
       <li data-md>
-       <p>If the user agent does not support delegating the feature indicated by <var>delegate</var>,
-then throw a "NotSupportedError" DOMException.</p>
+       <p>If <var>delegate</var> is not a
+<a href="https://w3c.github.io/webappsec-permissions-policy/#ascii-serialization">feature-identifier</a>, or the
+user agent does not support delegating the feature indicated by
+<var>delegate</var> via
+<code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/web-messaging.html#dom-window-postmessage-options" id="ref-for-dom-window-postmessage-options">Window.postMessage()</a></code>, then
+throw a "NotSupportedError" DOMException.</p>
       <li data-md>
        <p>If <var>targetWindow</var>’s <a href="https://html.spec.whatwg.org/multipage/window-object.html#concept-document-window">associated
-Document</a> is not <a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#allowed-to-use">allowed-to-use</a> the feature indicated by <var>delegate</var>, then throw a a
+Document</a>
+is not
+<a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#allowed-to-use">allowed-to-use</a>
+the feature indicated by <var>delegate</var>, then throw a a
 "NotAllowedError" DOMException.</p>
       <li data-md>
        <p>If <var>targetOrigin</var> is a single U+002A ASTERISK character (*), then throw a
 a "NotAllowedError" DOMException.</p>
-       <div class="note" role="note"> The default value of <a href="https://html.spec.whatwg.org/multipage/window-object.html#dom-windowpostmessageoptions-targetorigin">targetOrigin</a> is "/", restricting the message to same-origin targets. The additional requirement to use a string other than "*" means
-  that cross-origin messages has to specify the specific origin for which they are intended. </div>
+       <div class="note" role="note">
+  The default value of
+  <a href="https://html.spec.whatwg.org/multipage/window-object.html#dom-windowpostmessageoptions-targetorigin">targetOrigin</a>
+  is "/", restricting the message to same-origin targets. The additional requirement to use a string other than "*" means
+  that cross-origin messages has to specify the specific origin for which they are intended.
+</div>
       <li data-md>
        <p>Let <var>source</var> be <var>incumbentSettings</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-settings-object-global" id="ref-for-concept-settings-object-global">global object</a>.</p>
       <li data-md>
-       <p>If <var>source</var> does not have <a href="https://html.spec.whatwg.org/multipage/interaction.html#transient-activation" id="ref-for-5b762d09d78e8674458b84982b3cb3c9">transient
+       <p>If <var>source</var> does not have <a href="https://html.spec.whatwg.org/multipage/interaction.html#transient-activation" id="cdee77230">transient
 activation</a>,
 then throw a "NotAllowedError" DOMException.</p>
       <li data-md>
        <p><a href="https://html.spec.whatwg.org/multipage/interaction.html#consume-user-activation">Consume user
-activation</a> in <var>source</var>.</p>
+activation</a>
+in <var>source</var>.</p>
+     </ol>
+   </ol>
+   <h3 class="heading settled" data-level="3.2" id="monkey-patch-to-notifications"><span class="secno">3.2. </span><span class="content">Monkey-patch to Notifications spec</span><a class="self-link" href="#monkey-patch-to-notifications"></a></h3>
+   <p>Each <code class="idl"><a data-link-type="idl" href="https://notifications.spec.whatwg.org/#notificationevent" id="ref-for-notificationevent">NotificationEvent</a></code> has an associated <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="active-transient-capability-token">active transient capability token</dfn> for <code>"popup"</code>, which is initially unset.</p>
+   <p>In the algorithm for <a href="https://notifications.spec.whatwg.org/#fire-a-service-worker-notification-event">fire a service worker notification event</a>,
+the following step will be added after Step 2:</p>
+   <blockquote>
+    <ol start="2">
+     <li data-md>
+      <p>Initialize <var>event</var>’s <var>type</var> attribute to <var>e</var>.</p>
+    </ol>
+   </blockquote>
+   <ol start="3">
+    <li data-md>
+     <p>If <var>e</var> is <code>"notificationclick"</code>, then:</p>
+     <ol>
+      <li data-md>
+       <p>Set <var>event</var>’s <a data-link-type="dfn" href="#active-transient-capability-token" id="ref-for-active-transient-capability-token">active transient capability token</a> for <code>"popup"</code>.</p>
+      <li data-md>
+       <p>The token expires and is unset when <var>event</var> is no longer <a href="https://w3c.github.io/ServiceWorker/#extendableevent-active">active</a>
+(i.e., after its synchronous dispatch completes and upon the settlement of all promises passed to <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/ServiceWorker/#dom-extendableevent-waituntil" id="ref-for-dom-extendableevent-waituntil">event.waitUntil()</a></code>),
+or when 5 seconds have elapsed from the creation of <var>event</var>, whichever occurs first.</p>
+     </ol>
+   </ol>
+   <p>When an <a data-link-type="dfn" href="#active-transient-capability-token" id="ref-for-active-transient-capability-token①">active transient capability token</a> is consumed by an algorithm (such as in <code class="idl"><a data-link-type="idl" href="#dom-client-postmessage" id="ref-for-dom-client-postmessage">Client.postMessage()</a></code>),
+it is unset.</p>
+   <h3 class="heading settled" data-level="3.3" id="monkey-patch-to-service-workers"><span class="secno">3.3. </span><span class="content">Monkey-patch to Service Workers spec</span><a class="self-link" href="#monkey-patch-to-service-workers"></a></h3>
+   <p>The <code class="idl"><a data-link-type="idl" href="#dictdef-clientpostmessageoptions" id="ref-for-dictdef-clientpostmessageoptions①">ClientPostMessageOptions</a></code> dictionary will be added to the Service Workers specification,
+replacing the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/web-messaging.html#structuredserializeoptions" id="ref-for-structuredserializeoptions">StructuredSerializeOptions</a></code> parameter in <code class="idl"><a data-link-type="idl" href="#dom-client-postmessage" id="ref-for-dom-client-postmessage①">Client.postMessage()</a></code>:</p>
+<pre class="def highlight idl"><c- b>dictionary</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="dictionary" data-export id="dictdef-clientpostmessageoptions"><code><c- g>ClientPostMessageOptions</c-></code></dfn> : <a data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/web-messaging.html#structuredserializeoptions" id="ref-for-structuredserializeoptions①"><c- n>StructuredSerializeOptions</c-></a> {
+  <a class="idl-code" data-link-type="interface" href="https://webidl.spec.whatwg.org/#idl-DOMString" id="ref-for-idl-DOMString"><c- b>DOMString</c-></a>? <dfn class="dfn-paneled idl-code" data-dfn-for="ClientPostMessageOptions" data-dfn-type="dict-member" data-export data-type="DOMString?" id="dom-clientpostmessageoptions-delegate"><code><c- g>delegate</c-></code></dfn>;
+};
+
+<c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://w3c.github.io/ServiceWorker/#client" id="ref-for-client"><c- g>Client</c-></a> {
+  <a class="idl-code" data-link-type="interface" href="https://webidl.spec.whatwg.org/#idl-undefined" id="ref-for-idl-undefined"><c- b>undefined</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="Client" data-dfn-type="method" data-export data-lt="postMessage(message, options)|postMessage(message)" id="dom-client-postmessage"><code><c- g>postMessage</c-></code></dfn>(<a class="idl-code" data-link-type="interface" href="https://webidl.spec.whatwg.org/#idl-any" id="ref-for-idl-any"><c- b>any</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="Client/postMessage(message, options), Client/postMessage(message)" data-dfn-type="argument" data-export id="dom-client-postmessage-message-options-message"><code><c- g>message</c-></code></dfn>, <c- b>optional</c-> <a data-link-type="idl-name" href="#dictdef-clientpostmessageoptions" id="ref-for-dictdef-clientpostmessageoptions②"><c- n>ClientPostMessageOptions</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="Client/postMessage(message, options), Client/postMessage(message)" data-dfn-type="argument" data-export id="dom-client-postmessage-message-options-options"><code><c- g>options</c-></code></dfn> = {});
+};
+</pre>
+   <p>In the algorithm for <code class="idl"><a data-link-type="idl" href="#dom-client-postmessage" id="ref-for-dom-client-postmessage②">Client.postMessage()</a></code>, before serializing <var>message</var>, the following steps will be added to validate and transfer the capability:</p>
+   <ol>
+    <li data-md>
+     <p>Let <var>client</var> be this <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/ServiceWorker/#client" id="ref-for-client①">Client</a></code> object.</p>
+    <li data-md>
+     <p>Let <var>delegate</var> be <var>options</var>["delegate"].</p>
+    <li data-md>
+     <p>If <var>delegate</var> is not null, then:</p>
+     <ol>
+      <li data-md>
+       <p>If <var>delegate</var> is not <code>"popup"</code>, or the user agent does not support delegating <var>delegate</var>, then throw a "NotSupportedError" DOMException.</p>
+      <li data-md>
+       <p>If <var>client</var> is not a <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/ServiceWorker/#windowclient" id="ref-for-windowclient②">WindowClient</a></code>, then throw a "NotSupportedError" DOMException.</p>
+      <li data-md>
+       <p>If the current execution context is not associated with an <a href="https://w3c.github.io/ServiceWorker/#extendableevent-active">active</a> <code class="idl"><a data-link-type="idl" href="https://notifications.spec.whatwg.org/#notificationevent" id="ref-for-notificationevent①">NotificationEvent</a></code> that has an <a data-link-type="dfn" href="#active-transient-capability-token" id="ref-for-active-transient-capability-token②">active transient capability token</a> for <var>delegate</var>, then throw a "NotAllowedError" DOMException.</p>
+      <li data-md>
+       <p>Consume the <a data-link-type="dfn" href="#active-transient-capability-token" id="ref-for-active-transient-capability-token③">active transient capability token</a> for <var>delegate</var> from the <code class="idl"><a data-link-type="idl" href="https://notifications.spec.whatwg.org/#notificationevent" id="ref-for-notificationevent②">NotificationEvent</a></code>.</p>
+     </ol>
+    <li data-md>
+     <p>In the task queued on the destination client’s responsible event loop to dispatch the <code>message</code> event, immediately before firing the <code>message</code> event (after deserialization succeeds):</p>
+     <ol>
+      <li data-md>
+       <p>If <var>delegate</var> is not null, set <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps">DELEGATED_CAPABILITY_TIMESTAMPS</a>[<var>delegate</var>] on the target <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#window" id="ref-for-window">Window</a></code> to <a href="https://w3c.github.io/hr-time/#dfn-current-high-resolution-time">current high resolution time</a>.</p>
      </ol>
    </ol>
    <h2 class="heading settled" data-level="4" id="tracking-delegation"><span class="secno">4. </span><span class="content">Tracking delegated capability</span><a class="self-link" href="#tracking-delegation"></a></h2>
    <p>Capabilities delegated to a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context" id="ref-for-browsing-context①⓪">browsing context</a> will be tracked using a map
-named <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#window" id="ref-for-window">Window</a></code>.<a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps">DELEGATED_CAPABILITY_TIMESTAMPS</a>. Each time a capability is
-delegated to a <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#window" id="ref-for-window①">Window</a></code>, an entry will be added in <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps①">DELEGATED_CAPABILITY_TIMESTAMPS</a> with a key equal to the <a href="https://w3c.github.io/webappsec-permissions-policy/#ascii-serialization">feature-identifier</a> representing the
-capability, and a value equal to current <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/hr-time/#dom-domhighrestimestamp" id="ref-for-dom-domhighrestimestamp">DOMHighResTimeStamp</a></code>.  If the map
+named <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#window" id="ref-for-window①">Window</a></code>.<a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps①">DELEGATED_CAPABILITY_TIMESTAMPS</a>. Each time a capability is
+delegated to a <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#window" id="ref-for-window②">Window</a></code>, an entry will be added in
+<a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps②">DELEGATED_CAPABILITY_TIMESTAMPS</a> with a key equal to the capability identifier
+(either a <a href="https://w3c.github.io/webappsec-permissions-policy/#ascii-serialization">feature-identifier</a> or
+<code>"popup"</code>), and a value equal to current <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/hr-time/#typedefdef-domhighrestimestamp" id="ref-for-typedefdef-domhighrestimestamp">DOMHighResTimeStamp</a></code>.  If the map
 already has an entry for the same key, the existing value will be updated to
-current <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/hr-time/#dom-domhighrestimestamp" id="ref-for-dom-domhighrestimestamp①">DOMHighResTimeStamp</a></code>.</p>
+current <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/hr-time/#typedefdef-domhighrestimestamp" id="ref-for-typedefdef-domhighrestimestamp①">DOMHighResTimeStamp</a></code>.</p>
    <h3 class="heading settled" data-level="4.1" id="monkey-patch-to-html-tracking-delegation"><span class="secno">4.1. </span><span class="content">Monkey-patch to HTML spec</span><a class="self-link" href="#monkey-patch-to-html-tracking-delegation"></a></h3>
    <p>Right before the algorithm for <a href="https://html.spec.whatwg.org/multipage/web-messaging.html#window-post-message-steps">window post
 message</a>,
 a new paragraph will be inserted, as follow:</p>
    <blockquote>
     <p>For the purpose of tracking capabilities delegated to a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context" id="ref-for-browsing-context①①">browsing context</a>,
-each <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#window" id="ref-for-window②">Window</a></code> has a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ordered-map" id="ref-for-ordered-map">map</a> called <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="delegated_capability_timestamps">DELEGATED_CAPABILITY_TIMESTAMPS</dfn> from <a href="https://w3c.github.io/webappsec-permissions-policy/#ascii-serialization">feature-identifier</a> to <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/hr-time/#dom-domhighrestimestamp" id="ref-for-dom-domhighrestimestamp②">DOMHighResTimeStamp</a></code>.  The map is initialized with an empty map.</p>
+each <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#window" id="ref-for-window③">Window</a></code> has a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ordered-map" id="ref-for-ordered-map">map</a> called
+<dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="delegated_capability_timestamps">DELEGATED_CAPABILITY_TIMESTAMPS</dfn> from
+<a href="https://w3c.github.io/webappsec-permissions-policy/#ascii-serialization">feature-identifier</a> or DOMString to
+<code class="idl"><a data-link-type="idl" href="https://w3c.github.io/hr-time/#typedefdef-domhighrestimestamp" id="ref-for-typedefdef-domhighrestimestamp②">DOMHighResTimeStamp</a></code>.  The map is initialized with an empty map.</p>
    </blockquote>
    <p>In the algorithm for <a href="https://html.spec.whatwg.org/multipage/web-messaging.html#window-post-message-steps">window post
 message</a>,
@@ -849,15 +1125,18 @@ sub-step will be inserted after the following sub-step:</p>
        <p>Let newPorts be a new frozen array consisting of ... <em>(unchanged except
 for numbering)</em></p>
       <li data-md>
-       <p>If <var>delegate</var> is not null, AND the user agent supports
-delegating <var>delegate</var>, then set <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps②">DELEGATED_CAPABILITY_TIMESTAMPS</a>[<var>delegate</var>] to <a href="https://w3c.github.io/hr-time/#dfn-current-high-resolution-time">current
+       <p>If <var>delegate</var> is not null, AND <var>delegate</var> is a
+<a href="https://w3c.github.io/webappsec-permissions-policy/#ascii-serialization">feature-identifier</a> supported
+for delegation by the user agent, then set
+<a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps③">DELEGATED_CAPABILITY_TIMESTAMPS</a>[<var>delegate</var>] to <a href="https://w3c.github.io/hr-time/#dfn-current-high-resolution-time">current
 high resolution
 time</a>.</p>
      </ol>
    </ol>
    <h2 class="heading settled" data-level="5" id="defining-delegated-behavior"><span class="secno">5. </span><span class="content">Defining delegated capability behavior</span><a class="self-link" href="#defining-delegated-behavior"></a></h2>
-   <p>Any capability that defines a delegated behavior uses the corresponding entry in <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#window" id="ref-for-window③">Window</a></code>.<a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps③">DELEGATED_CAPABILITY_TIMESTAMPS</a> in a manner appropriate for the
-capability.  Below is the spec change needed for one particular capability.</p>
+   <p>Any capability that defines a delegated behavior uses the corresponding entry in
+<code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#window" id="ref-for-window④">Window</a></code>.<a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps④">DELEGATED_CAPABILITY_TIMESTAMPS</a> in a manner appropriate for the
+capability.  Below are the spec changes needed for capabilities that define delegated behavior.</p>
    <h3 class="heading settled" data-level="5.1" id="monkey-patch-to-payment-req"><span class="secno">5.1. </span><span class="content">Monkey-patch to Payment Request spec</span><a class="self-link" href="#monkey-patch-to-payment-req"></a></h3>
    <p>In the algorithm for <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/payment-request/#dom-paymentrequest-show" id="ref-for-dom-paymentrequest-show②">show()</a></code>, the following steps will be
 replaced to implement the delegated behavior:</p>
@@ -877,20 +1156,22 @@ replaced to implement the delegated behavior:</p>
    <p>will be replaced by the following three steps:</p>
    <ol start="2">
     <li data-md>
-     <p>If the relevant global object of request does not have <a href="https://html.spec.whatwg.org/multipage/interaction.html#transient-activation" id="ref-for-5b762d09d78e8674458b84982b3cb3c9①">transient
+     <p>If the relevant global object of request does not have <a href="https://html.spec.whatwg.org/multipage/interaction.html#transient-activation" id="cdee77231">transient
 activation</a>,
-AND the timestamp <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps④">DELEGATED_CAPABILITY_TIMESTAMPS</a>["payment"] in the
-relevant global object is either undefined or <a href="https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry">expired</a>:</p>
+AND the timestamp <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps⑤">DELEGATED_CAPABILITY_TIMESTAMPS</a>["payment"] in the
+relevant global object is either undefined or
+<a href="https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry">expired</a>:</p>
      <ol>
       <li data-md>
        <p>Return a promise rejected with a "SecurityError" DOMException.</p>
      </ol>
     <li data-md>
      <p>If the relevant global object of request does not have transient activation,
-then clear the map entry <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps⑤">DELEGATED_CAPABILITY_TIMESTAMPS</a>["payment"].</p>
+then clear the map entry <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps⑥">DELEGATED_CAPABILITY_TIMESTAMPS</a>["payment"].</p>
     <li data-md>
      <p>Otherwise, <a href="https://html.spec.whatwg.org/multipage/interaction.html#consume-user-activation">consume user
-activation</a> of the relevant global object.</p>
+activation</a>
+of the relevant global object.</p>
    </ol>
    <h3 class="heading settled" data-level="5.2" id="monkey-patch-to-fullscreen"><span class="secno">5.2. </span><span class="content">Monkey-patch to Fullscreen spec</span><a class="self-link" href="#monkey-patch-to-fullscreen"></a></h3>
    <p>In the algorithm for <code class="idl"><a data-link-type="idl" href="https://fullscreen.spec.whatwg.org/#dom-element-requestfullscreen" id="ref-for-dom-element-requestfullscreen①">requestFullscreen()</a></code>, the following changes will be
@@ -914,8 +1195,9 @@ the algorithm is triggered by a user generated orientation change.</p>
      <ul>
       <li data-md>
        <p>This’s relevant global object has transient activation, or
-the timestamp <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps⑥">DELEGATED_CAPABILITY_TIMESTAMPS</a>["fullscreen"] in this’s
-relevant global object is neither undefined nor <a href="https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry">expired</a>, or
+the timestamp <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps⑦">DELEGATED_CAPABILITY_TIMESTAMPS</a>["fullscreen"] in this’s
+relevant global object is neither undefined nor
+<a href="https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry">expired</a>, or
 the algorithm is triggered by a user generated orientation change.</p>
      </ul>
    </ol>
@@ -929,7 +1211,8 @@ the algorithm is triggered by a user generated orientation change.</p>
    <p>the following new step will be inserted:</p>
    <ol start="10">
     <li data-md>
-     <p>If this’s relevant global object does not have transient activation, then clear the map entry <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps⑦">DELEGATED_CAPABILITY_TIMESTAMPS</a>["fullscreen"] in this’s relevant global object.</p>
+     <p>If this’s relevant global object does not have transient activation, then clear the map entry
+ <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps⑧">DELEGATED_CAPABILITY_TIMESTAMPS</a>["fullscreen"] in this’s relevant global object.</p>
     <li data-md>
      <p>Let fullscreenElements be an ordered set initially consisting of this. <em>(unchanged except
  for numbering)</em></p>
@@ -949,13 +1232,43 @@ rejected with a DOMException object whose name attribute has the value InvalidSt
    <ol start="3">
     <li data-md>
      <p>If the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global">relevant global object</a> of this does not have <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/interaction.html#transient-activation" id="ref-for-transient-activation">transient activation</a> AND the
-timestamp <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps⑧">DELEGATED_CAPABILITY_TIMESTAMPS</a>["display-capture"] in this’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global①">relevant global object</a> is either undefined or <a href="https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry">expired</a>,
-return a promise <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#reject" id="ref-for-reject">rejected</a> with a <a data-link-type="dfn" href="https://www.w3.org/TR/WebCryptoAPI/#dfn-DOMException" id="ref-for-dfn-DOMException">DOMException</a> object whose <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#dom-domexception-name" id="ref-for-dom-domexception-name">name</a></code> attribute has the value <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror">InvalidStateError</a></code>.</p>
+timestamp <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps⑨">DELEGATED_CAPABILITY_TIMESTAMPS</a>["display-capture"] in this’s
+<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global①">relevant global object</a> is either undefined or
+<a href="https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry">expired</a>,
+return a promise <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#reject" id="ref-for-reject">rejected</a> with a <u class="link-error" data-lt="DOMException" title="LINK ERROR: No &apos;dfn&apos; refs found for &apos;domexception&apos;.">DOMException</u> object whose <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#dom-domexception-name" id="ref-for-dom-domexception-name">name</a></code>
+attribute has the value <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror">InvalidStateError</a></code>.</p>
+   </ol>
+   <h3 class="heading settled" data-level="5.4" id="monkey-patch-to-html-window-open"><span class="secno">5.4. </span><span class="content">Monkey-patch to HTML spec for window open</span><a class="self-link" href="#monkey-patch-to-html-window-open"></a></h3>
+   <p>In Step 5 of the algorithm for <a href="https://html.spec.whatwg.org/multipage/document-sequences.html#rules-for-choosing-a-navigable">the rules for choosing a
+navigable</a>
+(invoked by <a href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#the-window-open-steps">the window open
+steps</a>
+when <var>chosen</var> is null and a new top-level traversable is being requested),
+the following changes will be made to implement the delegated behavior for <code>"popup"</code>:</p>
+   <ol>
+    <li data-md>
+     <p><strong>Popup Allowed Check</strong>: In the first condition of Step 5 (evaluating whether the user agent’s popup blocker blocks creating a new top-level traversable),
+allow creation (do not block) if <var>currentNavigable</var>’s <a href="https://html.spec.whatwg.org/multipage/document-sequences.html#nav-window">active window</a>
+(the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global②">relevant global object</a>) has <a href="https://html.spec.whatwg.org/multipage/interaction.html#transient-activation" id="cdee77232">transient activation</a>,
+OR if the timestamp <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps①⓪">DELEGATED_CAPABILITY_TIMESTAMPS</a>["popup"] in <var>currentNavigable</var>’s <a href="https://html.spec.whatwg.org/multipage/document-sequences.html#nav-window">active window</a>
+is present and not <a href="https://html.spec.whatwg.org/multipage/interaction.html#activation-expiry">expired</a>
+(where an entry for <code>"popup"</code> is considered expired if the <a href="https://w3c.github.io/hr-time/#dfn-current-high-resolution-time">current high resolution time</a>
+minus the timestamp is greater than 1 second, i.e., 1000 milliseconds). Subsequent sandboxing flag checks in Step 5 remain unchanged.</p>
+    <li data-md>
+     <p><strong>Unified Consumption</strong>: In the branch of Step 5 that creates a new top-level traversable:</p>
+     <ol>
+      <li data-md>
+       <p>If <var>currentNavigable</var>’s <a href="https://html.spec.whatwg.org/multipage/document-sequences.html#nav-window">active window</a> has <a href="https://html.spec.whatwg.org/multipage/interaction.html#transient-activation" id="cdee77233">transient activation</a>,
+then <a href="https://html.spec.whatwg.org/multipage/interaction.html#consume-user-activation">consume user activation</a>
+of <var>currentNavigable</var>’s <a href="https://html.spec.whatwg.org/multipage/document-sequences.html#nav-window">active window</a>.</p>
+      <li data-md>
+       <p>Clear the map entry <a data-link-type="dfn" href="#delegated_capability_timestamps" id="ref-for-delegated_capability_timestamps①①">DELEGATED_CAPABILITY_TIMESTAMPS</a>["popup"] in <var>currentNavigable</var>’s <a href="https://html.spec.whatwg.org/multipage/document-sequences.html#nav-window">active window</a>.</p>
+     </ol>
    </ol>
   </main>
   <div data-fill-with="conformance">
-   <h2 class="no-ref no-num heading settled" id="w3c-conformance"><span class="content">Conformance</span><a class="self-link" href="#w3c-conformance"></a></h2>
-   <h3 class="no-ref no-num heading settled" id="w3c-conventions"><span class="content">Document conventions</span><a class="self-link" href="#w3c-conventions"></a></h3>
+   <h2 class="heading no-num no-ref settled" id="w3c-conformance"><span class="content">Conformance</span><a class="self-link" href="#w3c-conformance"></a></h2>
+   <h3 class="heading no-num no-ref settled" id="w3c-conventions"><span class="content">Document conventions</span><a class="self-link" href="#w3c-conventions"></a></h3>
    <p>Conformance requirements are expressed
     with a combination of descriptive assertions
     and RFC 2119 terminology.
@@ -963,213 +1276,111 @@ return a promise <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#r
     in the normative parts of this document
     are to be interpreted as described in RFC 2119.
     However, for readability,
-    these words do not appear in all uppercase letters in this specification. </p>
+    these words do not appear in all uppercase letters in this specification.
+
+    </p>
    <p>All of the text of this specification is normative
-    except sections explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119" title="Key words for use in RFCs to Indicate Requirement Levels">[RFC2119]</a> </p>
+    except sections explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119" title="Key words for use in RFCs to Indicate Requirement Levels">[RFC2119]</a>
+
+    </p>
    <p>Examples in this specification are introduced with the words “for example”
     or are set apart from the normative text
     with <code>class="example"</code>,
-    like this: </p>
+    like this:
+
+    </p>
    <div class="example" id="w3c-example">
-    <a class="self-link" href="#w3c-example"></a> 
-    <p>This is an example of an informative example. </p>
+    <a class="self-link" href="#w3c-example"></a>
+        
+    <p>This is an example of an informative example.
+    </p>
    </div>
    <p>Informative notes begin with the word “Note”
     and are set apart from the normative text
     with <code>class="note"</code>,
-    like this: </p>
+    like this:
+
+    </p>
    <p class="note" role="note">Note, this is an informative note.</p>
-   <h3 class="no-ref no-num heading settled" id="w3c-conformant-algorithms"><span class="content">Conformant Algorithms</span><a class="self-link" href="#w3c-conformant-algorithms"></a></h3>
-   <p>Requirements phrased in the imperative as part of algorithms
-    (such as "strip any leading space characters"
-    or "return false and abort these steps")
-    are to be interpreted with the meaning of the key word
-    ("must", "should", "may", etc)
-    used in introducing the algorithm. </p>
-   <p>Conformance requirements phrased as algorithms or specific steps
-    can be implemented in any manner,
-    so long as the end result is equivalent.
-    In particular, the algorithms defined in this specification
-    are intended to be easy to understand
-    and are not intended to be performant.
-    Implementers are encouraged to optimize. </p>
   </div>
-<script src="https://www.w3.org/scripts/TR/2021/fixup.js"></script>
-  <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
-  <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
+  <script src="https://www.w3.org/scripts/TR/2021/fixup.js"></script>
+  <h2 class="heading no-num no-ref settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
+  <h3 class="heading no-num no-ref settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="index">
+   <li><a href="#active-transient-capability-token">active transient capability token</a><span>, in § 3.2</span>
+   <li><a href="#dictdef-clientpostmessageoptions">ClientPostMessageOptions</a><span>, in § 3.3</span>
+   <li><a href="#dom-clientpostmessageoptions-delegate">delegate</a><span>, in § 3.3</span>
    <li><a href="#delegated_capability_timestamps">DELEGATED_CAPABILITY_TIMESTAMPS</a><span>, in § 4.1</span>
+   <li><a href="#dom-client-postmessage">postMessage(message)</a><span>, in § 3.3</span>
+   <li><a href="#dom-client-postmessage">postMessage(message, options)</a><span>, in § 3.3</span>
   </ul>
-  <aside aria-labelledby="infopaneltitle-for-17f1422256aaa84ed73c3e82e27bec5c" class="dfn-panel" data-for="17f1422256aaa84ed73c3e82e27bec5c" id="infopanel-for-17f1422256aaa84ed73c3e82e27bec5c">
-   <span id="infopaneltitle-for-17f1422256aaa84ed73c3e82e27bec5c" style="display:none">Info about the 'requestFullscreen()' external reference.</span><a href="https://fullscreen.spec.whatwg.org/#dom-element-requestfullscreen">https://fullscreen.spec.whatwg.org/#dom-element-requestfullscreen</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-element-requestfullscreen">1.1. What is capability delegation?</a>
-    <li><a href="#ref-for-dom-element-requestfullscreen①">5.2. Monkey-patch to Fullscreen spec</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-0527034ee7070fda15ffa50c34dbbc63" class="dfn-panel" data-for="0527034ee7070fda15ffa50c34dbbc63" id="infopanel-for-0527034ee7070fda15ffa50c34dbbc63">
-   <span id="infopaneltitle-for-0527034ee7070fda15ffa50c34dbbc63" style="display:none">Info about the 'DOMHighResTimeStamp' external reference.</span><a href="https://w3c.github.io/hr-time/#dom-domhighrestimestamp">https://w3c.github.io/hr-time/#dom-domhighrestimestamp</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-domhighrestimestamp">4. Tracking delegated capability</a> <a href="#ref-for-dom-domhighrestimestamp①">(2)</a>
-    <li><a href="#ref-for-dom-domhighrestimestamp②">4.1. Monkey-patch to HTML spec</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-d1f0a86fd49be388d8b0159e241a1172" class="dfn-panel" data-for="d1f0a86fd49be388d8b0159e241a1172" id="infopanel-for-d1f0a86fd49be388d8b0159e241a1172">
-   <span id="infopaneltitle-for-d1f0a86fd49be388d8b0159e241a1172" style="display:none">Info about the 'Window' external reference.</span><a href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#window">https://html.spec.whatwg.org/multipage/nav-history-apis.html#window</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-window">4. Tracking delegated capability</a> <a href="#ref-for-window①">(2)</a>
-    <li><a href="#ref-for-window②">4.1. Monkey-patch to HTML spec</a>
-    <li><a href="#ref-for-window③">5. Defining delegated capability behavior</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-cb85fbb587526778c5c5e0faab249075" class="dfn-panel" data-for="cb85fbb587526778c5c5e0faab249075" id="infopanel-for-cb85fbb587526778c5c5e0faab249075">
-   <span id="infopaneltitle-for-cb85fbb587526778c5c5e0faab249075" style="display:none">Info about the 'WindowPostMessageOptions' external reference.</span><a href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#windowpostmessageoptions">https://html.spec.whatwg.org/multipage/nav-history-apis.html#windowpostmessageoptions</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-windowpostmessageoptions">3. Initiating capability delegation</a>
-    <li><a href="#ref-for-windowpostmessageoptions①">3.1. Monkey-patch to HTML spec</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-c4ff264d4a1b262f1245a080117b5c19" class="dfn-panel" data-for="c4ff264d4a1b262f1245a080117b5c19" id="infopanel-for-c4ff264d4a1b262f1245a080117b5c19">
-   <span id="infopaneltitle-for-c4ff264d4a1b262f1245a080117b5c19" style="display:none">Info about the 'allow' external reference.</span><a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#dom-iframe-allow">https://html.spec.whatwg.org/multipage/iframe-embed-object.html#dom-iframe-allow</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-iframe-allow">1.1. What is capability delegation?</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-5db590bc82ac7edd15fc4ebd1b0c25f0" class="dfn-panel" data-for="5db590bc82ac7edd15fc4ebd1b0c25f0" id="infopanel-for-5db590bc82ac7edd15fc4ebd1b0c25f0">
-   <span id="infopaneltitle-for-5db590bc82ac7edd15fc4ebd1b0c25f0" style="display:none">Info about the 'browsing context' external reference.</span><a href="https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context">https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-browsing-context">1. Introduction</a> <a href="#ref-for-browsing-context①">(2)</a>
-    <li><a href="#ref-for-browsing-context②">1.1. What is capability delegation?</a>
-    <li><a href="#ref-for-browsing-context③">1.2. Initiating a delegation vs using a capability</a> <a href="#ref-for-browsing-context④">(2)</a> <a href="#ref-for-browsing-context⑤">(3)</a>
-    <li><a href="#ref-for-browsing-context⑥">1.3. Transient availability</a>
-    <li><a href="#ref-for-browsing-context⑦">3. Initiating capability delegation</a> <a href="#ref-for-browsing-context⑧">(2)</a> <a href="#ref-for-browsing-context⑨">(3)</a>
-    <li><a href="#ref-for-browsing-context①⓪">4. Tracking delegated capability</a>
-    <li><a href="#ref-for-browsing-context①①">4.1. Monkey-patch to HTML spec</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-53ea12fcca4eab4ccddd5da403fd6e4b" class="dfn-panel" data-for="53ea12fcca4eab4ccddd5da403fd6e4b" id="infopanel-for-53ea12fcca4eab4ccddd5da403fd6e4b">
-   <span id="infopaneltitle-for-53ea12fcca4eab4ccddd5da403fd6e4b" style="display:none">Info about the 'global object' external reference.</span><a href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-settings-object-global">https://html.spec.whatwg.org/multipage/webappapis.html#concept-settings-object-global</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-settings-object-global">3.1. Monkey-patch to HTML spec</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-3b26601cc89b91ada4c771e32284e4c9" class="dfn-panel" data-for="3b26601cc89b91ada4c771e32284e4c9" id="infopanel-for-3b26601cc89b91ada4c771e32284e4c9">
-   <span id="infopaneltitle-for-3b26601cc89b91ada4c771e32284e4c9" style="display:none">Info about the 'open(url, target, features)' external reference.</span><a href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#dom-open">https://html.spec.whatwg.org/multipage/nav-history-apis.html#dom-open</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-open">1.1. What is capability delegation?</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-2233058c8f0998915af8393ee2abbc1d" class="dfn-panel" data-for="2233058c8f0998915af8393ee2abbc1d" id="infopanel-for-2233058c8f0998915af8393ee2abbc1d">
-   <span id="infopaneltitle-for-2233058c8f0998915af8393ee2abbc1d" style="display:none">Info about the 'relevant global object' external reference.</span><a href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global">https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-relevant-global">5.3. Monkey-patch to [SCREEN-CAPTURE] spec</a> <a href="#ref-for-concept-relevant-global①">(2)</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-5b762d09d78e8674458b84982b3cb3c9" class="dfn-panel" data-for="5b762d09d78e8674458b84982b3cb3c9" id="infopanel-for-5b762d09d78e8674458b84982b3cb3c9">
-   <span id="infopaneltitle-for-5b762d09d78e8674458b84982b3cb3c9" style="display:none">Info about the 'transient activation' external reference.</span><a href="https://html.spec.whatwg.org/multipage/interaction.html#transient-activation">https://html.spec.whatwg.org/multipage/interaction.html#transient-activation</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-5b762d09d78e8674458b84982b3cb3c9">3.1. Monkey-patch to HTML spec</a>
-    <li><a href="#ref-for-5b762d09d78e8674458b84982b3cb3c9">5.1. Monkey-patch to Payment Request spec</a>
-    <li><a href="#ref-for-transient-activation">5.3. Monkey-patch to [SCREEN-CAPTURE] spec</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-4bf12d0cddf322a1e2a9fb52f4d85843" class="dfn-panel" data-for="4bf12d0cddf322a1e2a9fb52f4d85843" id="infopanel-for-4bf12d0cddf322a1e2a9fb52f4d85843">
-   <span id="infopaneltitle-for-4bf12d0cddf322a1e2a9fb52f4d85843" style="display:none">Info about the 'map' external reference.</span><a href="https://infra.spec.whatwg.org/#ordered-map">https://infra.spec.whatwg.org/#ordered-map</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-ordered-map">4.1. Monkey-patch to HTML spec</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-17e80d10b630cdfcf78a93f4eda10fa4" class="dfn-panel" data-for="17e80d10b630cdfcf78a93f4eda10fa4" id="infopanel-for-17e80d10b630cdfcf78a93f4eda10fa4">
-   <span id="infopaneltitle-for-17e80d10b630cdfcf78a93f4eda10fa4" style="display:none">Info about the 'show()' external reference.</span><a href="https://w3c.github.io/payment-request/#dom-paymentrequest-show">https://w3c.github.io/payment-request/#dom-paymentrequest-show</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-paymentrequest-show">2. Examples</a> <a href="#ref-for-dom-paymentrequest-show①">(2)</a>
-    <li><a href="#ref-for-dom-paymentrequest-show②">5.1. Monkey-patch to Payment Request spec</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-854ba5a2ea0a9f054dc77d8686489fd4" class="dfn-panel" data-for="854ba5a2ea0a9f054dc77d8686489fd4" id="infopanel-for-854ba5a2ea0a9f054dc77d8686489fd4">
-   <span id="infopaneltitle-for-854ba5a2ea0a9f054dc77d8686489fd4" style="display:none">Info about the 'getDisplayMedia()' external reference.</span><a href="https://w3c.github.io/mediacapture-screen-share/#dom-mediadevices-getdisplaymedia">https://w3c.github.io/mediacapture-screen-share/#dom-mediadevices-getdisplaymedia</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-mediadevices-getdisplaymedia">5.3. Monkey-patch to [SCREEN-CAPTURE] spec</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-3b36e8bc99a9e9d1772d3adc9864c284" class="dfn-panel" data-for="3b36e8bc99a9e9d1772d3adc9864c284" id="infopanel-for-3b36e8bc99a9e9d1772d3adc9864c284">
-   <span id="infopaneltitle-for-3b36e8bc99a9e9d1772d3adc9864c284" style="display:none">Info about the 'domexception' external reference.</span><a href="https://www.w3.org/TR/WebCryptoAPI/#dfn-DOMException">https://www.w3.org/TR/WebCryptoAPI/#dfn-DOMException</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dfn-DOMException">5.3. Monkey-patch to [SCREEN-CAPTURE] spec</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-e2a06375a2fb70c61a8b4cd0abe9d4f1" class="dfn-panel" data-for="e2a06375a2fb70c61a8b4cd0abe9d4f1" id="infopanel-for-e2a06375a2fb70c61a8b4cd0abe9d4f1">
-   <span id="infopaneltitle-for-e2a06375a2fb70c61a8b4cd0abe9d4f1" style="display:none">Info about the 'InvalidStateError' external reference.</span><a href="https://webidl.spec.whatwg.org/#invalidstateerror">https://webidl.spec.whatwg.org/#invalidstateerror</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-invalidstateerror">5.3. Monkey-patch to [SCREEN-CAPTURE] spec</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-ca5e897d4befe095f6d3540651df0e93" class="dfn-panel" data-for="ca5e897d4befe095f6d3540651df0e93" id="infopanel-for-ca5e897d4befe095f6d3540651df0e93">
-   <span id="infopaneltitle-for-ca5e897d4befe095f6d3540651df0e93" style="display:none">Info about the 'name' external reference.</span><a href="https://webidl.spec.whatwg.org/#dom-domexception-name">https://webidl.spec.whatwg.org/#dom-domexception-name</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-domexception-name">5.3. Monkey-patch to [SCREEN-CAPTURE] spec</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-f7204c0306e7ffcb24c31adf6e629e1d" class="dfn-panel" data-for="f7204c0306e7ffcb24c31adf6e629e1d" id="infopanel-for-f7204c0306e7ffcb24c31adf6e629e1d">
-   <span id="infopaneltitle-for-f7204c0306e7ffcb24c31adf6e629e1d" style="display:none">Info about the 'reject' external reference.</span><a href="https://webidl.spec.whatwg.org/#reject">https://webidl.spec.whatwg.org/#reject</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-reject">5.3. Monkey-patch to [SCREEN-CAPTURE] spec</a>
-   </ul>
-  </aside>
-  <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
+  <h3 class="heading no-num no-ref settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
   <ul class="index">
    <li>
     <a data-link-type="biblio">[FULLSCREEN]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="17f1422256aaa84ed73c3e82e27bec5c">requestFullscreen()</span>
+     <li><span class="dfn-paneled" id="bcdb6841">requestFullscreen()</span>
     </ul>
    <li>
     <a data-link-type="biblio">[HR-TIME-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="0527034ee7070fda15ffa50c34dbbc63">DOMHighResTimeStamp</span>
+     <li><span class="dfn-paneled" id="00c8c5e6">DOMHighResTimeStamp</span>
     </ul>
    <li>
     <a data-link-type="biblio">[HTML]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="d1f0a86fd49be388d8b0159e241a1172">Window</span>
-     <li><span class="dfn-paneled" id="cb85fbb587526778c5c5e0faab249075">WindowPostMessageOptions</span>
-     <li><span class="dfn-paneled" id="c4ff264d4a1b262f1245a080117b5c19">allow</span>
-     <li><span class="dfn-paneled" id="5db590bc82ac7edd15fc4ebd1b0c25f0">browsing context</span>
-     <li><span class="dfn-paneled" id="53ea12fcca4eab4ccddd5da403fd6e4b">global object</span>
-     <li><span class="dfn-paneled" id="3b26601cc89b91ada4c771e32284e4c9">open(url, target, features)</span>
-     <li><span class="dfn-paneled" id="2233058c8f0998915af8393ee2abbc1d">relevant global object</span>
-     <li><span class="dfn-paneled" id="5b762d09d78e8674458b84982b3cb3c9">transient activation</span>
+     <li><span class="dfn-paneled" id="b56b31a9">StructuredSerializeOptions</span>
+     <li><span class="dfn-paneled" id="5d7209e9">Window</span>
+     <li><span class="dfn-paneled" id="2a0508d0">WindowPostMessageOptions</span>
+     <li><span class="dfn-paneled" id="4101762d">allow</span>
+     <li><span class="dfn-paneled" id="0d0390b4">browsing context</span>
+     <li><span class="dfn-paneled" id="8a30477b">global object</span>
+     <li><span class="dfn-paneled" id="f449d4f8">open(url, target, features)</span>
+     <li><span class="dfn-paneled" id="8a7dfd23">postMessage(message, options)</span>
+     <li><span class="dfn-paneled" id="e99bd18e">relevant global object</span>
+     <li><span class="dfn-paneled" id="47fe679e">transient activation</span>
     </ul>
    <li>
     <a data-link-type="biblio">[INFRA]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="4bf12d0cddf322a1e2a9fb52f4d85843">map</span>
+     <li><span class="dfn-paneled" id="3fca5a9e">map</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[PAYMENT-REQUEST-1.1]</a> defines the following terms:
+    <a data-link-type="biblio">[NOTIFICATIONS]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="17e80d10b630cdfcf78a93f4eda10fa4">show()</span>
+     <li><span class="dfn-paneled" id="a2b0f73e">NotificationEvent</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[PAYMENT-REQUEST]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="ab86e0f1">show()</span>
     </ul>
    <li>
     <a data-link-type="biblio">[SCREEN-CAPTURE]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="854ba5a2ea0a9f054dc77d8686489fd4">getDisplayMedia()</span>
+     <li><span class="dfn-paneled" id="5bcbeb1e">getDisplayMedia()</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[WebCryptoAPI]</a> defines the following terms:
+    <a data-link-type="biblio">[SERVICE-WORKERS]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="3b36e8bc99a9e9d1772d3adc9864c284">domexception</span>
+     <li><span class="dfn-paneled" id="3b7e827f">Client</span>
+     <li><span class="dfn-paneled" id="3d565682">WindowClient</span>
+     <li><span class="dfn-paneled" id="c60ed63a">service worker</span>
+     <li><span class="dfn-paneled" id="e16711bc">waitUntil(f)</span>
     </ul>
    <li>
     <a data-link-type="biblio">[WEBIDL]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="e2a06375a2fb70c61a8b4cd0abe9d4f1">InvalidStateError</span>
-     <li><span class="dfn-paneled" id="ca5e897d4befe095f6d3540651df0e93">name</span>
-     <li><span class="dfn-paneled" id="f7204c0306e7ffcb24c31adf6e629e1d">reject</span>
+     <li><span class="dfn-paneled" id="8855a9aa">DOMString</span>
+     <li><span class="dfn-paneled" id="797018a7">InvalidStateError</span>
+     <li><span class="dfn-paneled" id="6c6b1005">any</span>
+     <li><span class="dfn-paneled" id="db82b00d">name</span>
+     <li><span class="dfn-paneled" id="b262501e">reject</span>
+     <li><span class="dfn-paneled" id="5f90bbfb">undefined</span>
     </ul>
   </ul>
-  <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
-  <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
+  <h2 class="heading no-num no-ref settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
+  <h3 class="heading no-num no-ref settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
    <dt id="biblio-fullscreen">[FULLSCREEN]
    <dd>Philip Jägenstedt. <a href="https://fullscreen.spec.whatwg.org/"><cite>Fullscreen API Standard</cite></a>. Living Standard. URL: <a href="https://fullscreen.spec.whatwg.org/">https://fullscreen.spec.whatwg.org/</a>
@@ -1179,142 +1390,882 @@ return a promise <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#r
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/"><cite>HTML Standard</cite></a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
    <dt id="biblio-infra">[INFRA]
    <dd>Anne van Kesteren; Domenic Denicola. <a href="https://infra.spec.whatwg.org/"><cite>Infra Standard</cite></a>. Living Standard. URL: <a href="https://infra.spec.whatwg.org/">https://infra.spec.whatwg.org/</a>
-   <dt id="biblio-payment-request-11">[PAYMENT-REQUEST-1.1]
-   <dd>Marcos Caceres; Rouslan Solomakhin; Ian Jacobs. <a href="https://w3c.github.io/payment-request/"><cite>Payment Request API 1.1</cite></a>. URL: <a href="https://w3c.github.io/payment-request/">https://w3c.github.io/payment-request/</a>
+   <dt id="biblio-notifications">[NOTIFICATIONS]
+   <dd>Anne van Kesteren. <a href="https://notifications.spec.whatwg.org/"><cite>Notifications API Standard</cite></a>. Living Standard. URL: <a href="https://notifications.spec.whatwg.org/">https://notifications.spec.whatwg.org/</a>
+   <dt id="biblio-payment-request">[PAYMENT-REQUEST]
+   <dd>Marcos Caceres; Ian Jacobs; Stephen McGruer. <a href="https://w3c.github.io/payment-request/"><cite>Payment Request API</cite></a>. URL: <a href="https://w3c.github.io/payment-request/">https://w3c.github.io/payment-request/</a>
    <dt id="biblio-permissions-policy-1">[PERMISSIONS-POLICY-1]
-   <dd>Ian Clelland. <a href="https://w3c.github.io/webappsec-permissions-policy/"><cite>Permissions Policy</cite></a>. URL: <a href="https://w3c.github.io/webappsec-permissions-policy/">https://w3c.github.io/webappsec-permissions-policy/</a>
+   <dd>Ian Clelland; Ari Chivukula. <a href="https://w3c.github.io/webappsec-permissions-policy/"><cite>Permissions Policy</cite></a>. URL: <a href="https://w3c.github.io/webappsec-permissions-policy/">https://w3c.github.io/webappsec-permissions-policy/</a>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://datatracker.ietf.org/doc/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. March 1997. Best Current Practice. URL: <a href="https://datatracker.ietf.org/doc/html/rfc2119">https://datatracker.ietf.org/doc/html/rfc2119</a>
    <dt id="biblio-screen-capture">[SCREEN-CAPTURE]
    <dd>Jan-Ivar Bruaroey; Elad Alon. <a href="https://w3c.github.io/mediacapture-screen-share/"><cite>Screen Capture</cite></a>. URL: <a href="https://w3c.github.io/mediacapture-screen-share/">https://w3c.github.io/mediacapture-screen-share/</a>
-   <dt id="biblio-webcryptoapi">[WebCryptoAPI]
-   <dd>Mark Watson. <a href="https://w3c.github.io/webcrypto/"><cite>Web Cryptography API</cite></a>. URL: <a href="https://w3c.github.io/webcrypto/">https://w3c.github.io/webcrypto/</a>
+   <dt id="biblio-service-workers">[SERVICE-WORKERS]
+   <dd>Monica CHINTALA; Yoshisato Yanagisawa. <a href="https://w3c.github.io/ServiceWorker/"><cite>Service Workers Nightly</cite></a>. URL: <a href="https://w3c.github.io/ServiceWorker/">https://w3c.github.io/ServiceWorker/</a>
    <dt id="biblio-webidl">[WEBIDL]
    <dd>Edgar Chen; Timothy Gu. <a href="https://webidl.spec.whatwg.org/"><cite>Web IDL Standard</cite></a>. Living Standard. URL: <a href="https://webidl.spec.whatwg.org/">https://webidl.spec.whatwg.org/</a>
   </dl>
-  <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
-  <dl>
-   <dt id="biblio-payment-request">[PAYMENT-REQUEST]
-   <dd>Marcos Caceres; Rouslan Solomakhin; Ian Jacobs. <a href="https://w3c.github.io/payment-request/"><cite>Payment Request API</cite></a>. URL: <a href="https://w3c.github.io/payment-request/">https://w3c.github.io/payment-request/</a>
-  </dl>
-  <aside aria-labelledby="infopaneltitle-for-delegated_capability_timestamps" class="dfn-panel" data-for="delegated_capability_timestamps" id="infopanel-for-delegated_capability_timestamps">
-   <span id="infopaneltitle-for-delegated_capability_timestamps" style="display:none">Info about the 'DELEGATED_CAPABILITY_TIMESTAMPS' definition.</span><b><a href="#delegated_capability_timestamps">#delegated_capability_timestamps</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-delegated_capability_timestamps">4. Tracking delegated capability</a> <a href="#ref-for-delegated_capability_timestamps①">(2)</a>
-    <li><a href="#ref-for-delegated_capability_timestamps②">4.1. Monkey-patch to HTML spec</a>
-    <li><a href="#ref-for-delegated_capability_timestamps③">5. Defining delegated capability behavior</a>
-    <li><a href="#ref-for-delegated_capability_timestamps④">5.1. Monkey-patch to Payment Request spec</a> <a href="#ref-for-delegated_capability_timestamps⑤">(2)</a>
-    <li><a href="#ref-for-delegated_capability_timestamps⑥">5.2. Monkey-patch to Fullscreen spec</a> <a href="#ref-for-delegated_capability_timestamps⑦">(2)</a>
-    <li><a href="#ref-for-delegated_capability_timestamps⑧">5.3. Monkey-patch to [SCREEN-CAPTURE] spec</a>
-   </ul>
-  </aside>
-<script>/* script-dfn-panel */
+  <h2 class="heading no-num no-ref settled" id="idl-index"><span class="content">IDL Index</span><a class="self-link" href="#idl-index"></a></h2>
+<pre class="def highlight idl"><c- b>dictionary</c-> <a href="#dictdef-clientpostmessageoptions"><code><c- g>ClientPostMessageOptions</c-></code></a> : <a data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/web-messaging.html#structuredserializeoptions"><c- n>StructuredSerializeOptions</c-></a> {
+  <a class="idl-code" data-link-type="interface" href="https://webidl.spec.whatwg.org/#idl-DOMString"><c- b>DOMString</c-></a>? <a data-type="DOMString?" href="#dom-clientpostmessageoptions-delegate"><code><c- g>delegate</c-></code></a>;
+};
+
+<c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://w3c.github.io/ServiceWorker/#client"><c- g>Client</c-></a> {
+  <a class="idl-code" data-link-type="interface" href="https://webidl.spec.whatwg.org/#idl-undefined"><c- b>undefined</c-></a> <a href="#dom-client-postmessage"><code><c- g>postMessage</c-></code></a>(<a class="idl-code" data-link-type="interface" href="https://webidl.spec.whatwg.org/#idl-any"><c- b>any</c-></a> <a href="#dom-client-postmessage-message-options-message"><code><c- g>message</c-></code></a>, <c- b>optional</c-> <a data-link-type="idl-name" href="#dictdef-clientpostmessageoptions"><c- n>ClientPostMessageOptions</c-></a> <a href="#dom-client-postmessage-message-options-options"><code><c- g>options</c-></code></a> = {});
+};
+
+</pre>
+<script>/* Boilerplate: script-dom-helper */
+"use strict";
+function query(sel) { return document.querySelector(sel); }
+
+function queryAll(sel) { return [...document.querySelectorAll(sel)]; }
+
+function iter(obj) {
+	if(!obj) return [];
+	var it = obj[Symbol.iterator];
+	if(it) return it;
+	return Object.entries(obj);
+}
+
+function mk(tagname, attrs, ...children) {
+	const el = document.createElement(tagname);
+	for(const [k,v] of iter(attrs)) {
+		if(k.slice(0,3) == "_on") {
+			const eventName = k.slice(3);
+			el.addEventListener(eventName, v);
+		} else if(k[0] == "_") {
+			// property, not attribute
+			el[k.slice(1)] = v;
+		} else {
+			if(v === false || v == null) {
+        continue;
+      } else if(v === true) {
+        el.setAttribute(k, "");
+        continue;
+      } else {
+  			el.setAttribute(k, v);
+      }
+		}
+	}
+	append(el, children);
+	return el;
+}
+
+/* Create shortcuts for every known HTML element */
+[
+  "a",
+  "abbr",
+  "acronym",
+  "address",
+  "applet",
+  "area",
+  "article",
+  "aside",
+  "audio",
+  "b",
+  "base",
+  "basefont",
+  "bdo",
+  "big",
+  "blockquote",
+  "body",
+  "br",
+  "button",
+  "canvas",
+  "caption",
+  "center",
+  "cite",
+  "code",
+  "col",
+  "colgroup",
+  "datalist",
+  "dd",
+  "del",
+  "details",
+  "dfn",
+  "dialog",
+  "div",
+  "dl",
+  "dt",
+  "em",
+  "embed",
+  "fieldset",
+  "figcaption",
+  "figure",
+  "font",
+  "footer",
+  "form",
+  "frame",
+  "frameset",
+  "head",
+  "header",
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  "hr",
+  "html",
+  "i",
+  "iframe",
+  "img",
+  "input",
+  "ins",
+  "kbd",
+  "label",
+  "legend",
+  "li",
+  "link",
+  "main",
+  "map",
+  "mark",
+  "meta",
+  "meter",
+  "nav",
+  "nobr",
+  "noscript",
+  "object",
+  "ol",
+  "optgroup",
+  "option",
+  "output",
+  "p",
+  "param",
+  "pre",
+  "progress",
+  "q",
+  "s",
+  "samp",
+  "script",
+  "section",
+  "select",
+  "small",
+  "source",
+  "span",
+  "strike",
+  "strong",
+  "style",
+  "sub",
+  "summary",
+  "sup",
+  "table",
+  "tbody",
+  "td",
+  "template",
+  "textarea",
+  "tfoot",
+  "th",
+  "thead",
+  "time",
+  "title",
+  "tr",
+  "u",
+  "ul",
+  "var",
+  "video",
+  "wbr",
+  "xmp",
+].forEach(tagname=>{
+	mk[tagname] = (...args) => mk(tagname, ...args);
+});
+
+function* nodesFromChildList(children) {
+	for(const child of children.flat(Infinity)) {
+		if(child instanceof Node) {
+			yield child;
+		} else {
+			yield new Text(child);
+		}
+	}
+}
+function append(el, ...children) {
+	for(const child of nodesFromChildList(children)) {
+		if(el instanceof Node) el.appendChild(child);
+		else el.push(child);
+	}
+	return el;
+}
+
+function insertAfter(el, ...children) {
+	for(const child of nodesFromChildList(children)) {
+		el.parentNode.insertBefore(child, el.nextSibling);
+	}
+	return el;
+}
+
+function clearContents(el) {
+	el.innerHTML = "";
+	return el;
+}
+
+function parseHTML(markup) {
+	if(markup.toLowerCase().trim().indexOf('<!doctype') === 0) {
+		const doc = document.implementation.createHTMLDocument("");
+		doc.documentElement.innerHTML = markup;
+		return doc;
+	} else {
+		const el = mk.template({});
+		el.innerHTML = markup;
+		return el.content;
+	}
+}</script>
+<script>/* Boilerplate: script-dfn-panel */
 "use strict";
 {
-    function queryAll(sel) {
-        return [].slice.call(document.querySelectorAll(sel));
-    }
+let dfnPanelData = {
+"00c8c5e6": {"dfnID":"00c8c5e6","dfnText":"DOMHighResTimeStamp","external":true,"refSections":[{"refs":[{"id":"ref-for-typedefdef-domhighrestimestamp"},{"id":"ref-for-typedefdef-domhighrestimestamp\u2460"}],"title":"4. Tracking delegated capability"},{"refs":[{"id":"ref-for-typedefdef-domhighrestimestamp\u2461"}],"title":"4.1. Monkey-patch to HTML spec"}],"url":"https://w3c.github.io/hr-time/#typedefdef-domhighrestimestamp"},
+"0d0390b4": {"dfnID":"0d0390b4","dfnText":"browsing context","external":true,"refSections":[{"refs":[{"id":"ref-for-browsing-context"},{"id":"ref-for-browsing-context\u2460"}],"title":"1. Introduction"},{"refs":[{"id":"ref-for-browsing-context\u2461"}],"title":"1.1. What is capability delegation?"},{"refs":[{"id":"ref-for-browsing-context\u2462"},{"id":"ref-for-browsing-context\u2463"},{"id":"ref-for-browsing-context\u2464"}],"title":"1.2. Initiating a delegation vs using a capability"},{"refs":[{"id":"ref-for-browsing-context\u2465"}],"title":"1.3. Transient availability"},{"refs":[{"id":"ref-for-browsing-context\u2466"},{"id":"ref-for-browsing-context\u2467"},{"id":"ref-for-browsing-context\u2468"}],"title":"3. Initiating capability delegation"},{"refs":[{"id":"ref-for-browsing-context\u2460\u24ea"}],"title":"4. Tracking delegated capability"},{"refs":[{"id":"ref-for-browsing-context\u2460\u2460"}],"title":"4.1. Monkey-patch to HTML spec"}],"url":"https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context"},
+"2a0508d0": {"dfnID":"2a0508d0","dfnText":"WindowPostMessageOptions","external":true,"refSections":[{"refs":[{"id":"ref-for-windowpostmessageoptions"}],"title":"3. Initiating capability delegation"},{"refs":[{"id":"ref-for-windowpostmessageoptions\u2460"}],"title":"3.1. Monkey-patch to HTML spec"}],"url":"https://html.spec.whatwg.org/multipage/nav-history-apis.html#windowpostmessageoptions"},
+"3b7e827f": {"dfnID":"3b7e827f","dfnText":"Client","external":true,"refSections":[{"refs":[{"id":"ref-for-client"},{"id":"ref-for-client\u2460"}],"title":"3.3. Monkey-patch to Service Workers spec"}],"url":"https://w3c.github.io/ServiceWorker/#client"},
+"3d565682": {"dfnID":"3d565682","dfnText":"WindowClient","external":true,"refSections":[{"refs":[{"id":"ref-for-windowclient"}],"title":"2. Examples"},{"refs":[{"id":"ref-for-windowclient\u2460"}],"title":"3. Initiating capability delegation"},{"refs":[{"id":"ref-for-windowclient\u2461"}],"title":"3.3. Monkey-patch to Service Workers spec"}],"url":"https://w3c.github.io/ServiceWorker/#windowclient"},
+"3fca5a9e": {"dfnID":"3fca5a9e","dfnText":"map","external":true,"refSections":[{"refs":[{"id":"ref-for-ordered-map"}],"title":"4.1. Monkey-patch to HTML spec"}],"url":"https://infra.spec.whatwg.org/#ordered-map"},
+"4101762d": {"dfnID":"4101762d","dfnText":"allow","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-iframe-allow"}],"title":"1.1. What is capability delegation?"}],"url":"https://html.spec.whatwg.org/multipage/iframe-embed-object.html#dom-iframe-allow"},
+"47fe679e": {"dfnID":"47fe679e","dfnText":"transient activation","external":true,"refSections":[{"refs":[{"id":"cdee77230"}],"title":"3.1. Monkey-patch to HTML spec"},{"refs":[{"id":"cdee77231"}],"title":"5.1. Monkey-patch to Payment Request spec"},{"refs":[{"id":"ref-for-transient-activation"}],"title":"5.3. Monkey-patch to [SCREEN-CAPTURE] spec"},{"refs":[{"id":"cdee77232"},{"id":"cdee77233"}],"title":"5.4. Monkey-patch to HTML spec for window open"}],"url":"https://html.spec.whatwg.org/multipage/interaction.html#transient-activation"},
+"5bcbeb1e": {"dfnID":"5bcbeb1e","dfnText":"getDisplayMedia()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-mediadevices-getdisplaymedia"}],"title":"5.3. Monkey-patch to [SCREEN-CAPTURE] spec"}],"url":"https://w3c.github.io/mediacapture-screen-share/#dom-mediadevices-getdisplaymedia"},
+"5d7209e9": {"dfnID":"5d7209e9","dfnText":"Window","external":true,"refSections":[{"refs":[{"id":"ref-for-window"}],"title":"3.3. Monkey-patch to Service Workers spec"},{"refs":[{"id":"ref-for-window\u2460"},{"id":"ref-for-window\u2461"}],"title":"4. Tracking delegated capability"},{"refs":[{"id":"ref-for-window\u2462"}],"title":"4.1. Monkey-patch to HTML spec"},{"refs":[{"id":"ref-for-window\u2463"}],"title":"5. Defining delegated capability behavior"}],"url":"https://html.spec.whatwg.org/multipage/nav-history-apis.html#window"},
+"5f90bbfb": {"dfnID":"5f90bbfb","dfnText":"undefined","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-undefined"}],"title":"3.3. Monkey-patch to Service Workers spec"}],"url":"https://webidl.spec.whatwg.org/#idl-undefined"},
+"6c6b1005": {"dfnID":"6c6b1005","dfnText":"any","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-any"}],"title":"3.3. Monkey-patch to Service Workers spec"}],"url":"https://webidl.spec.whatwg.org/#idl-any"},
+"797018a7": {"dfnID":"797018a7","dfnText":"InvalidStateError","external":true,"refSections":[{"refs":[{"id":"ref-for-invalidstateerror"}],"title":"5.3. Monkey-patch to [SCREEN-CAPTURE] spec"}],"url":"https://webidl.spec.whatwg.org/#invalidstateerror"},
+"8855a9aa": {"dfnID":"8855a9aa","dfnText":"DOMString","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-DOMString"}],"title":"3.3. Monkey-patch to Service Workers spec"}],"url":"https://webidl.spec.whatwg.org/#idl-DOMString"},
+"8a30477b": {"dfnID":"8a30477b","dfnText":"global object","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-settings-object-global"}],"title":"3.1. Monkey-patch to HTML spec"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#concept-settings-object-global"},
+"8a7dfd23": {"dfnID":"8a7dfd23","dfnText":"postMessage(message, options)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-window-postmessage-options"}],"title":"3.1. Monkey-patch to HTML spec"}],"url":"https://html.spec.whatwg.org/multipage/web-messaging.html#dom-window-postmessage-options"},
+"a2b0f73e": {"dfnID":"a2b0f73e","dfnText":"NotificationEvent","external":true,"refSections":[{"refs":[{"id":"ref-for-notificationevent"}],"title":"3.2. Monkey-patch to Notifications spec"},{"refs":[{"id":"ref-for-notificationevent\u2460"},{"id":"ref-for-notificationevent\u2461"}],"title":"3.3. Monkey-patch to Service Workers spec"}],"url":"https://notifications.spec.whatwg.org/#notificationevent"},
+"ab86e0f1": {"dfnID":"ab86e0f1","dfnText":"show()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-paymentrequest-show"},{"id":"ref-for-dom-paymentrequest-show\u2460"}],"title":"2. Examples"},{"refs":[{"id":"ref-for-dom-paymentrequest-show\u2461"}],"title":"5.1. Monkey-patch to Payment Request spec"}],"url":"https://w3c.github.io/payment-request/#dom-paymentrequest-show"},
+"active-transient-capability-token": {"dfnID":"active-transient-capability-token","dfnText":"active transient capability token","external":false,"refSections":[{"refs":[{"id":"ref-for-active-transient-capability-token"},{"id":"ref-for-active-transient-capability-token\u2460"}],"title":"3.2. Monkey-patch to Notifications spec"},{"refs":[{"id":"ref-for-active-transient-capability-token\u2461"},{"id":"ref-for-active-transient-capability-token\u2462"}],"title":"3.3. Monkey-patch to Service Workers spec"}],"url":"#active-transient-capability-token"},
+"b262501e": {"dfnID":"b262501e","dfnText":"reject","external":true,"refSections":[{"refs":[{"id":"ref-for-reject"}],"title":"5.3. Monkey-patch to [SCREEN-CAPTURE] spec"}],"url":"https://webidl.spec.whatwg.org/#reject"},
+"b56b31a9": {"dfnID":"b56b31a9","dfnText":"StructuredSerializeOptions","external":true,"refSections":[{"refs":[{"id":"ref-for-structuredserializeoptions"},{"id":"ref-for-structuredserializeoptions\u2460"}],"title":"3.3. Monkey-patch to Service Workers spec"}],"url":"https://html.spec.whatwg.org/multipage/web-messaging.html#structuredserializeoptions"},
+"bcdb6841": {"dfnID":"bcdb6841","dfnText":"requestFullscreen()","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-element-requestfullscreen"}],"title":"1.1. What is capability delegation?"},{"refs":[{"id":"ref-for-dom-element-requestfullscreen\u2460"}],"title":"5.2. Monkey-patch to Fullscreen spec"}],"url":"https://fullscreen.spec.whatwg.org/#dom-element-requestfullscreen"},
+"c60ed63a": {"dfnID":"c60ed63a","dfnText":"service worker","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-service-worker"},{"id":"ref-for-dfn-service-worker\u2460"}],"title":"3. Initiating capability delegation"}],"url":"https://w3c.github.io/ServiceWorker/#dfn-service-worker"},
+"db82b00d": {"dfnID":"db82b00d","dfnText":"name","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-domexception-name"}],"title":"5.3. Monkey-patch to [SCREEN-CAPTURE] spec"}],"url":"https://webidl.spec.whatwg.org/#dom-domexception-name"},
+"delegated_capability_timestamps": {"dfnID":"delegated_capability_timestamps","dfnText":"DELEGATED_CAPABILITY_TIMESTAMPS","external":false,"refSections":[{"refs":[{"id":"ref-for-delegated_capability_timestamps"}],"title":"3.3. Monkey-patch to Service Workers spec"},{"refs":[{"id":"ref-for-delegated_capability_timestamps\u2460"},{"id":"ref-for-delegated_capability_timestamps\u2461"}],"title":"4. Tracking delegated capability"},{"refs":[{"id":"ref-for-delegated_capability_timestamps\u2462"}],"title":"4.1. Monkey-patch to HTML spec"},{"refs":[{"id":"ref-for-delegated_capability_timestamps\u2463"}],"title":"5. Defining delegated capability behavior"},{"refs":[{"id":"ref-for-delegated_capability_timestamps\u2464"},{"id":"ref-for-delegated_capability_timestamps\u2465"}],"title":"5.1. Monkey-patch to Payment Request spec"},{"refs":[{"id":"ref-for-delegated_capability_timestamps\u2466"},{"id":"ref-for-delegated_capability_timestamps\u2467"}],"title":"5.2. Monkey-patch to Fullscreen spec"},{"refs":[{"id":"ref-for-delegated_capability_timestamps\u2468"}],"title":"5.3. Monkey-patch to [SCREEN-CAPTURE] spec"},{"refs":[{"id":"ref-for-delegated_capability_timestamps\u2460\u24ea"},{"id":"ref-for-delegated_capability_timestamps\u2460\u2460"}],"title":"5.4. Monkey-patch to HTML spec for window open"}],"url":"#delegated_capability_timestamps"},
+"dictdef-clientpostmessageoptions": {"dfnID":"dictdef-clientpostmessageoptions","dfnText":"ClientPostMessageOptions","external":false,"refSections":[{"refs":[{"id":"ref-for-dictdef-clientpostmessageoptions"}],"title":"3. Initiating capability delegation"},{"refs":[{"id":"ref-for-dictdef-clientpostmessageoptions\u2460"},{"id":"ref-for-dictdef-clientpostmessageoptions\u2461"}],"title":"3.3. Monkey-patch to Service Workers spec"}],"url":"#dictdef-clientpostmessageoptions"},
+"dom-client-postmessage": {"dfnID":"dom-client-postmessage","dfnText":"postMessage","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-client-postmessage"}],"title":"3.2. Monkey-patch to Notifications spec"},{"refs":[{"id":"ref-for-dom-client-postmessage\u2460"},{"id":"ref-for-dom-client-postmessage\u2461"}],"title":"3.3. Monkey-patch to Service Workers spec"}],"url":"#dom-client-postmessage"},
+"dom-client-postmessage-message-options-message": {"dfnID":"dom-client-postmessage-message-options-message","dfnText":"message","external":false,"refSections":[],"url":"#dom-client-postmessage-message-options-message"},
+"dom-client-postmessage-message-options-options": {"dfnID":"dom-client-postmessage-message-options-options","dfnText":"options","external":false,"refSections":[],"url":"#dom-client-postmessage-message-options-options"},
+"dom-clientpostmessageoptions-delegate": {"dfnID":"dom-clientpostmessageoptions-delegate","dfnText":"delegate","external":false,"refSections":[],"url":"#dom-clientpostmessageoptions-delegate"},
+"e16711bc": {"dfnID":"e16711bc","dfnText":"waitUntil(f)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-extendableevent-waituntil"}],"title":"3.2. Monkey-patch to Notifications spec"}],"url":"https://w3c.github.io/ServiceWorker/#dom-extendableevent-waituntil"},
+"e99bd18e": {"dfnID":"e99bd18e","dfnText":"relevant global object","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-relevant-global"},{"id":"ref-for-concept-relevant-global\u2460"}],"title":"5.3. Monkey-patch to [SCREEN-CAPTURE] spec"},{"refs":[{"id":"ref-for-concept-relevant-global\u2461"}],"title":"5.4. Monkey-patch to HTML spec for window open"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global"},
+"f449d4f8": {"dfnID":"f449d4f8","dfnText":"open(url, target, features)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-open"}],"title":"1.1. What is capability delegation?"},{"refs":[{"id":"ref-for-dom-open\u2460"}],"title":"2. Examples"}],"url":"https://html.spec.whatwg.org/multipage/nav-history-apis.html#dom-open"},
+};
 
-    // Add popup behavior to all dfns to show the corresponding dfn-panel.
-    var dfns = document.querySelectorAll('.dfn-paneled');
-    for (let dfn of dfns) { insertDfnPopupAction(dfn); }
+document.addEventListener("DOMContentLoaded", ()=>{
+    genAllDfnPanels();
 
     document.body.addEventListener("click", (e) => {
         // If not handled already, just hide all dfn panels.
         hideAllDfnPanels();
     });
+});
 
-    function hideAllDfnPanels() {
-        // Turn off any currently "on" or "activated" panels.
-        queryAll(".dfn-panel.on, .dfn-panel.activated").forEach(el=>hideDfnPanel(el));
-    }
+window.addEventListener("resize", () => {
+    // Pin any visible dfn panel
+    queryAll(".dfn-panel.on, .dfn-panel.activated").forEach(el=>positionDfnPanel(el));
+});
 
-    function showDfnPanel(dfnPanel, dfn) {
-        hideAllDfnPanels(); // Only display one at this time.
-        dfn.setAttribute("aria-expanded", "true");
-        dfnPanel.classList.add("on");
-        dfnPanel.style.left = "5px";
-        dfnPanel.style.top = "0px";
-        const panelRect = dfnPanel.getBoundingClientRect();
-        const panelWidth = panelRect.right - panelRect.left;
-        if (panelRect.right > document.body.scrollWidth) {
-            // Panel's overflowing the screen.
-            // Just drop it below the dfn and flip it rightward instead.
-            // This still wont' fix things if the screen is *really* wide,
-            // but fixing that's a lot harder without 'anchor()'.
-            dfnPanel.style.top = "1.5em";
-            dfnPanel.style.left = "auto";
-            dfnPanel.style.right = "0px";
-        }
-    }
-
-    function pinDfnPanel(dfnPanel) {
-        // Switch it to "activated" state, which pins it.
-        dfnPanel.classList.add("activated");
-        dfnPanel.style.left = null;
-        dfnPanel.style.top = null;
-    }
-
-    function hideDfnPanel(dfnPanel, dfn) {
+function genAllDfnPanels() {
+    for(const panelData of Object.values(dfnPanelData)) {
+        const dfnID = panelData.dfnID;
+        const dfn = document.getElementById(dfnID);
         if(!dfn) {
-            dfn = document.getElementById(dfnPanel.getAttribute("data-for"));
+            console.log(`Can't find dfn#${dfnID}.`, panelData);
+            continue;
         }
-        dfn.setAttribute("aria-expanded", "false")
-        dfnPanel.classList.remove("on");
-        dfnPanel.classList.remove("activated");
+        dfn.panelData = panelData;
+        insertDfnPopupAction(dfn);
+    }
+}
+
+function genDfnPanel(dfn, { dfnID, url, dfnText, refSections, external }) {
+    const dfnPanel = mk.aside({
+        class: "dfn-panel on",
+        id: `infopanel-for-${dfnID}`,
+        "data-for": dfnID,
+        "aria-labelled-by":`infopaneltitle-for-${dfnID}`,
+        },
+        mk.span({id:`infopaneltitle-for-${dfnID}`, style:"display:none"},
+            `Info about the '${dfnText}' ${external?"external":""} reference.`),
+        mk.a({href:url, class:"dfn-link"}, url),
+        refSections.length == 0 ? [] :
+            mk.b({}, "Referenced in:"),
+            mk.ul({},
+                ...refSections.map(section=>
+                    mk.li({},
+                        ...section.refs.map((ref, refI)=>
+                            [
+                                mk.a({ href: `#${ref.id}` },
+                                    (refI == 0) ? section.title : `(${refI + 1})`
+                                ),
+                                " ",
+                            ]
+                        ),
+                    ),
+                ),
+            ),
+        genLinkingSyntaxes(dfn),
+    );
+
+    dfnPanel.addEventListener('click', (event) => {
+        if (event.target.nodeName == 'A') {
+            scrollToTargetAndHighlight(event);
+            pinDfnPanel(dfnPanel);
+        }
+        event.stopPropagation();
+        refocusOnTarget(event);
+    });
+    dfnPanel.addEventListener('keydown', (event) => {
+        if(event.keyCode == 27) { // Escape key
+            hideDfnPanel({dfnPanel});
+            event.stopPropagation();
+            event.preventDefault();
+        }
+    });
+
+    dfnPanel.dfn = dfn;
+    dfn.dfnPanel = dfnPanel;
+    return dfnPanel;
+}
+
+
+
+function hideAllDfnPanels() {
+    // Delete the currently-active dfn panel.
+    queryAll(".dfn-panel").forEach(dfnPanel=>hideDfnPanel({dfnPanel}));
+}
+
+function showDfnPanel(dfn) {
+    hideAllDfnPanels(); // Only display one at a time.
+
+    dfn.setAttribute("aria-expanded", "true");
+
+    const dfnPanel = genDfnPanel(dfn, dfn.panelData);
+
+    // Give the dfn a unique tabindex, and then
+    // give all the tabbable panel bits successive indexes.
+    let tabIndex = 100;
+    dfn.tabIndex = tabIndex++;
+    const tabbable = dfnPanel.querySelectorAll(":is(a, button)");
+    for (const el of tabbable) {
+        el.tabIndex = tabIndex++;
     }
 
-    function toggleDfnPanel(dfnPanel, dfn) {
-        if(dfnPanel.classList.contains("on")) {
-            hideDfnPanel(dfnPanel, dfn);
-        } else {
-            showDfnPanel(dfnPanel, dfn);
+    append(document.body, dfnPanel);
+    positionDfnPanel(dfnPanel);
+}
+
+function positionDfnPanel(dfnPanel) {
+    const dfn = dfnPanel.dfn;
+    const dfnPos = getBounds(dfn);
+    dfnPanel.style.top = dfnPos.bottom + "px";
+    dfnPanel.style.left = dfnPos.left + "px";
+
+    const panelPos = dfnPanel.getBoundingClientRect();
+    const panelMargin = 8;
+    const maxRight = document.body.parentNode.clientWidth - panelMargin;
+    if (panelPos.right > maxRight) {
+        const overflowAmount = panelPos.right - maxRight;
+        const newLeft = Math.max(panelMargin, dfnPos.left - overflowAmount);
+        dfnPanel.style.left = newLeft + "px";
+    }
+}
+
+function pinDfnPanel(dfnPanel) {
+    // Switch it to "activated" state, which pins it.
+    dfnPanel.classList.add("activated");
+    dfnPanel.style.position = "fixed";
+    dfnPanel.style.left = null;
+    dfnPanel.style.top = null;
+}
+
+function hideDfnPanel({dfn, dfnPanel}) {
+    if(!dfnPanel) dfnPanel = dfn.dfnPanel;
+    if(!dfn) dfn = dfnPanel.dfn;
+    dfn.dfnPanel = undefined;
+    dfnPanel.dfn = undefined;
+    dfn.setAttribute("aria-expanded", "false");
+    dfn.tabIndex = undefined;
+    dfnPanel.remove()
+}
+
+function toggleDfnPanel(dfn) {
+    if(dfn.dfnPanel) {
+        hideDfnPanel(dfn);
+    } else {
+        showDfnPanel(dfn);
+    }
+}
+
+function insertDfnPopupAction(dfn) {
+    dfn.setAttribute('role', 'button');
+    dfn.setAttribute('aria-expanded', 'false')
+    dfn.tabIndex = 0;
+    dfn.classList.add('has-dfn-panel');
+    dfn.addEventListener('click', (event) => {
+        toggleDfnPanel(dfn);
+        event.stopPropagation();
+    });
+    dfn.addEventListener('keypress', (event) => {
+        const kc = event.keyCode;
+        // 32->Space, 13->Enter
+        if(kc == 32 || kc == 13) {
+            toggleDfnPanel(dfn);
+            event.stopPropagation();
+            event.preventDefault();
+        }
+    });
+}
+
+function refocusOnTarget(event) {
+    const target = event.target;
+    setTimeout(() => {
+        // Refocus on the event.target element.
+        // This is needed after browser scrolls to the destination.
+        target.focus();
+    });
+}
+
+// TODO: shared util
+// Returns the root-level absolute position {left and top} of element.
+function getBounds(el, relativeTo=document.body) {
+    const relativeRect = relativeTo.getBoundingClientRect();
+    const elRect = el.getBoundingClientRect();
+    const top = elRect.top - relativeRect.top;
+    const left = elRect.left - relativeRect.left;
+    return {
+        top,
+        left,
+        bottom: top + elRect.height,
+        right: left + elRect.width,
+    }
+}
+
+function scrollToTargetAndHighlight(event) {
+    let hash = event.target.hash;
+    if (hash) {
+        hash = decodeURIComponent(hash.substring(1));
+        const dest = document.getElementById(hash);
+        if (dest) {
+            dest.classList.add('highlighted');
+            setTimeout(() => dest.classList.remove('highlighted'), 1000);
+        }
+    }
+}
+
+// Functions, divided by link type, that wrap an autolink's
+// contents with the appropriate outer syntax.
+// Alternately, a string naming another type they format
+// the same as.
+function needsFor(type) {
+    switch(type) {
+        case "descriptor":
+        case "value":
+        case "element-attr":
+        case "attr-value":
+        case "element-state":
+        case "method":
+        case "constructor":
+        case "argument":
+        case "attribute":
+        case "const":
+        case "dict-member":
+        case "event":
+        case "enum-value":
+        case "stringifier":
+        case "serializer":
+        case "iterator":
+        case "maplike":
+        case "setlike":
+        case "state":
+        case "mode":
+        case "context":
+        case "facet": return true;
+
+        default: return false;
+    }
+}
+function refusesFor(type) {
+    switch(type) {
+        case "property":
+        case "element":
+        case "interface":
+        case "namespace":
+        case "callback":
+        case "dictionary":
+        case "enum":
+        case "exception":
+        case "typedef":
+        case "http-header":
+        case "permission": return true;
+
+        default: return false;
+    }
+}
+function linkFormatterFromType(type) {
+    switch(type) {
+        case 'scheme':
+        case 'permission':
+        case 'dfn': return (text) => `[=${text}=]`;
+
+        case 'abstract-op': return (text) => `[\$${text}\$]`;
+
+        case 'function':
+        case 'at-rule':
+        case 'selector':
+        case 'value': return (text) => `''${text}''`;
+
+        case 'http-header': return (text) => `[:${text}:]`;
+
+        case 'interface':
+        case 'constructor':
+        case 'method':
+        case 'argument':
+        case 'attribute':
+        case 'callback':
+        case 'dictionary':
+        case 'dict-member':
+        case 'enum':
+        case 'enum-value':
+        case 'exception':
+        case 'const':
+        case 'typedef':
+        case 'stringifier':
+        case 'serializer':
+        case 'iterator':
+        case 'maplike':
+        case 'setlike':
+        case 'extended-attribute':
+        case 'event':
+        case 'idl': return (text) => `{{${text}}}`;
+
+        case 'element-state':
+        case 'element-attr':
+        case 'attr-value':
+        case 'element': return (element) => `<{${element}}>`;
+
+        case 'grammar': return (text) => `${text} (within a <pre class=prod>)`;
+
+        case 'type': return (text)=> `<<${text}>>`;
+
+        case 'descriptor':
+        case 'property': return (text) => `'${text}'`;
+
+        default: return;
+    };
+};
+
+function genLinkingSyntaxes(dfn) {
+    if(dfn.tagName != "DFN") return;
+
+    const type = dfn.getAttribute('data-dfn-type');
+    if(!type) {
+        console.log(`<dfn> doesn't have a data-dfn-type:`, dfn);
+        return [];
+    }
+
+    // Return a function that wraps link text based on the type
+    const linkFormatter = linkFormatterFromType(type);
+    if(!linkFormatter) {
+        console.log(`<dfn> has an unknown data-dfn-type:`, dfn);
+        return [];
+    }
+
+    let ltAlts;
+    if(dfn.hasAttribute('data-lt')) {
+        ltAlts = dfn.getAttribute('data-lt')
+            .split("|")
+            .map(x=>x.trim());
+    } else {
+        ltAlts = [dfn.textContent.trim()];
+    }
+    if(type == "type") {
+        // lt of "<foo>", but "foo" is the interior;
+        // <<foo/bar>> is how you write it with a for,
+        // not <foo/<bar>> or whatever.
+        for(var i = 0; i < ltAlts.length; i++) {
+            const lt = ltAlts[i];
+            const match = /<(.*)>/.exec(lt);
+            if(match) { ltAlts[i] = match[1]; }
         }
     }
 
-    function insertDfnPopupAction(dfn) {
-        // Find dfn panel
-        const dfnPanel = document.querySelector(`.dfn-panel[data-for='${dfn.id}']`);
-        if (dfnPanel) {
-            const panelWrapper = document.createElement('span');
-            panelWrapper.appendChild(dfnPanel);
-            panelWrapper.style.position = "relative";
-            panelWrapper.style.height = "0px";
-            dfn.insertAdjacentElement("afterend", panelWrapper);
-            dfn.setAttribute('role', 'button');
-            dfn.setAttribute('aria-expanded', 'false')
-            dfn.tabIndex = 0;
-            dfn.classList.add('has-dfn-panel');
-            dfn.addEventListener('click', (event) => {
-                showDfnPanel(dfnPanel, dfn);
-                event.stopPropagation();
-            });
-            dfn.addEventListener('keypress', (event) => {
-                const kc = event.keyCode;
-                // 32->Space, 13->Enter
-                if(kc == 32 || kc == 13) {
-                    toggleDfnPanel(dfnPanel, dfn);
-                    event.stopPropagation();
-                    event.preventDefault();
-                }
-            });
+    let forAlts;
+    if(dfn.hasAttribute('data-dfn-for')) {
+        forAlts = dfn.getAttribute('data-dfn-for')
+            .split(",")
+            .map(x=>x.trim());
+    } else {
+        forAlts = [''];
+    }
 
-            dfnPanel.addEventListener('click', (event) => {
-                pinDfnPanel(dfnPanel);
-                event.stopPropagation();
-            });
-
-            dfnPanel.addEventListener('keydown', (event) => {
-                if(event.keyCode == 27) { // Escape key
-                    hideDfnPanel(dfnPanel, dfn);
-                    event.stopPropagation();
-                    event.preventDefault();
-                }
+    let linkingSyntaxes = [];
+    if(!needsFor(type)) {
+        for(const lt of ltAlts) {
+            linkingSyntaxes.push(linkFormatter(lt));
+        }
+    }
+    if(!refusesFor(type)) {
+        for(const f of forAlts) {
+            linkingSyntaxes.push(linkFormatter(`${f}/${ltAlts[0]}`))
+        }
+    }
+    return [
+        mk.b({}, 'Possible linking syntaxes:'),
+        mk.ul({},
+            ...linkingSyntaxes.map(link => {
+                const copyLink = async () =>
+                    await navigator.clipboard.writeText(link);
+                return mk.li({},
+                    mk.div({ class: 'link-item' },
+                        mk.button({
+                            class: 'copy-icon', title: 'Copy',
+                            type: 'button',
+                            _onclick: copyLink,
+                            tabindex: 0,
+                        }, mk.span({ class: 'icon' }) ),
+                        mk.span({}, link)
+                    )
+                );
             })
+        )
+    ];
+}
+}
+</script>
+<script>/* Boilerplate: script-ref-hints */
+"use strict";
+{
+let refsData = {
+"#active-transient-capability-token": {"displayText":"active transient capability token","export":true,"for_":[],"level":"","normative":true,"shortname":"capability-delegation","spec":"capability-delegation","status":"local","text":"active transient capability token","type":"dfn","url":"#active-transient-capability-token"},
+"#delegated_capability_timestamps": {"displayText":"delegated_capability_timestamps","export":true,"for_":[],"level":"","normative":true,"shortname":"capability-delegation","spec":"capability-delegation","status":"local","text":"delegated_capability_timestamps","type":"dfn","url":"#delegated_capability_timestamps"},
+"#dictdef-clientpostmessageoptions": {"displayText":"ClientPostMessageOptions","export":true,"for_":[],"level":"","normative":true,"shortname":"capability-delegation","spec":"capability-delegation","status":"local","text":"ClientPostMessageOptions","type":"dictionary","url":"#dictdef-clientpostmessageoptions"},
+"#dom-client-postmessage": {"displayText":"postMessage(message, options)","export":true,"for_":["Client"],"level":"","normative":true,"shortname":"capability-delegation","spec":"capability-delegation","status":"local","text":"postMessage(message, options)","type":"method","url":"#dom-client-postmessage"},
+"https://fullscreen.spec.whatwg.org/#dom-element-requestfullscreen": {"displayText":"requestFullscreen()","export":true,"for_":["Element"],"level":"1","normative":true,"shortname":"fullscreen","spec":"fullscreen","status":"current","text":"requestFullscreen()","type":"method","url":"https://fullscreen.spec.whatwg.org/#dom-element-requestfullscreen"},
+"https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context": {"displayText":"browsing context","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"browsing context","type":"dfn","url":"https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context"},
+"https://html.spec.whatwg.org/multipage/iframe-embed-object.html#dom-iframe-allow": {"displayText":"allow","export":true,"for_":["HTMLIFrameElement"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"allow","type":"attribute","url":"https://html.spec.whatwg.org/multipage/iframe-embed-object.html#dom-iframe-allow"},
+"https://html.spec.whatwg.org/multipage/interaction.html#transient-activation": {"displayText":"transient activation","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"transient activation","type":"dfn","url":"https://html.spec.whatwg.org/multipage/interaction.html#transient-activation"},
+"https://html.spec.whatwg.org/multipage/nav-history-apis.html#dom-open": {"displayText":"open(url, target, features)","export":true,"for_":["Window"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"open(url, target, features)","type":"method","url":"https://html.spec.whatwg.org/multipage/nav-history-apis.html#dom-open"},
+"https://html.spec.whatwg.org/multipage/nav-history-apis.html#window": {"displayText":"Window","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"Window","type":"interface","url":"https://html.spec.whatwg.org/multipage/nav-history-apis.html#window"},
+"https://html.spec.whatwg.org/multipage/nav-history-apis.html#windowpostmessageoptions": {"displayText":"WindowPostMessageOptions","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"WindowPostMessageOptions","type":"dictionary","url":"https://html.spec.whatwg.org/multipage/nav-history-apis.html#windowpostmessageoptions"},
+"https://html.spec.whatwg.org/multipage/web-messaging.html#dom-window-postmessage-options": {"displayText":"postMessage(message, options)","export":true,"for_":["Window"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"postMessage(message, options)","type":"method","url":"https://html.spec.whatwg.org/multipage/web-messaging.html#dom-window-postmessage-options"},
+"https://html.spec.whatwg.org/multipage/web-messaging.html#structuredserializeoptions": {"displayText":"StructuredSerializeOptions","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"StructuredSerializeOptions","type":"dictionary","url":"https://html.spec.whatwg.org/multipage/web-messaging.html#structuredserializeoptions"},
+"https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global": {"displayText":"relevant global object","export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"relevant global object","type":"dfn","url":"https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global"},
+"https://html.spec.whatwg.org/multipage/webappapis.html#concept-settings-object-global": {"displayText":"global object","export":true,"for_":["environment settings object"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"global object","type":"dfn","url":"https://html.spec.whatwg.org/multipage/webappapis.html#concept-settings-object-global"},
+"https://infra.spec.whatwg.org/#ordered-map": {"displayText":"map","export":true,"for_":[],"level":"1","normative":true,"shortname":"infra","spec":"infra","status":"current","text":"map","type":"dfn","url":"https://infra.spec.whatwg.org/#ordered-map"},
+"https://notifications.spec.whatwg.org/#notificationevent": {"displayText":"NotificationEvent","export":true,"for_":[],"level":"1","normative":true,"shortname":"notifications","spec":"notifications","status":"current","text":"NotificationEvent","type":"interface","url":"https://notifications.spec.whatwg.org/#notificationevent"},
+"https://w3c.github.io/ServiceWorker/#client": {"displayText":"Client","export":true,"for_":[],"level":"1","normative":true,"shortname":"service-workers","spec":"service-workers","status":"current","text":"Client","type":"interface","url":"https://w3c.github.io/ServiceWorker/#client"},
+"https://w3c.github.io/ServiceWorker/#dfn-service-worker": {"displayText":"service worker","export":true,"for_":[],"level":"1","normative":true,"shortname":"service-workers","spec":"service-workers","status":"current","text":"service worker","type":"dfn","url":"https://w3c.github.io/ServiceWorker/#dfn-service-worker"},
+"https://w3c.github.io/ServiceWorker/#dom-extendableevent-waituntil": {"displayText":"waitUntil(f)","export":true,"for_":["ExtendableEvent"],"level":"1","normative":true,"shortname":"service-workers","spec":"service-workers","status":"current","text":"waitUntil(f)","type":"method","url":"https://w3c.github.io/ServiceWorker/#dom-extendableevent-waituntil"},
+"https://w3c.github.io/ServiceWorker/#windowclient": {"displayText":"WindowClient","export":true,"for_":[],"level":"1","normative":true,"shortname":"service-workers","spec":"service-workers","status":"current","text":"WindowClient","type":"interface","url":"https://w3c.github.io/ServiceWorker/#windowclient"},
+"https://w3c.github.io/hr-time/#typedefdef-domhighrestimestamp": {"displayText":"DOMHighResTimeStamp","export":true,"for_":[],"level":"3","normative":true,"shortname":"hr-time","spec":"hr-time-3","status":"current","text":"DOMHighResTimeStamp","type":"typedef","url":"https://w3c.github.io/hr-time/#typedefdef-domhighrestimestamp"},
+"https://w3c.github.io/mediacapture-screen-share/#dom-mediadevices-getdisplaymedia": {"displayText":"getDisplayMedia()","export":true,"for_":["MediaDevices"],"level":"1","normative":true,"shortname":"screen-capture","spec":"screen-capture","status":"current","text":"getDisplayMedia()","type":"method","url":"https://w3c.github.io/mediacapture-screen-share/#dom-mediadevices-getdisplaymedia"},
+"https://w3c.github.io/payment-request/#dom-paymentrequest-show": {"displayText":"show()","export":true,"for_":["PaymentRequest"],"level":"1","normative":true,"shortname":"payment-request","spec":"payment-request","status":"current","text":"show()","type":"method","url":"https://w3c.github.io/payment-request/#dom-paymentrequest-show"},
+"https://webidl.spec.whatwg.org/#dom-domexception-name": {"displayText":"name","export":true,"for_":["DOMException"],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"name","type":"attribute","url":"https://webidl.spec.whatwg.org/#dom-domexception-name"},
+"https://webidl.spec.whatwg.org/#idl-DOMString": {"displayText":"DOMString","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"DOMString","type":"interface","url":"https://webidl.spec.whatwg.org/#idl-DOMString"},
+"https://webidl.spec.whatwg.org/#idl-any": {"displayText":"any","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"any","type":"interface","url":"https://webidl.spec.whatwg.org/#idl-any"},
+"https://webidl.spec.whatwg.org/#idl-undefined": {"displayText":"undefined","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"undefined","type":"interface","url":"https://webidl.spec.whatwg.org/#idl-undefined"},
+"https://webidl.spec.whatwg.org/#invalidstateerror": {"displayText":"InvalidStateError","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"InvalidStateError","type":"exception","url":"https://webidl.spec.whatwg.org/#invalidstateerror"},
+"https://webidl.spec.whatwg.org/#reject": {"displayText":"reject","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"reject","type":"dfn","url":"https://webidl.spec.whatwg.org/#reject"},
+};
 
-        } else {
-            console.log("Couldn't find .dfn-panel[data-for='" + dfn.id + "']");
-        }
+function mkRefHint(link, ref) {
+    const linkText = link.textContent;
+    let dfnTextElements = '';
+    if (ref.displayText.toLowerCase() != linkText.toLowerCase()) {
+        // Give the original term if it's being displayed in a different way.
+        // But allow casing differences, they're insignificant.
+        dfnTextElements =
+            mk.li({},
+                mk.b({}, "Term: "),
+                mk.span({}, ref.displayText)
+            );
     }
+    const forList = ref.for_;
+    let forListElements;
+    if(forList.length == 0) {
+        forListElements = [];
+    } else if(forList.length == 1) {
+        forListElements = mk.li({},
+            mk.b({}, "For: "),
+            mk.span({}, forList[0]),
+        );
+    } else {
+        forListElements = mk.li({},
+            mk.b({}, "For: "),
+            mk.ul({},
+                ...forList.map(forItem =>
+                    mk.li({},
+                        mk.span({}, forItem)
+                    ),
+                ),
+            ),
+        );
+    }
+    const url = ref.url;
+    const safeUrl = encodeURIComponent(url);
+    const hintPanel = mk.aside({
+        class: "ref-hint",
+        id: `ref-hint-for-${safeUrl}`,
+        "data-for": url,
+        "aria-labelled-by": `ref-hint-for-${safeUrl}`,
+    },
+        mk.ul({},
+            dfnTextElements,
+            mk.li({},
+                mk.b({}, "URL: "),
+                mk.a({ href: url, class: "ref" }, url),
+            ),
+            mk.li({},
+                mk.b({}, "Type: "),
+                mk.span({}, `${ref.type}`),
+            ),
+            mk.li({},
+                mk.b({}, "Spec: "),
+                mk.span({}, `${ref.spec ? ref.spec : ''}`),
+            ),
+            forListElements
+        ),
+    );
+    hintPanel.forLink = link;
+    setupRefHintEventListeners(link, hintPanel);
+    return hintPanel;
+}
+
+function hideAllRefHints() {
+    queryAll(".ref-hint").forEach(el=>hideRefHint(el));
+}
+
+function hideRefHint(refHint) {
+    const link = refHint.forLink;
+    link.setAttribute("aria-expanded", "false");
+    if(refHint.teardownEventListeners) {
+        refHint.teardownEventListeners();
+    }
+    refHint.remove();
+}
+
+function showRefHint(link) {
+    if(link.classList.contains("dfn-link")) return;
+    const url = link.getAttribute("href");
+    const refHintKey = link.getAttribute("data-refhint-key");
+    let key = url;
+    if(refHintKey) {
+        key = refHintKey + "_" + url;
+    }
+    const ref = refsData[key];
+    if(!ref) return;
+
+    hideAllRefHints(); // Only display one at this time.
+
+    const refHint = mkRefHint(link, ref);
+    append(document.body, refHint);
+    link.setAttribute("aria-expanded", "true");
+    positionRefHint(refHint);
+}
+
+function setupRefHintEventListeners(link, refHint) {
+    if (refHint.teardownEventListeners) return;
+    // Add event handlers to hide the refHint after the user moves away
+    // from both the link and refHint, if not hovering either within one second.
+    let timeout = null;
+    const startHidingRefHint = (event) => {
+        if (timeout) {
+            clearTimeout(timeout);
+        }
+        timeout = setTimeout(() => {
+            hideRefHint(refHint);
+        }, 1000);
+    }
+    const resetHidingRefHint = (event) => {
+        if (timeout) clearTimeout(timeout);
+        timeout = null;
+    };
+    link.addEventListener("mouseleave", startHidingRefHint);
+    link.addEventListener("mouseenter", resetHidingRefHint);
+    link.addEventListener("blur", startHidingRefHint);
+    link.addEventListener("focus", resetHidingRefHint);
+    refHint.addEventListener("mouseleave", startHidingRefHint);
+    refHint.addEventListener("mouseenter", resetHidingRefHint);
+    refHint.addEventListener("blur", startHidingRefHint);
+    refHint.addEventListener("focus", resetHidingRefHint);
+
+    refHint.teardownEventListeners = () => {
+        // remove event listeners
+        resetHidingRefHint();
+        link.removeEventListener("mouseleave", startHidingRefHint);
+        link.removeEventListener("mouseenter", resetHidingRefHint);
+        link.removeEventListener("blur", startHidingRefHint);
+        link.removeEventListener("focus", resetHidingRefHint);
+        refHint.removeEventListener("mouseleave", startHidingRefHint);
+        refHint.removeEventListener("mouseenter", resetHidingRefHint);
+        refHint.removeEventListener("blur", startHidingRefHint);
+        refHint.removeEventListener("focus", resetHidingRefHint);
+    };
+}
+
+function positionRefHint(refHint) {
+    const link = refHint.forLink;
+    const linkPos = getBounds(link);
+    refHint.style.top = linkPos.bottom + "px";
+    refHint.style.left = linkPos.left + "px";
+
+    const panelPos = refHint.getBoundingClientRect();
+    const panelMargin = 8;
+    const maxRight = document.body.parentNode.clientWidth - panelMargin;
+    if (panelPos.right > maxRight) {
+        const overflowAmount = panelPos.right - maxRight;
+        const newLeft = Math.max(panelMargin, linkPos.left - overflowAmount);
+        refHint.style.left = newLeft + "px";
+    }
+}
+
+// TODO: shared util
+// Returns the root-level absolute position {left and top} of element.
+function getBounds(el, relativeTo=document.body) {
+    const relativeRect = relativeTo.getBoundingClientRect();
+    const elRect = el.getBoundingClientRect();
+    const top = elRect.top - relativeRect.top;
+    const left = elRect.left - relativeRect.left;
+    return {
+        top,
+        left,
+        bottom: top + elRect.height,
+        right: left + elRect.width,
+    }
+}
+
+function showRefHintListener(e) {
+    // If the target isn't in a link (or is a link),
+    // just ignore it.
+    let link = e.target.closest("a");
+    if(!link) return;
+
+    // If the target is in a ref-hint panel
+    // (aka a link in the already-open one),
+    // also just ignore it.
+    if(link.closest(".ref-hint")) return;
+
+    // Otherwise, show the panel for the link.
+    showRefHint(link);
+}
+
+function hideAllHintsListener(e) {
+    // If the click is inside a ref-hint panel, ignore it.
+    if(e.target.closest(".ref-hint")) return;
+    // Otherwise, close all the current panels.
+    hideAllRefHints();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.body.addEventListener("mousedown", showRefHintListener);
+    document.body.addEventListener("focus", showRefHintListener);
+
+    document.body.addEventListener("click", hideAllHintsListener);
+});
+
+window.addEventListener("resize", () => {
+    // Hide any open ref hint.
+    hideAllRefHints();
+});
 }
 </script>
