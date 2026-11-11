@@ -71,11 +71,12 @@ checkout_button.onclick = () => {
 };
 
 // Sub-frame (PSP website) code
-window.onmessage = () => {
-    const payment_request = new PaymentRequest(...);
+window.onmessage = async () => {
+    // methodData and details are the payment request configuration.
+    const payment_request = new PaymentRequest(methodData, details);
     const payment_response = await payment_request.show();
-    ...
-}
+    // Handle payment_response.
+};
 ```
 
 
