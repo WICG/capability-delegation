@@ -732,11 +732,12 @@ expiry</a>.</p>
 </pre>
      <p>Upon receiving the message, the subframe would be able to use <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/payment-request/#dom-paymentrequest-show" id="ref-for-dom-paymentrequest-show①">show()</a></code> even though the frame hasn’t received a user
   activation:</p>
-<pre class="language-javascript highlight">window<c- p>.</c->onmessage <c- o>=</c-> <c- p>()</c-> <c- p>=></c-> <c- p>{</c->
-  <c- a>const</c-> payRequest <c- o>=</c-> <c- ow>new</c-> PaymentRequest<c- p>(...);</c->
+<pre class="language-javascript highlight">window<c- p>.</c->onmessage <c- o>=</c-> <c- k>async</c-> <c- p>()</c-> <c- p>=></c-> <c- p>{</c->
+  <c- c1>// methodData and details are the payment request configuration.</c->
+  <c- a>const</c-> payRequest <c- o>=</c-> <c- ow>new</c-> PaymentRequest<c- p>(</c->methodData<c- p>,</c-> details<c- p>);</c->
   <c- a>const</c-> payResponse <c- o>=</c-> <c- k>await</c-> payRequest<c- p>.</c->show<c- p>();</c->
-  <c- p>...</c->
-<c- p>}</c->
+  <c- c1>// Handle payResponse.</c->
+<c- p>};</c->
 </pre>
     </div>
    </section>

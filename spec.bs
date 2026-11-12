@@ -106,11 +106,12 @@ Both the steps mentioned above are time-constrained in nature:
   activation:
 
   ```javascript
-  window.onmessage = () => {
-    const payRequest = new PaymentRequest(...);
+  window.onmessage = async () => {
+    // methodData and details are the payment request configuration.
+    const payRequest = new PaymentRequest(methodData, details);
     const payResponse = await payRequest.show();
-    ...
-  }
+    // Handle payResponse.
+  };
   ```
 </div>
 
